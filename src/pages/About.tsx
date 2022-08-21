@@ -2,8 +2,8 @@ import React from 'react'
 
 const About = () => {
     return (
-        <div>
-            About Page will come soon...
+        <div className='text-3xl'>
+            The quick brown fox jumps over the lazy dog
         </div>
     )
 }
