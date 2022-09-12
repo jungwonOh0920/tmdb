@@ -9,7 +9,7 @@ function Home() {
     })
 
     return (
-        <div>Home Page will come soon... </div>
+        <div className=''>Home Page will come soon... </div>
     )
 }
 
