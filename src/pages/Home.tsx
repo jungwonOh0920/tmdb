@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Card from "../components/Card/index";
+import CardSlider from '../components/CardSlider'
 
-export interface ResultType {
+export interface PopularItemType {
   adult: boolean;
   backdrop_path: string;
   genre_ids: [];
@@ -21,28 +22,34 @@ export interface ResultType {
 
 export type DataType = {
   page: number;
-  results: ResultType[];
+  results: PopularItemType[];
   total_pages: number;
   total_results: number;
 };
 
 function Home() {
-  const [data, setData] = useState<DataType>();
+  const [popularData, setPopularData] = useState<DataType>();
 
   React.useEffect(() => {
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=1`;
 
     axios.get(url).then((res) => {
-      setData(res.data);
+      setPopularData(res.data);
     });
   }, []);
 
+
+
   return (
-    <div className="">
-      {data?.results.map((d, index) => {
-        return <Card data={d} key={index} />;
-      })}
+    <div>
+      <CardSlider>
+        {popularData?.results.map((d, index) => <Card data={d} key={index} />)}
+      </CardSlider>
+      {/* <br /> */}
+      {/* <CardSlider>
+        {popularData?.results.map((d, index) => <Card data={d} key={index} />)}
+      </CardSlider> */}
     </div>
   );
 }
