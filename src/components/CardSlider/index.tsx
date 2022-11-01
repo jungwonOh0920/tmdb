@@ -4,15 +4,21 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight'
 
 interface CardSliderProps {
-    title: string
+    children: JSX.Element[] | undefined
 }
 
-const index = (props: CardSliderProps) => {
+const index = (prop: CardSliderProps) => {
     return (
-        <div className='flex'>
-            <FontAwesomeIcon icon={faAngleLeft} />
-            {props.title}
-            <FontAwesomeIcon icon={faAngleRight} />
+        <div className='w-full mt-4 bg-red-400 relative px-14'>
+            <div className='absolute left-0 top-0 w-10 h-full flex justify-center items-center bg-transparent'>
+                <FontAwesomeIcon icon={faAngleLeft} />
+            </div>
+            <div className='flex space-x-4 overflow-x-auto'>
+                {prop.children}
+            </div>
+            <div className='absolute right-0 top-0 w-10 h-full flex justify-center items-center bg-transparent'>
+                <FontAwesomeIcon icon={faAngleRight} />
+            </div>
         </div>
     )
 }
