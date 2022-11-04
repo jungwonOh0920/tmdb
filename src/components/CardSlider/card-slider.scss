@@ -1,0 +1,14 @@
+.card-slider-container {
+    position: relative;
+    width: 100%;
+    margin-top: 1rem;
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+    background-color: rgb(67, 2, 2);
+
+    .contents {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+    }
+}
