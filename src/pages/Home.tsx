@@ -48,10 +48,10 @@ function Home() {
       <CardSlider>
         {popularData?.results.map((d, index) => <Card data={d} key={index} />)}
       </CardSlider>
-      {/* <br /> */}
-      {/* <CardSlider>
+      <br />
+      <CardSlider>
         {popularData?.results.map((d, index) => <Card data={d} key={index} />)}
-      </CardSlider> */}
+      </CardSlider>
     </div>
   );
 }
