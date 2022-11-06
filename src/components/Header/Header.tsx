@@ -1,11 +1,11 @@
-import React from 'react'
 import { NavLink } from "react-router-dom";
 import Logo from '../../assets/tmdb-logo.svg';
+import './header.scss';
 
-function index() {
+function Header() {
     return (
-        <div className='w-full bg-transparent px-4 border-b border-indigo-500'>
-            <div className='max-w-7xl flex item-center mx-auto bg-red-500'>
+        <div className='header-container'>
+            <div className='max-w-7xl flex item-center mx-auto'>
                 <div className='w-40 flex item-center px-4'>
                     <img src={Logo} alt='logo' />
                 </div>
@@ -19,4 +19,4 @@ function index() {
     )
 }
 
-export default index
+export default Header

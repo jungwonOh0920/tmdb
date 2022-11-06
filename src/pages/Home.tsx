@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Card from "../components/Card/index";
-import CardSlider from '../components/CardSlider'
+import Card from "../components/Card/Card";
+import CardSlider from '../components/CardSlider/CardSlider'
 
 export interface PopularItemType {
   adult: boolean;
@@ -37,8 +37,10 @@ function Home() {
     axios.get(url).then((res) => {
       setPopularData(res.data);
     });
+
   }, []);
 
+  useEffect(() => console.log(popularData), [popularData])
 
 
   return (
@@ -46,10 +48,10 @@ function Home() {
       <CardSlider>
         {popularData?.results.map((d, index) => <Card data={d} key={index} />)}
       </CardSlider>
-      {/* <br /> */}
-      {/* <CardSlider>
+      <br />
+      <CardSlider>
         {popularData?.results.map((d, index) => <Card data={d} key={index} />)}
-      </CardSlider> */}
+      </CardSlider>
     </div>
   );
 }

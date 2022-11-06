@@ -1,11 +1,11 @@
 import React, { ReactNode } from "react";
 import { PopularItemType, DataType } from "../../pages/Home";
-import './card.css'
+import './card.scss'
 
 interface Props {
   data: PopularItemType;
 }
-const index = ({ data }: Props) => {
+const Card = ({ data }: Props) => {
   return (
     <div className="card-container">
       <img src={`https://image.tmdb.org/t/p/original${data.poster_path}`} />
@@ -14,4 +14,4 @@ const index = ({ data }: Props) => {
   );
 };
 
-export default index;
+export default Card;
