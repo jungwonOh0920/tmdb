@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Shows from './pages/Shows'
 import Layout from './components/Layout'
+import './App.scss'
 
 function App() {
   return (

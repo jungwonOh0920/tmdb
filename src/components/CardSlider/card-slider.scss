@@ -1,10 +1,41 @@
+@mixin dynamicArrowColor($direction) {
+    background-image: linear-gradient(to #{$direction}, rgba(255, 255, 255, 0), #00bfff);
+    opacity: 0.8;
+}
+
 .card-slider-container {
     position: relative;
     width: 100%;
     margin-top: 1rem;
     padding-left: 3.5rem;
     padding-right: 3.5rem;
-    background-color: rgb(67, 2, 2);
+    background-color: transparent;
+
+    .scroll-button {
+        position: absolute;
+        top: 0;
+        width: 100px;
+        height: 100%;
+        color: aliceblue;
+
+        &.left {
+            left: 0;
+        }
+
+        &.right {
+            right: 0;
+        }
+
+        &:hover {
+            &.left {
+                @include dynamicArrowColor(left);
+            }
+
+            &.right {
+                @include dynamicArrowColor(right);
+            }
+        }
+    }
 
     .contents {
         display: flex;
