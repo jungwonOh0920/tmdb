@@ -39,13 +39,13 @@ const CardSlider = (prop: CardSliderProps) => {
 
     return (
         <div className='card-slider-container'>
-            <button className='absolute left-0 top-0 w-10 h-full bg-red-100' onClick={() => scroll(windowSize / 2 * -1)}>
+            <button className='scroll-button left' onClick={() => scroll(windowSize / 2 * -1)}>
                 <FontAwesomeIcon icon={faAngleLeft} />
             </button>
             <div className='contents space-x-4' ref={contentsRef}>
                 {prop.children}
             </div>
-            <button className='absolute right-0 top-0 w-10 h-full bg-red-100' onClick={() => scroll(windowSize / 2)}>
+            <button className='scroll-button right' onClick={() => scroll(windowSize / 2)}>
                 <FontAwesomeIcon icon={faAngleRight} />
             </button>
         </div>
