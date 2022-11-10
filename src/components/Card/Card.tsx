@@ -11,10 +11,12 @@ const Card = ({ data }: Props) => {
     <div className="card-container">
       <div className="image-container">
         <img src={`https://image.tmdb.org/t/p/original${data.poster_path}`} />
+        <Rate rate={data.vote_average} />
       </div>
-      <Rate rate={data.vote_average} />
-      <p className='truncate'>{data.original_title}</p>
-      <p>{data.release_date}</p>
+      <div className='pt-5'>
+        <p className='truncate'>{data.original_title}</p>
+        <span className='text-xs'>{data.release_date}</span>
+      </div>
     </div>
   );
 };
