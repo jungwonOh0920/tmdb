@@ -40,9 +40,6 @@ function Home() {
 
   }, []);
 
-  useEffect(() => console.log(popularData), [popularData])
-
-
   return (
     <div>
       <CardSlider>
