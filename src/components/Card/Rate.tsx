@@ -13,7 +13,7 @@ const Rate = ({ rate }: Props) => {
 
     return (
         <div className="rate-container">
-            <div className={`c100 p${getPercentage(rate)} small`}>
+            <div className={`c100 p${getPercentage(rate)} small ${getPercentage(rate) < 70 && 'orange'}`}>
                 <span>{getPercentage(rate)}%</span>
                 <div className="slice">
                     <div className="bar"></div>

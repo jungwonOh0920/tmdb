@@ -15,16 +15,21 @@ const getWindowSize = () => {
 
 const CardSlider = (prop: CardSliderProps) => {
     const [windowSize, setWindowSize] = useState(getWindowSize)
+    const [offset, setOffset] = useState(0)
+    const [scrollX, setScrollX] = useState(0)
+    const [isScrollEnd, setIsScrollEnd] = useState(false)
     const contentsRef = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
 
+    // called initially
+    useEffect(() => {
+        setScrollX(contentsRef.current?.scrollLeft ?? -1)
         // Update the state with new window width
         const handleResize = () => {
             setWindowSize(getWindowSize)
         }
 
-        // add a listener
+        // Add a listener
         window.addEventListener('resize', handleResize)
 
         // Clean up the listener 
@@ -33,21 +38,42 @@ const CardSlider = (prop: CardSliderProps) => {
         }
     }, [])
 
+    useEffect(() => {
+        const refObject = contentsRef.current
+        refObject!.scrollLeft = scrollX
+        setIsScrollEnd(refObject!.scrollWidth <= scrollX + offset + 66)
+    }, [scrollX])
+
+
     const scroll = (scrollOffset: number) => {
-        (contentsRef.current) && (contentsRef.current.scrollLeft += scrollOffset)
+        setOffset(scrollOffset)
+        const refObject = contentsRef.current
+
+        if (refObject!.scrollWidth > scrollX + 66) {
+            setScrollX(scrollX + scrollOffset ?? -1)
+        }
     }
 
     return (
         <div className='card-slider-container'>
-            <button className='scroll-button left' onClick={() => scroll(windowSize / 2 * -1)}>
-                <FontAwesomeIcon icon={faAngleLeft} />
-            </button>
+            {
+                // scrollX round down bc it could be sth like 0.2
+                Math.floor(scrollX) > 0 ?
+                    <button className='scroll-button left' onClick={() => scroll(windowSize / 2 * -1)}>
+                        <FontAwesomeIcon icon={faAngleLeft} />
+                    </button> : null
+            }
+
             <div className='contents space-x-4' ref={contentsRef}>
                 {prop.children}
             </div>
-            <button className='scroll-button right' onClick={() => scroll(windowSize / 2)}>
-                <FontAwesomeIcon icon={faAngleRight} />
-            </button>
+            {
+                !isScrollEnd &&
+                <button className='scroll-button right' onClick={() => scroll(windowSize / 2)}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                </button>
+            }
+
         </div>
     )
 }
