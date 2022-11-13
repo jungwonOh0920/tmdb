@@ -1,0 +1,36 @@
+.tabs-container {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+
+    .menu-nav {
+        display: flex;
+        width: fit-content;
+        padding-left: 50px;
+
+        li {
+            border-bottom: 1px solid transparent;
+            padding: 4px 16px;
+            background-color: aliceblue;
+            color: rgba(3, 37, 65, 1);
+
+            &.active {
+                background-color: rgba(3, 37, 65, 1);
+                color: aliceblue;
+                border: 1px solid skyblue;
+            }
+
+            &:hover {
+                border-bottom: 1px solid skyblue;
+                cursor: pointer;
+            }
+
+            &:first-child {
+                border-radius: 2rem 0 0 2rem;
+            }
+
+            &:last-child {
+                border-radius: 0 2rem 2rem 0;
+            }
+        }
+    }
+}
