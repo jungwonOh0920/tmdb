@@ -2,11 +2,11 @@ import { PopularItemType } from "../../pages/Home";
 import Rate from './Rate'
 import './card.scss'
 
-interface Props {
-  data: PopularItemType;
-}
+// interface Props {
+//   data: PopularItemType;
+// }
 
-const Card = ({ data }: Props) => {
+const Card = ({ data }: any) => {
   return (
     <div className="card-container">
       <div className="image-container">
@@ -14,7 +14,7 @@ const Card = ({ data }: Props) => {
         <Rate rate={data.vote_average} />
       </div>
       <div className='pt-5'>
-        <p className='truncate'>{data.original_title}</p>
+        <p className='truncate'>{data.original_title || data.name}</p>
         <span className='text-xs'>{data.release_date}</span>
       </div>
     </div>
