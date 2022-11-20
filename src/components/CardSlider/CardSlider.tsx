@@ -2,10 +2,12 @@ import { useRef, useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight'
+import Loader from '../../components/Loader/Loader'
 import './card-slider.scss'
 
 interface CardSliderProps {
     children: JSX.Element[] | undefined
+    isLoading: boolean
 }
 
 const getWindowSize = () => {
@@ -65,8 +67,10 @@ const CardSlider = (prop: CardSliderProps) => {
             }
 
             <div className='contents space-x-4' ref={contentsRef}>
-                {prop.children}
+                {
+                    prop.isLoading ? <Loader /> : prop.children}
             </div>
+
             {
                 !isScrollEnd &&
                 <button className='scroll-button right' onClick={() => scroll(windowSize / 2)}>
