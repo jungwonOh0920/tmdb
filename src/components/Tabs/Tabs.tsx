@@ -6,6 +6,7 @@ import './tabs.scss'
 type TabsPropTypes = {
     children: JSX.Element[]
     titles: string[]
+
 }
 
 const Tabs = ({ children, titles }: TabsPropTypes) => {
@@ -22,6 +23,7 @@ const Tabs = ({ children, titles }: TabsPropTypes) => {
                                 title={title}
                                 activeTab={activeTab}
                                 setActiveTab={setActiveTab}
+                                key={index}
                             />
                         )
                     })
@@ -30,8 +32,8 @@ const Tabs = ({ children, titles }: TabsPropTypes) => {
             <div className='outlet'>
                 {
                     children.map((content, index) => (
-                        <TabContent id={`tab${index + 1}`} activeTab={activeTab}>
-                            <p>{children[index]}</p>
+                        <TabContent id={`tab${index + 1}`} activeTab={activeTab} key={index}>
+                            {children[index]}
                         </TabContent>
                     ))
                 }
