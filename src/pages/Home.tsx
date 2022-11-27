@@ -3,7 +3,9 @@ import axios from "axios"
 import Card from "../components/Card/Card"
 import CardSlider from '../components/CardSlider/CardSlider'
 import Tabs from '../components/Tabs/Tabs'
+import JHero from '../components/Hero/JHero'
 import Hero from '../components/Hero/Hero'
+import eventBus from "../assets/utilities/EventBus"
 
 export interface PopularItemType {
   adult: boolean;
@@ -30,6 +32,7 @@ export type DataType = {
 };
 
 function Home() {
+  const [isMobile, setIsMobile] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const [onTVData, setonTVData] = useState<DataType>()
@@ -69,6 +72,10 @@ function Home() {
       setForRentData(res.data);
     })
 
+    eventBus.on('adjustWidth', (d: number) => {
+      setIsMobile(d < 760)
+    })
+
   }, []);
 
   useEffect(() => {
@@ -106,7 +113,9 @@ function Home() {
   return (
     <>
       <section>
-        <Hero />
+        {/* TODO combine two components into one */}
+        {isMobile ? <JHero tvData={onTVData?.results} /> : <Hero />}
+
       </section>
       <section>
         <Tabs titles={titles} >

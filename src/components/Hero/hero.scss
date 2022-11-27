@@ -21,3 +21,37 @@
         }
     }
 }
+
+.j-hero-container {
+    background-color: green;
+    width: 100%;
+    margin-bottom: 16px;
+
+    .row {
+        display: flex;
+        white-space: nowrap;
+
+        animation-name: move;
+        animation-duration: 50s;
+        animation-iteration-count: infinite;
+        animation-direction: right;
+        animation-timing-function: linear;
+
+        .img-container {
+            min-width: 128px;
+            min-height: 72px;
+            margin-right: 16px;
+        }
+    }
+
+}
+
+@keyframes move {
+    0% {
+        margin-left: 0px;
+    }
+
+    100% {
+        margin-left: -100%;
+    }
+}
