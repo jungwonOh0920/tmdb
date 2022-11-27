@@ -3,7 +3,7 @@ import axios from "axios"
 import Card from "../components/Card/Card"
 import CardSlider from '../components/CardSlider/CardSlider'
 import Tabs from '../components/Tabs/Tabs'
-
+import Hero from '../components/Hero/Hero'
 
 export interface PopularItemType {
   adult: boolean;
@@ -104,16 +104,19 @@ function Home() {
   )
 
   return (
-    <div>
-      {
+    <>
+      <section>
+        <Hero />
+      </section>
+      <section>
         <Tabs titles={titles} >
           {onTVList()}
           {PopularList()}
           {upcomingList()}
           {forRentList()}
         </Tabs>
-      }
-    </div>
+      </section>
+    </>
   );
 }
 
