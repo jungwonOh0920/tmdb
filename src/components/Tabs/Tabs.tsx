@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import TabContent from './TabContent'
 import TabNavItem from './TabNavItem'
 import './tabs.scss'

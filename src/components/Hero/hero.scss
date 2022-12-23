@@ -16,16 +16,10 @@
         color: white;
         max-width: 75%;
 
-        .hero-content {
-            padding-left: 72px;
-        }
+        // .hero-content {
+        //     padding-left: 72px;
+        // }
     }
-}
-
-.j-hero-container {
-    background-color: green;
-    width: 100%;
-    margin-bottom: 16px;
 
     .row {
         display: flex;
@@ -43,7 +37,6 @@
             margin-right: 16px;
         }
     }
-
 }
 
 @keyframes move {
