@@ -1,3 +1,4 @@
+import React from 'react'
 import { PopularItemType } from "../../pages/Home";
 import Rate from './Rate'
 import './card.scss'
