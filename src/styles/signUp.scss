@@ -1,0 +1,14 @@
+.sign-up-container {
+    color: white;
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 16px;
+
+        input {
+            color: black;
+        }
+    }
+}

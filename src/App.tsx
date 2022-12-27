@@ -7,6 +7,8 @@ import {
 import Home from './pages/Home'
 import About from './pages/About'
 import Shows from './pages/Shows'
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
 import Layout from './components/Layout/Layout'
 import './App.scss'
 
@@ -18,6 +20,8 @@ function App() {
           <Route path='/home' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/tv-shows' element={<Shows />} />
+          <Route path='/signin' element={<SignIn />} />
+          <Route path='/signup' element={<SignUp />} />
           <Route path='/' element={<Navigate replace to='/home' />} />
         </Routes>
       </Layout>
