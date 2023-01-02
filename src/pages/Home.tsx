@@ -32,6 +32,7 @@ export type DataType = {
 };
 
 function Home() {
+
   const [isMobile, setIsMobile] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -40,8 +41,9 @@ function Home() {
   const [upcomingData, setUpcomingData] = useState<DataType>()
   const [forRentData, setForRentData] = useState<DataType>()
 
-  // fetch API
+  // fetch API and check for user
   useEffect(() => {
+
     setIsLoading(true)
 
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
