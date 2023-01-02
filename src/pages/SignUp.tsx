@@ -2,10 +2,17 @@ import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import '../styles/signUp.scss'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { db } from '../firebase.config';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { auth } from '../firebase.config';
 
 function SignUp() {
-    const [formData, setFormData] = useState({
+    interface formDataType {
+        name: string,
+        email: string,
+        password: string
+    }
+    const [formData, setFormData] = useState<formDataType>({
         name: '',
         email: '',
         password: ''
@@ -32,6 +39,14 @@ function SignUp() {
             updateProfile(user, {
                 displayName: name
             })
+
+            const formDataForDB = {
+                name: formData.name,
+                email: formData.email,
+                timestamp: serverTimestamp()
+            }
+
+            await setDoc(doc(db, 'users', user.uid), formDataForDB)
 
             navigate('/')
 

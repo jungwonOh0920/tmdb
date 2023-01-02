@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import '../styles/signIn.scss'
 
 function SignIn() {
@@ -16,13 +17,29 @@ function SignIn() {
             [e.target.id]: e.target.value
         }))
     }
+    const navigate = useNavigate()
+
+    const signIn = async (e: React.ChangeEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        try {
+            const auth = getAuth()
+            const userCredential = await signInWithEmailAndPassword(auth, email, password)
+
+            if (userCredential.user) {
+                navigate('/')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className='sign-in-container'>
             <header>
                 <p>Welcome Back!</p>
             </header>
-            <form>
+            <form onSubmit={signIn}>
                 <input
                     type='email'
                     placeholder='Email'
