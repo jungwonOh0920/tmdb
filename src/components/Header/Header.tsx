@@ -11,7 +11,6 @@ function Header() {
     const auth = getAuth()
 
     useEffect(() => {
-        console.log('auth? ', isAuthenticated)
         const listener = onAuthStateChanged(auth, async (user) => {
             setIsAuthenticated(!!user);
         });
@@ -43,7 +42,7 @@ function Header() {
                         <li className='p-4'><NavLink to='about'>About</NavLink></li>
                     </ul>
                 </div>
-                <button className='p-4'><NavLink to='signin'>{isAuthenticated ? user?.displayName : 'Not logged in'}</NavLink></button>
+                <button className='p-4'><NavLink to='profile'>{isAuthenticated ? user?.displayName : 'Sign In'}</NavLink></button>
             </div>
         </div>
     )
