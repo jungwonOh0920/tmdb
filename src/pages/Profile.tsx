@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { getAuth, User as FirebaseUser, onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import SignIn from '../components/SignIn/SignIn'
+import Avatars from '../components/Profile/Avatars'
 
 function Profile() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -38,7 +39,7 @@ function Profile() {
 
     return (
         <div className='profile'>
-            {isAuthenticated ? user?.displayName : <SignIn />}
+            {isAuthenticated ? <Avatars userName={user?.displayName} /> : <SignIn />}
             <br />
             {
                 isAuthenticated &&
