@@ -1,9 +1,19 @@
 .layout {
-    min-height: 100vh;
+    height: 100vh;
     background-color: #000;
-    color: white;
+    color: aliceblue;
+    overflow: auto;
 
     .logout-btn {
         border: 1px solid white;
     }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* IE and Edge */
+    -ms-overflow-style: none;
+    /* Firefox */
+    scrollbar-width: none;
 }
