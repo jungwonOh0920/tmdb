@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, PropsWithChildren } from "react"
 import eventBus from "../../assets/utilities/EventBus"
 import Header from "../Header/Header"
 import './layout.scss'
 
-const Layout = ({ children }: any) => {
+type Props = {
+  children: JSX.Element
+}
+
+const Layout = ({ children }: Props) => {
   const [width, setWidth] = useState<number>(window.innerWidth)
 
   const handleResize = () => {
@@ -23,7 +27,7 @@ const Layout = ({ children }: any) => {
   return (
     <div className="layout">
       <Header />
-      <main className="w-full px-20">
+      <main className="w-full px-20 h-full pt-16">
         {children}
       </main>
     </div>
