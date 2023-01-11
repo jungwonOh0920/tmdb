@@ -33,7 +33,7 @@ function Header() {
 
             <div className='header-inner-container max-w-7xl'>
                 <div className='header-contents'>
-                    <div className='w-40 px-4'>
+                    <div className='w-40'>
                         <img src={Logo} alt='logo' />
                     </div>
                     <ul className='flex place-content-around'>

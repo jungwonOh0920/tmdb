@@ -27,7 +27,7 @@ const Layout = ({ children }: Props) => {
   return (
     <div className="layout">
       <Header />
-      <main className="w-full px-20 h-full pt-16">
+      <main className="main w-full px-20 h-full">
         {children}
       </main>
     </div>
