@@ -38,22 +38,6 @@ function Header() {
       {isAuthenticated ? user?.displayName : "Sign In"}
     </NavLink>;
   };
-
-<<<<<<< Updated upstream
-            <div className='header-inner-container max-w-7xl'>
-                <div className='header-contents'>
-                    <div className='w-40'>
-                        <img src={Logo} alt='logo' />
-                    </div>
-                    <ul className='flex place-content-around'>
-                        <li className='p-4'><NavLink to='/'>Movies</NavLink></li>
-                        <li className='p-4'><NavLink to='tv-shows'>TV Shows</NavLink></li>
-                        <li className='p-4'><NavLink to='about'>About</NavLink></li>
-                    </ul>
-                </div>
-                <button className='p-4'><NavLink to='profile'>{isAuthenticated ? user?.displayName : 'Sign In'}</NavLink></button>
-            </div>
-=======
   return (
     <div className="header-container">
       <div className="header-inner-container max-w-7xl">
@@ -72,7 +56,6 @@ function Header() {
               <NavLink to="about">About</NavLink>
             </li>
           </ul>
->>>>>>> Stashed changes
         </div>
 
         <Button
