@@ -1,85 +1,86 @@
-import { useRef, useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight'
-import Loader from '../../components/Loader/Loader'
-import './card-slider.scss'
+import { useRef, useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons/faAngleLeft";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons/faAngleRight";
+import Loader from "../../components/Loader/Loader";
+import Button from "../Button/Button";
+import "./card-slider.scss";
 
 interface CardSliderProps {
-    children: JSX.Element[] | undefined
-    isLoading: boolean
+  children: JSX.Element[] | undefined;
+  isLoading: boolean;
 }
 
 const getWindowSize = () => {
-    const { innerWidth } = window
-    return innerWidth
-}
+  const { innerWidth } = window;
+  return innerWidth;
+};
 
 const CardSlider = (prop: CardSliderProps) => {
-    const [windowSize, setWindowSize] = useState(getWindowSize)
-    const [offset, setOffset] = useState(0)
-    const [scrollX, setScrollX] = useState(0)
-    const [isScrollEnd, setIsScrollEnd] = useState(false)
-    const contentsRef = useRef<HTMLDivElement>(null)
+  const [windowSize, setWindowSize] = useState(getWindowSize);
+  const [offset, setOffset] = useState(0);
+  const [scrollX, setScrollX] = useState(0);
+  const [isScrollEnd, setIsScrollEnd] = useState(false);
+  const contentsRef = useRef<HTMLDivElement>(null);
 
+  // called initially
+  useEffect(() => {
+    setScrollX(contentsRef.current?.scrollLeft ?? -1);
+    // Update the state with new window width
+    const handleResize = () => {
+      setWindowSize(getWindowSize);
+    };
 
-    // called initially
-    useEffect(() => {
-        setScrollX(contentsRef.current?.scrollLeft ?? -1)
-        // Update the state with new window width
-        const handleResize = () => {
-            setWindowSize(getWindowSize)
-        }
+    // Add a listener
+    window.addEventListener("resize", handleResize);
 
-        // Add a listener
-        window.addEventListener('resize', handleResize)
+    // Clean up the listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-        // Clean up the listener 
-        return () => {
-            window.removeEventListener('resize', handleResize)
-        }
-    }, [])
+  useEffect(() => {
+    const refObject = contentsRef.current;
+    refObject!.scrollLeft = scrollX;
+    setIsScrollEnd(refObject!.scrollWidth <= scrollX + offset + 66);
+  }, [scrollX]);
 
-    useEffect(() => {
-        const refObject = contentsRef.current
-        refObject!.scrollLeft = scrollX
-        setIsScrollEnd(refObject!.scrollWidth <= scrollX + offset + 66)
-    }, [scrollX])
+  const scroll = (scrollOffset: number) => {
+    setOffset(scrollOffset);
+    const refObject = contentsRef.current;
 
-
-    const scroll = (scrollOffset: number) => {
-        setOffset(scrollOffset)
-        const refObject = contentsRef.current
-
-        if (refObject!.scrollWidth > scrollX + 66) {
-            setScrollX(scrollX + scrollOffset ?? -1)
-        }
+    if (refObject!.scrollWidth > scrollX + 66) {
+      setScrollX(scrollX + scrollOffset ?? -1);
     }
+  };
 
-    return (
-        <div className='card-slider-container'>
-            {
-                // scrollX round down bc it could be sth like 0.2
-                Math.floor(scrollX) > 0 ?
-                    <button className='scroll-button left' onClick={() => scroll(windowSize / 2 * -1)}>
-                        <FontAwesomeIcon icon={faAngleLeft} />
-                    </button> : null
-            }
+  return (
+    <div className="card-slider-container">
+      {
+        // scrollX round down bc it could be sth like 0.2
+        Math.floor(scrollX) > 0 ? (
+          <Button
+            className="scroll-button left"
+            onClick={() => scroll((windowSize / 2) * -1)}
+            children={<FontAwesomeIcon icon={faAngleLeft} />}
+          />
+        ) : null
+      }
 
-            <div className='contents space-x-4' ref={contentsRef}>
-                {
-                    prop.isLoading ? <Loader /> : prop.children}
-            </div>
+      <div className="contents space-x-4" ref={contentsRef}>
+        {prop.isLoading ? <Loader /> : prop.children}
+      </div>
 
-            {
-                !isScrollEnd &&
-                <button className='scroll-button right' onClick={() => scroll(windowSize / 2)}>
-                    <FontAwesomeIcon icon={faAngleRight} />
-                </button>
-            }
+      {!isScrollEnd && (
+        <Button
+          className="scroll-button right"
+          onClick={() => scroll(windowSize / 2)}
+          children={<FontAwesomeIcon icon={faAngleRight} />}
+        />
+      )}
+    </div>
+  );
+};
 
-        </div>
-    )
-}
-
-export default CardSlider
+export default CardSlider;

@@ -1,54 +1,61 @@
-import React from 'react'
-import { useEffect, useState } from "react"
-import { getAuth, User as FirebaseUser, onAuthStateChanged } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
-import SignIn from '../components/SignIn/SignIn'
-import Avatars from '../components/Profile/Avatars'
-import '../styles/profile.scss'
+import React from "react";
+import { useEffect, useState } from "react";
+import {
+  getAuth,
+  User as FirebaseUser,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import SignIn from "../components/SignIn/SignIn";
+import Avatars from "../components/Profile/Avatars";
+import "../styles/profile.scss";
+import Button from "../components/Button/Button";
 
 function Profile() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [user, setUser] = useState<FirebaseUser | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
 
-    const auth = getAuth()
+  const auth = getAuth();
 
-    useEffect(() => {
-        const listener = onAuthStateChanged(auth, async (user) => {
-            setIsAuthenticated(!!user);
-        });
+  useEffect(() => {
+    const listener = onAuthStateChanged(auth, async (user) => {
+      setIsAuthenticated(!!user);
+    });
 
-        return () => {
-            listener();
-        };
-    }, [])
+    return () => {
+      listener();
+    };
+  }, []);
 
-    useEffect(() => {
-        setUser(auth.currentUser)
-    }, [isAuthenticated])
+  useEffect(() => {
+    setUser(auth.currentUser);
+  }, [isAuthenticated]);
 
-    useEffect(() => {
-        console.log('user updated: ', user)
-    }, [user])
+  useEffect(() => {
+    console.log("user updated: ", user);
+  }, [user]);
 
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const logout = () => {
-        auth.signOut()
+  const logout = () => {
+    auth.signOut();
 
-        navigate('/')
-    }
+    navigate("/");
+  };
 
-    return (
-        <div className='profile'>
-            {isAuthenticated ? <Avatars userName={user?.displayName} /> : <SignIn />}
-            <br />
-            {
-                isAuthenticated &&
-                <button onClick={logout} className='logout-btn'>Log out</button>
-            }
-
-        </div>
-    )
+  return (
+    <div className="profile">
+      {isAuthenticated ? <Avatars userName={user?.displayName} /> : <SignIn />}
+      <br />
+      {isAuthenticated && (
+        <Button
+          onClick={logout}
+          className={"logout-btn"}
+          children={"Log out"}
+        />
+      )}
+    </div>
+  );
 }
 
-export default Profile
+export default Profile;
