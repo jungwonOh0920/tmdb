@@ -29,10 +29,6 @@ function Header() {
     setUser(auth.currentUser);
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    console.log("user updated: ", user);
-  }, [user]);
-
   const onClick = () => {
     <NavLink to="profile">
       {isAuthenticated ? user?.displayName : "Sign In"}

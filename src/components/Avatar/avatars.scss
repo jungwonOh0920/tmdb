@@ -1,0 +1,44 @@
+.avatars {
+    max-width: 80rem;
+    margin: auto;
+
+    .avatar-selection {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        // AVATAR COMPONENT
+        .avatar-img-container {
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            -webkit-transition-property: all;
+            -webkit-transition-duration: 0.3s;
+            -webkit-transition-timing-function: ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #161616;
+
+            img {
+                object-fit: contain;
+            }
+
+            &:hover {
+                transform: scale(1.2);
+                background-color: #0B7BD3;
+
+                &.avatar-1 {
+                    background-color: #36F34C;
+                }
+
+                &.avatar-2 {
+                    background-color: #FEDD35;
+                }
+            }
+        }
+    }
+}
