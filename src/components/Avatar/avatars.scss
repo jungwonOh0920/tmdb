@@ -1,23 +1,14 @@
 .avatars {
-    .blurry-gradient {
-        background-color: #2c21ab;
-        position: absolute;
-        top: 50%;
-        right: 80%;
-        transform: translate(50%, -50%);
-        width: 600px;
-        height: 600px;
-        border-radius: 50%;
-        filter: blur(180px);
-        opacity: 0.8;
-    }
+    max-width: 80rem;
+    margin: auto;
 
     .avatar-selection {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
 
-        .img-container {
+        // AVATAR COMPONENT
+        .avatar-img-container {
             width: 230px;
             height: 230px;
             border-radius: 50%;
@@ -30,6 +21,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #161616;
 
             img {
                 object-fit: contain;
@@ -37,8 +29,15 @@
 
             &:hover {
                 transform: scale(1.2);
-                background-color: blue;
-                box-shadow: 20px 20px 50px blue;
+                background-color: #0B7BD3;
+
+                &.avatar-1 {
+                    background-color: #36F34C;
+                }
+
+                &.avatar-2 {
+                    background-color: #FEDD35;
+                }
             }
         }
     }

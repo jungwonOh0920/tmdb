@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import {
   getAuth,
@@ -7,13 +6,14 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import SignIn from "../components/SignIn/SignIn";
-import Avatars from "../components/Profile/Avatars";
+import Avatars from "../components/Avatar/Avatars";
 import "../styles/profile.scss";
 import Button from "../components/Button/Button";
 
 function Profile() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [AvatarIdx, setAvatarIdx] = useState(-1);
 
   const auth = getAuth();
 
@@ -31,10 +31,6 @@ function Profile() {
     setUser(auth.currentUser);
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    console.log("user updated: ", user);
-  }, [user]);
-
   const navigate = useNavigate();
 
   const logout = () => {
@@ -43,9 +39,13 @@ function Profile() {
     navigate("/");
   };
 
+  const updateAvatarIdx = (idx: number) => {
+    setAvatarIdx(idx)
+  }
+
   return (
     <div className="profile">
-      {isAuthenticated ? <Avatars userName={user?.displayName} /> : <SignIn />}
+      {isAuthenticated ? <Avatars userName={user?.displayName} sendAvatarIdx={updateAvatarIdx} /> : <SignIn />}
       <br />
       {isAuthenticated && (
         <Button
@@ -54,6 +54,7 @@ function Profile() {
           children={"Log out"}
         />
       )}
+      <div className={`blurry-gradient ${AvatarIdx > -1 ? `avatar-${AvatarIdx}` : ''}`}></div>
     </div>
   );
 }
