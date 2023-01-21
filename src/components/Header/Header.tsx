@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   getAuth,
   User as FirebaseUser,
@@ -7,15 +7,18 @@ import {
 } from "firebase/auth";
 import Logo from "../../assets/tmdb-logo.svg";
 import Button from "../Button/Button";
+import { Context } from '../Layout/Layout'
 import "./header.scss";
 
 function Header() {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const jungwon = useContext(Context)
   const auth = getAuth();
 
   useEffect(() => {
+    console.log('context check: ', jungwon);
     const listener = onAuthStateChanged(auth, async (user) => {
       setIsAuthenticated(!!user);
     });

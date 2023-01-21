@@ -3,12 +3,12 @@ import {
   getAuth,
   User as FirebaseUser,
   onAuthStateChanged,
-} from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import SignIn from "../components/SignIn/SignIn";
-import Avatars from "../components/Avatar/Avatars";
-import "../styles/profile.scss";
-import Button from "../components/Button/Button";
+} from "firebase/auth"
+import { useNavigate } from "react-router-dom"
+import SignIn from "../components/SignIn/SignIn"
+import Avatars from "../components/Avatar/Avatars"
+import "../styles/profile.scss"
+import Button from "../components/Button/Button"
 
 function Profile() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
