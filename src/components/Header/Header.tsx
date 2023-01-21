@@ -1,42 +1,13 @@
 import { NavLink } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
-import {
-  getAuth,
-  User as FirebaseUser,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { useContext } from "react";
 import Logo from "../../assets/tmdb-logo.svg";
 import Button from "../Button/Button";
 import { Context } from '../Layout/Layout'
 import "./header.scss";
 
 function Header() {
-  const [user, setUser] = useState<FirebaseUser | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const contextUser: any = useContext(Context)
 
-  const jungwon = useContext(Context)
-  const auth = getAuth();
-
-  useEffect(() => {
-    console.log('context check: ', jungwon);
-    const listener = onAuthStateChanged(auth, async (user) => {
-      setIsAuthenticated(!!user);
-    });
-
-    return () => {
-      listener();
-    };
-  }, []);
-
-  useEffect(() => {
-    setUser(auth.currentUser);
-  }, [isAuthenticated]);
-
-  const onClick = () => {
-    <NavLink to="profile">
-      {isAuthenticated ? user?.displayName : "Sign In"}
-    </NavLink>;
-  };
   return (
     <div className="header-container">
       <div className="header-inner-container max-w-7xl">
@@ -60,7 +31,7 @@ function Header() {
         <Button
           className="p-4"
           linkTo="profile"
-          children={isAuthenticated ? user?.displayName : "Sign In"}
+          children={contextUser ? contextUser.displayName : "Sign In"}
         />
       </div>
     </div>
