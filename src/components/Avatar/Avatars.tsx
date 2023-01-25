@@ -1,6 +1,10 @@
-import { useState } from "react"
+import { useContext } from "react"
 import Avatar from './Avatar'
+import { Context } from '../Layout/Layout'
 import { avatarSrc } from '../../assets/avatarSrc'
+import { doc, setDoc, getDoc } from "firebase/firestore"
+import { db } from '../../firebase.config'
+import eventBus from "../../assets/utilities/EventBus"
 import './avatars.scss'
 
 interface AvatarsProp {
@@ -9,12 +13,35 @@ interface AvatarsProp {
 }
 
 function Avatars(props: AvatarsProp) {
+    // User context
+    const contextUser: any = useContext(Context)
+
     const fullName = props.userName
     const firstName = fullName && fullName.split(' ')[0]
     const imgSrc = avatarSrc
 
     const getAvatarIdx = (idx: number) => {
         props.sendAvatarIdx(idx)
+    }
+
+    const updateAvatar = async (idx: number) => {
+        const userRef = doc(db, 'users', contextUser.uid)
+        const userSnap = await getDoc(userRef)
+
+        if (userSnap.exists()) {
+            if (userSnap.data().avatar === imgSrc[idx].img) {
+                console.log('same avatar selected!')
+                return
+            }
+        }
+
+        await setDoc(userRef, {
+            name: contextUser.displayName,
+            email: contextUser.email,
+            avatar: imgSrc[idx].img
+        })
+
+        eventBus.dispatch('updateAvatar', imgSrc[idx].img)
     }
 
     return (
@@ -27,8 +54,10 @@ function Avatars(props: AvatarsProp) {
                         <div
                             onMouseEnter={() => getAvatarIdx(idx)}
                             onMouseLeave={() => props.sendAvatarIdx(-1)}
+                            onClick={() => updateAvatar(idx)}
+                            key={idx}
                         >
-                            <Avatar img={obj.img} key={idx} idx={idx} />
+                            <Avatar img={obj.img} idx={idx} />
                         </div>
                     ))
                 }

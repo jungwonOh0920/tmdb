@@ -1,43 +1,31 @@
-import { useEffect, useState } from "react";
-import {
-  getAuth,
-  User as FirebaseUser,
-  onAuthStateChanged,
-} from "firebase/auth"
+import { useContext, useState } from "react"
+import { getAuth } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import SignIn from "../components/SignIn/SignIn"
 import Avatars from "../components/Avatar/Avatars"
-import "../styles/profile.scss"
+import { Context } from '../components/Layout/Layout'
 import Button from "../components/Button/Button"
+import "../styles/profile.scss"
+
 
 function Profile() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<FirebaseUser | null>(null);
-  const [AvatarIdx, setAvatarIdx] = useState(-1);
+  // User context
+  const contextUser: any = useContext(Context)
 
-  const auth = getAuth();
+  const [AvatarIdx, setAvatarIdx] = useState(-1)
 
-  useEffect(() => {
-    const listener = onAuthStateChanged(auth, async (user) => {
-      setIsAuthenticated(!!user);
-    });
-
-    return () => {
-      listener();
-    };
-  }, []);
-
-  useEffect(() => {
-    setUser(auth.currentUser);
-  }, [isAuthenticated]);
-
-  const navigate = useNavigate();
+  const auth = getAuth()
+  const navigate = useNavigate()
 
   const logout = () => {
-    auth.signOut();
+    try {
+      auth.signOut()
+    } catch (error) {
+      console.log(error)
+    }
 
-    navigate("/");
-  };
+    navigate("/")
+  }
 
   const updateAvatarIdx = (idx: number) => {
     setAvatarIdx(idx)
@@ -45,9 +33,9 @@ function Profile() {
 
   return (
     <div className="profile">
-      {isAuthenticated ? <Avatars userName={user?.displayName} sendAvatarIdx={updateAvatarIdx} /> : <SignIn />}
+      {contextUser ? <Avatars userName={contextUser.displayName} sendAvatarIdx={updateAvatarIdx} /> : <SignIn />}
       <br />
-      {isAuthenticated && (
+      {contextUser && (
         <Button
           onClick={logout}
           className={"logout-btn"}
