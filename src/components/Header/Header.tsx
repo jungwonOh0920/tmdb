@@ -3,9 +3,10 @@ import { NavLink } from "react-router-dom"
 import Logo from "../../assets/tmdb-logo.svg"
 import Button from "../Button/Button"
 import { Context } from '../Layout/Layout'
-import { collection, query, where, getDocs } from "firebase/firestore"
+import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
-import "./header.scss";
+import eventBus from "../../assets/utilities/EventBus"
+import "./header.scss"
 
 function Header() {
   const [avatar, setAvatar] = useState('')
@@ -13,27 +14,28 @@ function Header() {
   const contextUser: any = useContext(Context)
 
   useEffect(() => {
-    const getURL = async () => {
-      // Create a reference to the avatars collection
-      const avatarsRef = collection(db, 'avatars')
-
-      // Create q query against the collection.
-      const q = query(avatarsRef, where('userRef', '==', contextUser.uid))
+    const getAvatar = async () => {
+      const userRef = doc(db, 'users', contextUser.uid)
 
       try {
-        const querySnapshot = await getDocs(q)
-        querySnapshot.forEach((d) => {
-          setAvatar(d.data().avatar)
-        })
-      } catch (error) {
-        console.log('err: ', error)
-      }
+        const userSnap = await getDoc(userRef)
 
+        if (userSnap.exists()) {
+          const avatar: string = userSnap.data().avatar
+          setAvatar(avatar)
+        }
+        else { console.log('not exist') }
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     if (contextUser) {
-      getURL()
+      getAvatar()
     }
+    eventBus.on('updateAvatar', (imgSrc: string) => {
+      setAvatar(imgSrc)
+    })
   }, [])
 
   useEffect(() => {
