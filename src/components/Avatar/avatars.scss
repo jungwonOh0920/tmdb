@@ -7,6 +7,12 @@
         flex-wrap: wrap;
         justify-content: space-around;
 
+        .avatar-container {
+            border-radius: 50%;
+            // background-color: red;
+            z-index: 1;
+        }
+
         // AVATAR COMPONENT
         .avatar-img-container {
             width: 230px;
@@ -21,11 +27,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #161616;
-
-            img {
-                object-fit: contain;
-            }
 
             &:hover {
                 transform: scale(1.2);

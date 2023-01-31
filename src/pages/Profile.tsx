@@ -5,6 +5,7 @@ import SignIn from "../components/SignIn/SignIn"
 import Avatars from "../components/Avatar/Avatars"
 import { Context } from '../components/Layout/Layout'
 import Button from "../components/Button/Button"
+import DragNDrop from "../components/DragNDrop/DragNDrop"
 import "../styles/profile.scss"
 
 
@@ -35,6 +36,7 @@ function Profile() {
     <div className="profile">
       {contextUser ? <Avatars userName={contextUser.displayName} sendAvatarIdx={updateAvatarIdx} /> : <SignIn />}
       <br />
+      <DragNDrop />
       {contextUser && (
         <Button
           onClick={logout}
@@ -43,6 +45,7 @@ function Profile() {
         />
       )}
       <div className={`blurry-gradient ${AvatarIdx > -1 ? `avatar-${AvatarIdx}` : ''}`}></div>
+
     </div>
   );
 }

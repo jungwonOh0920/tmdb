@@ -52,6 +52,7 @@ function Avatars(props: AvatarsProp) {
                 {
                     imgSrc.map((obj, idx) => (
                         <div
+                            className='avatar-container'
                             onMouseEnter={() => getAvatarIdx(idx)}
                             onMouseLeave={() => props.sendAvatarIdx(-1)}
                             onClick={() => updateAvatar(idx)}
