@@ -56,6 +56,11 @@
         &.drag-active {
             border: 5px dashed #FEDD35;
         }
+
+        .drag-file-element {
+            @include absolute_full;
+            // background-color: red;
+        }
     }
 
     label {

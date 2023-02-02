@@ -40,7 +40,6 @@ function Profile() {
       {contextUser && (
         <Button
           onClick={logout}
-          className={"logout-btn"}
           children={"Log out"}
         />
       )}
