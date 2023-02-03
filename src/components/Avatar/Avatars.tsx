@@ -4,6 +4,7 @@ import { Context } from '../Layout/Layout'
 import { avatarSrc } from '../../assets/avatarSrc'
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import eventBus from "../../assets/utilities/EventBus"
 import './avatars.scss'
 
@@ -28,6 +29,18 @@ function Avatars(props: AvatarsProp) {
         const userRef = doc(db, 'users', contextUser.uid)
         const userSnap = await getDoc(userRef)
 
+        // delete UID image
+        const storage = getStorage()
+
+        const imageToDeleteRef = ref(storage, `images/${contextUser.uid}`)
+
+        deleteObject(imageToDeleteRef).then(() => {
+            console.log('successfully deleted..')
+        }).catch((err) => {
+            console.log('err: ', err);
+        })
+
+        // update Avatar
         if (userSnap.exists()) {
             if (userSnap.data().avatar === imgSrc[idx].img) {
                 console.log('same avatar selected!')

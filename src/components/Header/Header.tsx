@@ -6,14 +6,28 @@ import { Context } from '../Layout/Layout'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
 import eventBus from "../../assets/utilities/EventBus"
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import "./header.scss"
 
 function Header() {
   const [avatar, setAvatar] = useState('')
   const [initial, setInitial] = useState('')
   const contextUser: any = useContext(Context)
+  const [testImage, setTestImage] = useState('')
 
   useEffect(() => {
+    const getTestImage = async () => {
+      const storage = getStorage()
+      const imageRef = ref(storage, `images/${contextUser.uid}`)
+
+      getDownloadURL(imageRef).then((url) => {
+        console.log('url: ', url);
+        setTestImage(url)
+      }).catch((err) => {
+        console.log('error check: ', err)
+      })
+    }
+
     const getAvatar = async () => {
       const userRef = doc(db, 'users', contextUser.uid)
 
@@ -24,7 +38,7 @@ function Header() {
           const avatar: string = userSnap.data().avatar
           setAvatar(avatar)
         }
-        else { console.log('not exist') }
+        else { console.log('user avatar not exist') }
       } catch (error) {
         console.log(error)
       }
@@ -32,6 +46,7 @@ function Header() {
 
     if (contextUser) {
       getAvatar()
+      getTestImage()
     }
     eventBus.on('updateAvatar', (imgSrc: string) => {
       setAvatar(imgSrc)
@@ -61,9 +76,12 @@ function Header() {
           contextUser ? (
             <Button linkTo="profile" className="flex items-center">
               {
+                <img src={testImage} alt='test' className="avatar-img" />
+              }
+              {/* {
                 avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
                   <div className='initial-container'>{initial}</div>
-              }
+              } */}
             </Button>
           )
             :
