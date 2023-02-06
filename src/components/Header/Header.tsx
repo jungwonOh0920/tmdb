@@ -16,45 +16,45 @@ function Header() {
   const [testImage, setTestImage] = useState('')
 
   useEffect(() => {
-    const getTestImage = async () => {
-      const storage = getStorage()
-      const imageRef = ref(storage, `images/${contextUser.uid}`)
+    // const getTestImage = async () => {
+    //   const storage = getStorage()
+    //   const imageRef = ref(storage, `images/${contextUser.uid}`)
 
-      getDownloadURL(imageRef).then((url) => {
-        console.log('url: ', url);
-        setTestImage(url)
-      }).catch((err) => {
-        console.log('error check: ', err)
-      })
-    }
+    //   getDownloadURL(imageRef).then((url) => {
+    //     console.log('url: ', url);
+    //     setTestImage(url)
+    //   }).catch((err) => {
+    //     console.log('error check: ', err)
+    //   })
+    // }
 
-    const getAvatar = async () => {
-      const userRef = doc(db, 'users', contextUser.uid)
+    // const getAvatar = async () => {
+    //   const userRef = doc(db, 'users', contextUser.uid)
 
-      try {
-        const userSnap = await getDoc(userRef)
+    //   try {
+    //     const userSnap = await getDoc(userRef)
 
-        if (userSnap.exists()) {
-          const avatar: string = userSnap.data().avatar
-          setAvatar(avatar)
-        }
-        else { console.log('user avatar not exist') }
-      } catch (error) {
-        console.log(error)
-      }
-    }
+    //     if (userSnap.exists()) {
+    //       const avatar: string = userSnap.data().avatar
+    //       setAvatar(avatar)
+    //     }
+    //     else { console.log('user avatar not exist') }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
 
-    if (contextUser) {
-      getAvatar()
-      getTestImage()
-    }
+    // if (contextUser) {
+    //   getAvatar()
+    //   getTestImage()
+    // }
     eventBus.on('updateAvatar', (imgSrc: string) => {
       setAvatar(imgSrc)
     })
   }, [])
 
   useEffect(() => {
-    if (avatar == '' && contextUser) {
+    if (avatar == '' && contextUser && contextUser.displayName) {
       setInitial(contextUser.displayName[0])
     }
   }, [avatar])
