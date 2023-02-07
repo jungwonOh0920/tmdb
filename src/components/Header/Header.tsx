@@ -1,53 +1,38 @@
-import { useContext, useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { useContext, useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import Logo from "../../assets/tmdb-logo.svg"
 import Button from "../Button/Button"
 import { Context } from '../Layout/Layout'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
 import eventBus from "../../assets/utilities/EventBus"
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import "./header.scss"
 
 function Header() {
   const [avatar, setAvatar] = useState('')
   const [initial, setInitial] = useState('')
   const contextUser: any = useContext(Context)
-  const [testImage, setTestImage] = useState('')
 
   useEffect(() => {
-    // const getTestImage = async () => {
-    //   const storage = getStorage()
-    //   const imageRef = ref(storage, `images/${contextUser.uid}`)
+    const getAvatar = async () => {
+      const userRef = doc(db, 'users', contextUser.uid)
 
-    //   getDownloadURL(imageRef).then((url) => {
-    //     console.log('url: ', url);
-    //     setTestImage(url)
-    //   }).catch((err) => {
-    //     console.log('error check: ', err)
-    //   })
-    // }
+      try {
+        const userSnap = await getDoc(userRef)
 
-    // const getAvatar = async () => {
-    //   const userRef = doc(db, 'users', contextUser.uid)
+        if (userSnap.exists()) {
+          const avatar: string = userSnap.data().avatar
+          setAvatar(avatar)
+        }
+        else { console.log('user avatar not exist') }
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
-    //   try {
-    //     const userSnap = await getDoc(userRef)
-
-    //     if (userSnap.exists()) {
-    //       const avatar: string = userSnap.data().avatar
-    //       setAvatar(avatar)
-    //     }
-    //     else { console.log('user avatar not exist') }
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
-
-    // if (contextUser) {
-    //   getAvatar()
-    //   getTestImage()
-    // }
+    if (contextUser) {
+      getAvatar()
+    }
     eventBus.on('updateAvatar', (imgSrc: string) => {
       setAvatar(imgSrc)
     })
@@ -76,12 +61,9 @@ function Header() {
           contextUser ? (
             <Button linkTo="profile" className="flex items-center">
               {
-                <img src={testImage} alt='test' className="avatar-img" />
-              }
-              {/* {
                 avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
                   <div className='initial-container'>{initial}</div>
-              } */}
+              }
             </Button>
           )
             :

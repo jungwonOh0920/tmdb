@@ -2,11 +2,13 @@ import { useState } from 'react'
 import Button from '../Button/Button'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { getAuth } from "firebase/auth"
-import { doc, updateDoc, deleteField } from "firebase/firestore";
+import { doc, updateDoc, deleteField } from "firebase/firestore"
+import eventBus from '../../assets/utilities/EventBus'
 import { db } from '../../firebase.config'
 
 function DragNDrop() {
     const [file, setFile] = useState<File>()
+    const [fileName, setFileName] = useState('No file selected.')
     const [dragActive, setDragActive] = useState(false)
     const auth = getAuth()
 
@@ -32,9 +34,9 @@ function DragNDrop() {
         e.preventDefault()
         e.stopPropagation()
         setDragActive(false)
+        setFileName(e.dataTransfer.files[0].name)
 
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            console.log(typeof e.dataTransfer.files[0])
             setFile(e.dataTransfer.files[0])
         }
     }
@@ -48,13 +50,13 @@ function DragNDrop() {
                     avatar: deleteField()
                 })
             }
-
+            setFileName('No file selected.')
             return new Promise((res, rej) => {
                 const storage = getStorage()
                 const fileName = `${auth?.currentUser?.uid}`
 
                 const storageRef = ref(storage, 'images/' + fileName)
-
+                console.log('storageRef: ', storageRef)
                 const uploadTask = uploadBytesResumable(storageRef, file)
                 uploadTask.on('state_changed',
                     (snapshot) => {
@@ -78,6 +80,7 @@ function DragNDrop() {
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                             res(downloadURL)
                             console.log('File available at', downloadURL);
+                            eventBus.dispatch('updateAvatar', downloadURL)
                         });
                     }
                 );
@@ -92,7 +95,7 @@ function DragNDrop() {
         <div className={`drag-n-drop-container ${dragActive ? 'drag-active' : ''}`} onDragEnter={handleDrag}>
             <input type='file' id='input-file-upload' hidden onChange={handleFileInput} />
             <label htmlFor='input-file-upload'>OR Choose Your Own</label>
-            <span id='file-chosen' className='file-title'>{file ? file.name : 'No file selected.'}</span>
+            <span id='file-chosen' className='file-title'>{fileName}</span>
             <Button onClick={handleSubmit}>Submit</Button>
             {dragActive && <div className='drag-file-element' onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} ></div>}
         </div>

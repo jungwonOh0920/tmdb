@@ -34,6 +34,7 @@ function Avatars(props: AvatarsProp) {
 
         const imageToDeleteRef = ref(storage, `images/${contextUser.uid}`)
 
+        // TODO: check if it exists. Exucutes the following only when it exists
         deleteObject(imageToDeleteRef).then(() => {
             console.log('successfully deleted..')
         }).catch((err) => {
