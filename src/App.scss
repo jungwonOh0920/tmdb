@@ -4,3 +4,7 @@ p,
 span {
   color: aliceblue;
 }
+
+section+section {
+  margin-top: 24px;
+}

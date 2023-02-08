@@ -41,9 +41,9 @@ function SignIn() {
 
   return (
     <div className="sign-in-container">
-      <header>
-        <p>Welcome Back!</p>
-      </header>
+      {/* <header> */}
+      <h1 className='text-3xl'>Welcome Back!</h1>
+      {/* </header> */}
       <form onSubmit={signIn}>
         <input
           type="email"
