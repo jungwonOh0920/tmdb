@@ -1,8 +1,8 @@
 @import './mixins';
 
-.profile {
+.profile-container {
     height: 100%;
-    margin: 0 -60px;
+    margin: 24px -60px 0 -60px;
     position: relative;
 
     .blurry-gradient {

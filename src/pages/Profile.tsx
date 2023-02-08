@@ -33,10 +33,15 @@ function Profile() {
   }
 
   return (
-    <div className="profile">
-      {contextUser ? <Avatars userName={contextUser.displayName} sendAvatarIdx={updateAvatarIdx} /> : <SignIn />}
+    <div className="profile-container">
+      {contextUser ? (
+        <>
+          <Avatars userName={contextUser.displayName} sendAvatarIdx={updateAvatarIdx} />
+          <DragNDrop />
+        </>
+      ) : <SignIn />}
       <br />
-      <DragNDrop />
+
       {contextUser && (
         <Button
           onClick={logout}
