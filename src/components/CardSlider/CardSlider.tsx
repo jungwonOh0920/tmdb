@@ -60,11 +60,13 @@ const CardSlider = (prop: CardSliderProps) => {
       {
         // scrollX round down bc it could be sth like 0.2
         Math.floor(scrollX) > 0 ? (
-          <Button
-            className="scroll-button left"
-            onClick={() => scroll((windowSize / 2) * -1)}
-            children={<FontAwesomeIcon icon={faAngleLeft} />}
-          />
+          <div className="scroll-button left">
+            <Button
+              onClick={() => scroll((windowSize / 2) * -1)}
+              children={<FontAwesomeIcon icon={faAngleLeft} />}
+            />
+          </div>
+
         ) : null
       }
 
@@ -73,11 +75,13 @@ const CardSlider = (prop: CardSliderProps) => {
       </div>
 
       {!isScrollEnd && (
-        <Button
-          className="scroll-button right"
-          onClick={() => scroll(windowSize / 2)}
-          children={<FontAwesomeIcon icon={faAngleRight} />}
-        />
+        <div className="scroll-button right">
+          <Button
+            onClick={() => scroll(windowSize / 2)}
+            children={<FontAwesomeIcon icon={faAngleRight} />}
+          />
+        </div>
+
       )}
     </div>
   );

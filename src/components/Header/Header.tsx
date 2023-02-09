@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Logo from "../../assets/tmdb-logo.svg"
-import Button from "../Button/Button"
+import Button, { buttonTypes } from "../Button/Button"
 import { Context } from '../Layout/Layout'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
@@ -48,7 +48,7 @@ function Header() {
     <div className="header-container">
       <div className="header-inner-container max-w-7xl">
         <div className="header-contents">
-          <div className="w-40 px-4">
+          <div className="w-40">
             <img src={Logo} alt="logo" />
           </div>
           <ul className="header-list">
@@ -57,22 +57,20 @@ function Header() {
             <li><NavLink to="about">About</NavLink></li>
           </ul>
         </div>
-        {
-          contextUser ? (
-            <Button linkTo="profile" className="flex items-center">
-              {
-                avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
-                  <div className='initial-container'>{initial}</div>
-              }
-            </Button>
-          )
-            :
-            <Button
-              className="p-4"
-              linkTo="profile"
-              children='Sign In'
-            />
-        }
+        <div className={'profile-action-link'}>
+          {
+            contextUser ? (
+              <Button linkTo="profile">
+                {
+                  avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
+                    <div className='initial-container'>{initial}</div>
+                }
+              </Button>
+            )
+              :
+              <Button type={buttonTypes.secondary} linkTo="profile">Sign in</Button>
+          }
+        </div>
       </div>
     </div>
   );
