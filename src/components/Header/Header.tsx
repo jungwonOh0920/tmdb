@@ -60,7 +60,7 @@ function Header() {
         <div className={'profile-action-link'}>
           {
             contextUser ? (
-              <Button linkTo="profile">
+              <Button linkTo="profile" type={buttonTypes.avatar}>
                 {
                   avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
                     <div className='initial-container'>{initial}</div>
@@ -68,7 +68,7 @@ function Header() {
               </Button>
             )
               :
-              <Button type={buttonTypes.secondary} linkTo="profile">Sign in</Button>
+              <Button linkTo="profile">Sign in</Button>
           }
         </div>
       </div>

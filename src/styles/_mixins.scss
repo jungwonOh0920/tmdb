@@ -13,3 +13,9 @@
     right: 0;
     left: 0;
 }
+
+@mixin hover {
+    &:not([disabled]):hover {
+        @content;
+    }
+}

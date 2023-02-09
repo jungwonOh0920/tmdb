@@ -1,6 +1,6 @@
 import React from "react";
+import Button, { buttonTypes } from "../Button/Button";
 import "./hero.scss";
-import Button from "../Button/Button";
 
 const Hero = () => {
   return (
@@ -15,7 +15,7 @@ const Hero = () => {
             Bingeworthy TV, Hit Movies, Live Sports & So Much More
           </h1>
           <p>Stream it all for only $4.99/month. Cancel anytime.</p>
-          <Button children={"Pick a Plan"} />
+          <Button children={"Pick a Plan"} type={buttonTypes.gradientFill} />
         </div>
       </div>
     </div>

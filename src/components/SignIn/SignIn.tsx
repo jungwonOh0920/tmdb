@@ -41,9 +41,7 @@ function SignIn() {
 
   return (
     <div className="sign-in-container">
-      {/* <header> */}
       <h1 className='text-3xl'>Welcome Back!</h1>
-      {/* </header> */}
       <form onSubmit={signIn}>
         <input
           type="email"
@@ -59,9 +57,12 @@ function SignIn() {
           value={password}
           onChange={onChange}
         />
-        <Button children={"Sign In"} />
+        <div className="form-buttons-container">
+          <Button children={"Sign In"} />
+          <Button linkTo="/signup">Register Instead</Button>
+        </div>
       </form>
-      <NavLink to="/signup">Sign Up Instead</NavLink>
+
     </div>
   );
 }

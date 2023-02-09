@@ -9,15 +9,12 @@
         gap: 16px;
         margin-top: 16px;
         color: black;
+    }
 
-        button {
-            border: 1px solid white;
-            color: white;
-
-            &:hover {
-                background-color: white;
-                color: black;
-            }
-        }
+    .form-buttons-container {
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        gap: 16px;
     }
 }

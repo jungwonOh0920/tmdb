@@ -1,8 +1,51 @@
+@import '../../styles/mixins';
+
 .button {
-    padding: 8px 16px;
-    border: 1px solid aliceblue;
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-color);
+
+    @include hover {
+        border: 1px solid var(--tmdb-primary);
+        background-image: var(--tmdb-gradient);
+    }
 
     &.nav-link {
         text-align: center;
     }
+
+    &.circle {
+        border: none;
+        padding: 2px 8px;
+        border-radius: 100%;
+
+        @include hover {
+            background-color: var(--tmdb-gray);
+            color: var(--tmdb-primary);
+            background-image: none;
+        }
+    }
+
+    &.avatar {
+        max-width: 40px;
+        max-height: 40px;
+        background: linear-gradient(black, black) padding-box,
+            linear-gradient(to right, darkblue, darkorchid) border-box;
+        border-radius: 50%;
+        border: 1px solid transparent;
+    }
+
+    &.gradient-fill {
+        border: 1px solid var(--tmdb-primary);
+        background-image: var(--tmdb-gradient);
+
+        @include hover {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-color);
+            background-image: none;
+        }
+    }
+
 }
