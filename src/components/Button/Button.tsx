@@ -1,22 +1,34 @@
 import { NavLink } from "react-router-dom";
-
+import classNames from "classnames";
 import "./button.scss";
 
+export enum buttonTypes {
+  secondary,
+  noBorder,
+  circle
+}
+
 interface Props {
-  className?: string;
   linkTo?: string;
   children?: JSX.Element | string | null;
+  type?: buttonTypes
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Button = ({ children, className, linkTo, onClick }: Props) => {
-  return linkTo ? (
-    <NavLink className={className} to={linkTo}>
-      {children}
+const Button = (props: Props) => {
+  const buttonClasses = classNames(
+    'button',
+    { 'nav-link': props.linkTo },
+    { 'secondary': props.type == buttonTypes.secondary }
+  )
+
+  return props.linkTo ? (
+    <NavLink className={buttonClasses} to={props.linkTo}>
+      {props.children}
     </NavLink>
   ) : (
-    <button className={className} onClick={onClick}>
-      {children}
+    <button className={buttonClasses} onClick={props.onClick}>
+      {props.children}
     </button>
   );
 };
