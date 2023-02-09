@@ -3,9 +3,10 @@ import classNames from "classnames";
 import "./button.scss";
 
 export enum buttonTypes {
-  secondary,
+  gradientFill,
   noBorder,
-  circle
+  circle,
+  avatar
 }
 
 interface Props {
@@ -19,7 +20,9 @@ const Button = (props: Props) => {
   const buttonClasses = classNames(
     'button',
     { 'nav-link': props.linkTo },
-    { 'secondary': props.type == buttonTypes.secondary }
+    { 'gradient-fill': props.type == buttonTypes.gradientFill },
+    { 'circle': props.type == buttonTypes.circle },
+    { 'avatar': props.type == buttonTypes.avatar }
   )
 
   return props.linkTo ? (

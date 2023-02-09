@@ -1,8 +1,3 @@
-@mixin dynamicArrowColor($direction) {
-    background-image: linear-gradient(to #{$direction}, rgba(255, 255, 255, 0), #00bfff);
-    opacity: 0.8;
-}
-
 .card-slider-container {
     position: relative;
     width: 100%;
@@ -13,10 +8,8 @@
 
     .scroll-button {
         position: absolute;
-        top: 0;
-        width: 100px;
-        height: 100%;
-        color: aliceblue;
+        top: 50%;
+        transform: translate(0, -50%);
 
         &.left {
             left: 0;
@@ -24,16 +17,6 @@
 
         &.right {
             right: 0;
-        }
-
-        &:hover {
-            &.left {
-                @include dynamicArrowColor(left);
-            }
-
-            &.right {
-                @include dynamicArrowColor(right);
-            }
         }
     }
 
