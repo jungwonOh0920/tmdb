@@ -1,24 +1,27 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Button from "../Button/Button";
 import "./signIn.scss";
+import TmdbInput, { InputTypes } from "../FormElements/TmdbInput";
 
 function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
   const { email, password } = formData;
+  const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.id]: e.target.value,
-    }));
-  };
-  const navigate = useNavigate();
+    setFormData((prevState) => {
+      return {
+        ...prevState,
+        [e.target.id]: e.target.value,
+      }
+    });
+  }
+
 
   const signIn = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,28 +44,27 @@ function SignIn() {
 
   return (
     <div className="sign-in-container">
-      <h1 className='text-3xl'>Welcome Back!</h1>
+      <h1 className='text-3xl'>Welcome Back! <span>&#128075;</span></h1>
       <form onSubmit={signIn}>
-        <input
-          type="email"
-          placeholder="Email"
-          id="email"
-          value={email}
+        <TmdbInput
+          label='Email'
+          type={InputTypes.email}
+          placeholder='ex) test1@gmail.com'
           onChange={onChange}
+          id='email'
         />
-        <input
-          type="password"
-          placeholder="Password"
-          id="password"
-          value={password}
+        <TmdbInput
+          label='password'
+          type={InputTypes.password}
+          placeholder='ex) 123123'
           onChange={onChange}
+          id='password'
         />
         <div className="form-buttons-container">
           <Button children={"Sign In"} />
           <Button linkTo="/signup">Register Instead</Button>
         </div>
       </form>
-
     </div>
   );
 }

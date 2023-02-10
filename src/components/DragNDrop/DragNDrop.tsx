@@ -94,7 +94,7 @@ function DragNDrop() {
     return (
         <div className={`drag-n-drop-container ${dragActive ? 'drag-active' : ''}`} onDragEnter={handleDrag}>
             <input type='file' id='input-file-upload' hidden onChange={handleFileInput} />
-            <label htmlFor='input-file-upload'>OR Choose Your Own</label>
+            <label className='upload-file-label' htmlFor='input-file-upload'>OR Choose Your Own</label>
             <span id='file-chosen' className='file-title'>{fileName}</span>
             <Button onClick={handleSubmit}>Submit</Button>
             {dragActive && <div className='drag-file-element' onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} ></div>}

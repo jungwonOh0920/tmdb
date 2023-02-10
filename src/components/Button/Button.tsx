@@ -9,14 +9,14 @@ export enum buttonTypes {
   avatar
 }
 
-interface Props {
+interface ButtonProps {
   linkTo?: string;
   children?: JSX.Element | string | null;
   type?: buttonTypes
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Button = (props: Props) => {
+const Button = (props: ButtonProps) => {
   const buttonClasses = classNames(
     'button',
     { 'nav-link': props.linkTo },

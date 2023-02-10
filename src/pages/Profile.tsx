@@ -37,7 +37,9 @@ function Profile() {
       {contextUser ? (
         <>
           <Avatars userName={contextUser.displayName} sendAvatarIdx={updateAvatarIdx} />
-          <DragNDrop />
+          <div className='mt-5 w-6/12 mx-auto'>
+            <DragNDrop />
+          </div>
         </>
       ) : <SignIn />}
       <br />
