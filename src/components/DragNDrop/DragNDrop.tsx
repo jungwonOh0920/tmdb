@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Button from '../Button/Button'
+import TmdbInput, { InputTypes } from '../FormElements/TmdbInput'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { getAuth } from "firebase/auth"
 import { doc, updateDoc, deleteField } from "firebase/firestore"
@@ -15,7 +16,9 @@ function DragNDrop() {
     const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         if (e.target.files && e.target.files[0]) {
+            console.log('file loaded: ', e.target.files[0])
             setFile(e.target.files[0])
+            setFileName(e.target.files[0].name)
         }
     }
 
@@ -93,8 +96,12 @@ function DragNDrop() {
 
     return (
         <div className={`drag-n-drop-container ${dragActive ? 'drag-active' : ''}`} onDragEnter={handleDrag}>
-            <input type='file' id='input-file-upload' hidden onChange={handleFileInput} />
-            <label className='upload-file-label' htmlFor='input-file-upload'>OR Choose Your Own</label>
+            <TmdbInput
+                type={InputTypes.file}
+                onChange={handleFileInput}
+                isHiddenInput
+                label='Upload a file'
+            />
             <span id='file-chosen' className='file-title'>{fileName}</span>
             <Button onClick={handleSubmit}>Submit</Button>
             {dragActive && <div className='drag-file-element' onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} ></div>}

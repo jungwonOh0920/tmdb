@@ -2,3 +2,10 @@
     background-color: var(--tmdb-primary);
     color: var(--text-color);
 }
+
+.hidden-input-label {
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+}

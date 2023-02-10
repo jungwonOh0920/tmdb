@@ -50,7 +50,7 @@
         z-index: 1;
 
         .file-title {
-            margin-left: 8px;
+            margin-bottom: 16px;
         }
 
         &.drag-active {
@@ -59,7 +59,6 @@
 
         .drag-file-element {
             @include absolute_full;
-            // background-color: red;
         }
     }
 
