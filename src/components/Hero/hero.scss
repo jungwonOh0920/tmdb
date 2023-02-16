@@ -22,20 +22,39 @@
     }
 }
 
-.j-hero-container {
-    background-color: green;
+.mobile-hero-container {
     width: 100%;
     margin-bottom: 16px;
+
 
     .row {
         display: flex;
         white-space: nowrap;
 
         animation-name: move;
-        animation-duration: 50s;
         animation-iteration-count: infinite;
         animation-direction: right;
         animation-timing-function: linear;
+
+        @for $i from 0 through 3 {
+            &.row-#{$i} {
+                @if($i ==0) {
+                    animation-duration: 30s;
+                }
+
+                @else if($i ==1) {
+                    animation-duration: 40s;
+                }
+
+                @else if($i ==2) {
+                    animation-duration: 20s;
+                }
+
+                @else if($i ==3) {
+                    animation-duration: 50s;
+                }
+            }
+        }
 
         .img-container {
             min-width: 128px;
@@ -43,7 +62,6 @@
             margin-right: 16px;
         }
     }
-
 }
 
 @keyframes move {
