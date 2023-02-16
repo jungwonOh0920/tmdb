@@ -41,4 +41,19 @@
             @include flex_center;
         }
     }
+
+    @include tablet {
+        .header-inner-container {
+            // .header-list {
+            //     li {
+            //         padding: 0;
+            //     }
+            // }
+
+            .header-contents {
+                flex-direction: column;
+                align-items: start;
+            }
+        }
+    }
 }

@@ -1,10 +1,5 @@
-import { PopularItemType } from "../../pages/Home";
 import Rate from './Rate'
 import './card.scss'
-
-// interface Props {
-//   data: PopularItemType;
-// }
 
 const Card = ({ data }: any) => {
   return (
