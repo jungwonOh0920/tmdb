@@ -3,7 +3,6 @@ import axios from "axios"
 import Card from "../components/Card/Card"
 import CardSlider from '../components/CardSlider/CardSlider'
 import Tabs from '../components/Tabs/Tabs'
-import JHero from '../components/Hero/JHero'
 import Hero from '../components/Hero/Hero'
 import eventBus from "../assets/utilities/EventBus"
 
@@ -57,9 +56,7 @@ function Home() {
     const forRentUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&watch_region=US&with_watch_monetization_types=rent`
 
     axios.get(onTVUrl).then((res) => {
-      setTimeout(() => {
-        setonTVData(res.data)
-      }, 2000)
+      setonTVData(res.data)
     })
 
     axios.get(popularUrl).then((res) => {
@@ -116,8 +113,9 @@ function Home() {
     <>
       <section>
         {/* TODO combine two components into one */}
-        {isMobile ? <JHero tvData={onTVData?.results} /> : <Hero />}
-
+        {/* {isMobile ? <JHero tvData={onTVData?.results} /> : <Hero />} */}
+        <Hero />
+        {/* <JHero tvData={onTVData?.results} /> */}
       </section>
       <section>
         <Tabs titles={titles} >

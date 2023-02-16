@@ -48,7 +48,7 @@ function Header() {
     <div className="header-container">
       <div className="header-inner-container max-w-7xl">
         <div className="header-contents">
-          <div className="w-40">
+          <div className="logo-container">
             <img src={Logo} alt="logo" />
           </div>
           <ul className="header-list">

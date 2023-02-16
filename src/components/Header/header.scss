@@ -16,6 +16,11 @@
         .header-contents {
             display: flex;
             align-items: center;
+
+            .logo-container {
+                width: 10rem;
+                margin-left: 16px;
+            }
         }
 
         .header-list {
@@ -44,15 +49,13 @@
 
     @include tablet {
         .header-inner-container {
-            // .header-list {
-            //     li {
-            //         padding: 0;
-            //     }
-            // }
-
             .header-contents {
                 flex-direction: column;
                 align-items: start;
+
+                .logo-container {
+                    margin-top: 16px;
+                }
             }
         }
     }
