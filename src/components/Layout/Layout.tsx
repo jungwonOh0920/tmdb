@@ -61,7 +61,7 @@ const Layout = ({ children }: Props) => {
     <div className="layout">
       <Context.Provider value={user}>
         <Header />
-        <main className="main w-full px-20 h-full">
+        <main className="main">
           {children}
         </main>
       </Context.Provider>
