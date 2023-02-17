@@ -39,7 +39,7 @@ function Header() {
   }, [])
 
   useEffect(() => {
-    if (avatar == '' && contextUser && contextUser.displayName) {
+    if (avatar === '' && contextUser && contextUser.displayName) {
       setInitial(contextUser.displayName[0])
     }
   }, [avatar])

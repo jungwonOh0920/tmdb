@@ -29,7 +29,7 @@ const mobileHeroRow = (data: Array<Object>, idx: number) => {
         {
           data.map((d: any) => (
             <div className='img-container'>
-              <img src={`https://image.tmdb.org/t/p/original${d.backdrop_path}`} />
+              <img src={`https://image.tmdb.org/t/p/original${d.backdrop_path}`} alt='backdrop-img' />
             </div>
           ))}
       </div>
@@ -56,6 +56,7 @@ const Hero = () => {
     }
   }, [])
 
+  // popu = [[],[],[],[]]
   const MobileHero = () => (
     <div className="mobile-hero">
       {

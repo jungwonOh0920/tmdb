@@ -5,7 +5,7 @@ const Card = ({ data }: any) => {
   return (
     <div className="card-container">
       <div className="image-container">
-        <img src={`https://image.tmdb.org/t/p/original${data.poster_path}`} />
+        <img src={`https://image.tmdb.org/t/p/original${data.poster_path}`} alt='poster' />
         <Rate rate={data.vote_average} />
       </div>
       <div className='pt-5'>
