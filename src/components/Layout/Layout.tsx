@@ -42,10 +42,12 @@ const Layout = ({ children }: Props) => {
     return () => {
       listener()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     setUser(auth.currentUser)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated])
 
   useEffect(() => {
@@ -55,6 +57,7 @@ const Layout = ({ children }: Props) => {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width])
 
   return (

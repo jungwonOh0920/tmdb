@@ -20,9 +20,9 @@ const Button = (props: ButtonProps) => {
   const buttonClasses = classNames(
     'button',
     { 'nav-link': props.linkTo },
-    { 'gradient-fill': props.type == buttonTypes.gradientFill },
-    { 'circle': props.type == buttonTypes.circle },
-    { 'avatar': props.type == buttonTypes.avatar }
+    { 'gradient-fill': props.type === buttonTypes.gradientFill },
+    { 'circle': props.type === buttonTypes.circle },
+    { 'avatar': props.type === buttonTypes.avatar }
   )
 
   return props.linkTo ? (

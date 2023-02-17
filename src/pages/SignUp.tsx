@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/signUp.scss";
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";

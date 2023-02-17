@@ -36,12 +36,14 @@ function Header() {
     eventBus.on('updateAvatar', (imgSrc: string) => {
       setAvatar(imgSrc)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (avatar === '' && contextUser && contextUser.displayName) {
       setInitial(contextUser.displayName[0])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar])
 
   return (

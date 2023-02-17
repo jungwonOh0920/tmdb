@@ -44,6 +44,7 @@ const CardSlider = (prop: CardSliderProps) => {
     const refObject = contentsRef.current;
     refObject!.scrollLeft = scrollX;
     setIsScrollEnd(refObject!.scrollWidth <= scrollX + offset + 66);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollX]);
 
   const scroll = (scrollOffset: number) => {
