@@ -15,8 +15,10 @@ const DesktopHero = () => (
         <h1 className="text-5xl">
           Bingeworthy TV, Hit Movies, Live Sports & So Much More
         </h1>
-        <p>Stream it all for only $4.99/month. Cancel anytime.</p>
-        <Button children={"See Resume"} type={buttonTypes.gradientFill} />
+        <p className='mb-2'>Stream it all for only $4.99/month. Cancel anytime.</p>
+        <Button type={buttonTypes.gradientFill} linkTo='/aboutme'>
+          See Resume &#128514;
+        </Button>
       </div>
     </div>
   </div>

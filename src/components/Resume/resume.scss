@@ -13,6 +13,14 @@
         margin-bottom: 0;
     }
 
+    a {
+        text-decoration: underline;
+
+        &:hover {
+            text-decoration-color: var(--tmdb-secondary);
+        }
+    }
+
     .column1 {
         position: relative;
 
@@ -35,15 +43,6 @@
                 top: -4px;
             }
         }
-
-        // &::after {
-        //     content: '';
-        //     width: 16px;
-        //     height: 2px;
-        //     background: var(--border-color);
-        //     position: absolute;
-        //     top: -4px;
-        // }
     }
 
     .column2 {

@@ -12,8 +12,9 @@ function Resume() {
             <div className='column2'>
                 <p>(208) 206 - 1457</p>
                 <p>jungwon.oh0920@gmail.com</p>
-                <p>www.linkedin.com/in/jayoh1</p>
-                <p>www.github.com/jungwonOh0920</p>
+                <a href='https://www.linkedin.com/in/jayoh1/' target='_blank'>www.linkedin.com/in/jayoh1</a>
+                <br />
+                <a href='https://github.com/jungwonOh0920' target='_blank'>www.github.com/jungwonOh0920</a>
                 <p>jayohtmdb.netlify.app/home</p>
             </div>
             <div className='column1'>
@@ -80,7 +81,7 @@ function Resume() {
                     </div>
                     <div className='flex flex-row justify-between text-xs'>
                         <p>09/2022 - Present</p>
-                        <p>Source code: github.com/jungwonOh0920/tmdb</p>
+                        <a href='https://github.com/jungwonOh0920/tmdb' target='_blank'>Source code: github.com/jungwonOh0920/tmdb</a>
                     </div>
                     <ul className='description-list'>
                         <li>Utilizing and fetching The Movie Database API for contents.</li>
