@@ -10,6 +10,11 @@ module.exports = {
       fontFamily: {
         Ubuntu: ['Ubuntu'],
         Silkscreen: ['Silkscreen', 'cursive']
+      },
+      fontSize: {
+        h1: ['4.209rem', {
+          lineHeight: '1.3'
+        }]
       }
     },
   },

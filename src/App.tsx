@@ -10,6 +10,7 @@ import Shows from "./pages/Shows";
 import SignUp from "./pages/SignUp";
 import Layout from "./components/Layout/Layout";
 import Profile from "./pages/Profile";
+import Resume from "./components/Resume/Resume";
 import "./App.scss";
 import './variables.css';
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/tv-shows" element={<Shows />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/aboutme" element={<Resume />} />
           <Route path="/" element={<Navigate replace to="/home" />} />
         </Routes>
       </Layout>
