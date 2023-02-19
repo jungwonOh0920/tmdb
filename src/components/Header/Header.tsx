@@ -51,7 +51,7 @@ function Header() {
       <div className="header-inner-container max-w-7xl">
         <div className="header-contents">
           <div className="logo-container">
-            <img src={Logo} alt="logo" />
+            <NavLink to='/'><img src={Logo} alt="logo" /></NavLink>
           </div>
           <ul className="header-list">
             <li><NavLink to="/">Movies</NavLink></li>

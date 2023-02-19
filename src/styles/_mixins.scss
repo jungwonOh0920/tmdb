@@ -14,6 +14,12 @@
     left: 0;
 }
 
+@mixin gradient-text {
+    background: -webkit-linear-gradient(var(--tmdb-secondary), var(--tmdb-teriary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 @mixin hover {
     &:not([disabled]):hover {
         @content;
