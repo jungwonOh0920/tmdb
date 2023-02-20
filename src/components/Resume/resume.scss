@@ -41,6 +41,10 @@
                 background: var(--border-color);
                 position: absolute;
                 top: -4px;
+
+                @include tablet {
+                    display: none;
+                }
             }
         }
     }
@@ -63,5 +67,33 @@
         padding-left: 16px;
     }
 
+    @include tablet {
+        display: flex;
+        flex-direction: column;
+        padding: 0 8px;
 
+        .column1 {
+            text-align: center;
+            border-top: solid 2px var(--border-color);
+
+        }
+
+        .column2 {
+            text-align: center;
+            border-top: none;
+
+
+            h3 {
+                &:last-of-type {
+                    text-align: left;
+                }
+            }
+
+            h4 {
+                &:last-of-type {
+                    text-align: right;
+                }
+            }
+        }
+    }
 }

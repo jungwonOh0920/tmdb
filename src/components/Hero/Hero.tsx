@@ -60,7 +60,12 @@ const Hero = () => {
 
   // popu = [[],[],[],[]]
   const MobileHero = () => (
-    <div className="mobile-hero">
+    <div className="mobile-hero-container">
+      <div className='mobile-resume-button-container'>
+        <Button type={buttonTypes.gradientFill} linkTo='/aboutme'>
+          See Resume &#128514;
+        </Button>
+      </div>
       {
         popularData.map((d: any, idx: number) => {
           return mobileHeroRow(d, idx)

@@ -37,7 +37,7 @@ function Profile() {
       {contextUser ? (
         <>
           <Avatars userName={contextUser.displayName} sendAvatarIdx={updateAvatarIdx} />
-          <div className='mt-5 w-6/12 mx-auto'>
+          <div className='mt-5'>
             <DragNDrop />
           </div>
         </>
@@ -45,10 +45,12 @@ function Profile() {
       <br />
 
       {contextUser && (
-        <Button
-          onClick={logout}
-          children={"Log out"}
-        />
+        <div className='text-right pr-4'>
+          <Button
+            onClick={logout}
+            children={"Log out"}
+          />
+        </div>
       )}
       <div className={`blurry-gradient ${AvatarIdx > -1 ? `avatar-${AvatarIdx}` : ''}`}></div>
 
