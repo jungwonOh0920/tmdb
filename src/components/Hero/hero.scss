@@ -25,7 +25,7 @@
 .mobile-hero-container {
     width: 100%;
     margin-bottom: 16px;
-
+    position: relative;
 
     .row {
         display: flex;
@@ -61,6 +61,14 @@
             min-height: 72px;
             margin-right: 16px;
         }
+    }
+
+    .mobile-resume-button-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
     }
 }
 

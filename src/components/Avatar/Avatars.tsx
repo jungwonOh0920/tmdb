@@ -61,7 +61,7 @@ function Avatars(props: AvatarsProp) {
     return (
         <div className='avatars'>
             {props.userName && <h1>Hi, {firstName}</h1>}
-            <h2>Choose your avatar</h2>
+            <h2>Choose your avatar or upload your own.</h2>
             <div className='avatar-selection'>
                 {
                     imgSrc.map((obj, idx) => (
