@@ -4,6 +4,8 @@ import Card from "../components/Card/Card"
 import CardSlider from '../components/CardSlider/CardSlider'
 import Tabs from '../components/Tabs/Tabs'
 import Hero from '../components/Hero/Hero'
+import Accordion from "../components/Accordion/Accordion"
+import HomeAccordionData from "../assets/HomeAccordionData"
 
 export interface PopularItemType {
   adult: boolean;
@@ -115,6 +117,14 @@ function Home() {
           {forRentList()}
         </Tabs>
       </section>
+      <section>
+        {
+          HomeAccordionData.map(({ title, content }) => (
+            <Accordion title={title} content={content} />
+          ))
+        }
+      </section>
+      <br />
     </>
   );
 }

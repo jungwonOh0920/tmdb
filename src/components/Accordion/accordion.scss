@@ -1,0 +1,12 @@
+.accordion-container {
+    max-width: 720px;
+    margin: 0 auto;
+
+
+    .accordion-title {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid white;
+        cursor: pointer;
+    }
+}
