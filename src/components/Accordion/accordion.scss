@@ -1,12 +1,23 @@
 .accordion-container {
     max-width: 720px;
-    margin: 0 auto;
-
+    margin: 0 auto 20px auto;
 
     .accordion-title {
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid white;
         cursor: pointer;
+    }
+
+    .activated {
+        max-height: 500px;
+        transition: max-height 1.5s ease-out;
+    }
+
+    .deactivated {
+        margin-top: 4px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .5s ease-in-out;
     }
 }
