@@ -105,7 +105,7 @@ function Home() {
   )
 
   return (
-    <>
+    <div className='space-y-8'>
       <section>
         <Hero />
       </section>
@@ -125,7 +125,7 @@ function Home() {
         }
       </section>
       <br />
-    </>
+    </div>
   );
 }
 

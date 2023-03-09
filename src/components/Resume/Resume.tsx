@@ -12,10 +12,11 @@ function Resume() {
             <div className='column2'>
                 <p>(208) 206 - 1457</p>
                 <p>jungwon.oh0920@gmail.com</p>
+                <a href='https://portfolio-jungwonoh0920.vercel.app/' target='_blank'>portfolio-jungwonoh0920.vercel.app/</a>
+                <br />
                 <a href='https://www.linkedin.com/in/jayoh1/' target='_blank' rel="noopenner noreferrer">www.linkedin.com/in/jayoh1</a>
                 <br />
                 <a href='https://github.com/jungwonOh0920' target='_blank' rel="noopenner noreferrer">www.github.com/jungwonOh0920</a>
-                <p>jayohtmdb.netlify.app/home</p>
             </div>
             <div className='column1'>
                 <h2>Work experiences</h2>
