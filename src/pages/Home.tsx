@@ -119,8 +119,8 @@ function Home() {
       </section>
       <section>
         {
-          HomeAccordionData.map(({ title, content }) => (
-            <Accordion title={title} content={content} />
+          HomeAccordionData.map(({ title, content }, idx) => (
+            <Accordion title={title} content={content} key={idx} />
           ))
         }
       </section>
