@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import Layout from "./components/Layout/Layout";
 import Profile from "./pages/Profile";
 import Resume from "./components/Resume/Resume";
+import ContentIntro from "./pages/ContentIntro";
 import "./App.scss";
 import './variables.css';
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/aboutme" element={<Resume />} />
+          <Route path="/contents/:id" element={<ContentIntro />} />
           <Route path="/" element={<Navigate replace to="/home" />} />
         </Routes>
       </Layout>
