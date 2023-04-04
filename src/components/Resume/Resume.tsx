@@ -12,7 +12,7 @@ function Resume() {
             <div className='column2'>
                 <p>(208) 206 - 1457</p>
                 <p>jungwon.oh0920@gmail.com</p>
-                <a href='https://portfolio-jungwonoh0920.vercel.app/' target='_blank'>portfolio-jungwonoh0920.vercel.app/</a>
+                <a href='https://portfolio-jungwonoh0920.vercel.app/' target='_blank' rel="noopener noreferrer">portfolio-jungwonoh0920.vercel.app/</a>
                 <br />
                 <a href='https://www.linkedin.com/in/jayoh1/' target='_blank' rel="noopenner noreferrer">www.linkedin.com/in/jayoh1</a>
                 <br />
