@@ -1,29 +1,38 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Rate from './Rate'
+import CardOverlay from './CardOverlay'
 import './card.scss'
-import CardOverlay from './CardOverlay';
+import { VideoType, TVType } from "../../pages/Home"
 
-const Card = ({ data }: any) => {
+interface CardType {
+  // data: VideoType | TVType;
+  data: any
+}
+
+const Card = (props: CardType) => {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
     <div className="card-container">
-      <div className="image-container">
+      <div
+        className="image-container"
+        onMouseEnter={() => { setIsHovered(true) }}
+        onMouseLeave={() => { setIsHovered(false) }}
+      >
         <img
-          src={`https://image.tmdb.org/t/p/original${data.poster_path}`}
+          src={`https://image.tmdb.org/t/p/original${props.data.poster_path}`}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
             currentTarget.src = 'https://placeimg.com/200/300/any'
           }}
           alt='poster'
-          onMouseEnter={() => { setIsHovered(true) }}
-          onMouseLeave={() => setIsHovered(false)} />
-        {isHovered && <CardOverlay data={data} />}
-        <Rate rate={data.vote_average} />
+        />
+        {isHovered && <CardOverlay data={props.data} />}
+        <Rate rate={props.data.vote_average} />
       </div>
-      <div className='pt-5'>
-        <p className='truncate'>{data.original_title || data.name}</p>
-        <span className='text-xs'>{data.release_date}</span>
+      <div className='card-footer'>
+        <p className='truncate'>{props.data.title || props.data.name}</p>
+        <span className='text-xs'>{props.data.release_date}</span>
       </div>
     </div>
   );

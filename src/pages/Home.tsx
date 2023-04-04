@@ -7,7 +7,7 @@ import Hero from '../components/Hero/Hero'
 import Accordion from "../components/Accordion/Accordion"
 import HomeAccordionData from "../assets/HomeAccordionData"
 
-export interface PopularItemType {
+export interface VideoType {
   adult: boolean;
   backdrop_path: string;
   genre_ids: [];
@@ -24,9 +24,25 @@ export interface PopularItemType {
   vote_count: number;
 }
 
+export interface TVType {
+  backdrop_path: string,
+  first_air_date: string,
+  genre_ids: [],
+  id: number,
+  name: string,
+  origin_country: [],
+  original_language: string,
+  original_name: string,
+  overview: string,
+  popularity: number,
+  poster_path: string,
+  vote_average: number,
+  vote_count: number
+}
+
 export type DataType = {
   page: number;
-  results: PopularItemType[];
+  results: Array<VideoType> | Array<TVType>;
   total_pages: number;
   total_results: number;
 };
