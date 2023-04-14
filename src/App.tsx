@@ -26,7 +26,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/aboutme" element={<Resume />} />
-          <Route path="/contents/:id" element={<ContentIntro />} />
+          <Route path="/contents/movie/:id" element={<ContentIntro />} />
+          <Route path="/contents/tv/:id" element={<ContentIntro />} />
           <Route path="/" element={<Navigate replace to="/home" />} />
         </Routes>
       </Layout>

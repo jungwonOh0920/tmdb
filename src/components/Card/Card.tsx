@@ -2,10 +2,8 @@ import { useState } from "react"
 import Rate from './Rate'
 import CardOverlay from './CardOverlay'
 import './card.scss'
-// import { VideoType, TVType } from "../../pages/Home"
 
 interface CardType {
-  // data: VideoType | TVType;
   data: any
 }
 
