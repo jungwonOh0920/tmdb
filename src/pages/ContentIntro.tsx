@@ -17,33 +17,30 @@ const ContentIntro = () => {
     useEffect(() => {
         const locationArray = location.pathname.split('/')
         setId(Number(locationArray[3]))
-        setPlatform(locationArray[2] == 'tv' ? platformTypes.tv : platformTypes.movie)
+        setPlatform(locationArray[2] === 'tv' ? platformTypes.tv : platformTypes.movie)
+    }, [location.pathname])
 
-        // fetchAPI()
-    }, [])
-
-    useEffect(() => {
-        console.log('contentData: ', contentData)
-    }, [contentData])
+    // useEffect(() => {
+    //     console.log('contentData: ', contentData)
+    // }, [contentData])
 
     useEffect(() => {
-        fetchAPI()
-    }, [platform])
-
-    const fetchAPI = async () => {
-        console.log('platform: ', platform)
-        if (platform == platformTypes.movie) {
-            console.log('hitting');
-            await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => {
-                if (res.ok) {
-                    return res.json()
-                }
-                throw res
-            }).then(data => setContentData(data)).catch(error => {
-                console.log('error fetching contentData...')
-            })
+        const fetchAPI = async () => {
+            console.log('platform: ', platform)
+            if (platform === platformTypes.movie) {
+                console.log('hitting');
+                await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => {
+                    if (res.ok) {
+                        return res.json()
+                    }
+                    throw res
+                }).then(data => setContentData(data)).catch(error => {
+                    console.log('error fetching contentData...')
+                })
+            }
         }
-    }
+        fetchAPI()
+    }, [platform, id, key])
 
     return (
         <div>
