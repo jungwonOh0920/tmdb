@@ -24,6 +24,7 @@
         height: 284px;
         display: flex;
         overflow-x: auto;
+        overflow-y: hidden;
         scroll-behavior: smooth;
 
         &::-webkit-scrollbar {

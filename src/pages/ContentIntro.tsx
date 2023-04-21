@@ -20,10 +20,6 @@ const ContentIntro = () => {
         setPlatform(locationArray[2] === 'tv' ? platformTypes.tv : platformTypes.movie)
     }, [location.pathname])
 
-    // useEffect(() => {
-    //     console.log('contentData: ', contentData)
-    // }, [contentData])
-
     useEffect(() => {
         const fetchAPI = async () => {
             console.log('platform: ', platform)
