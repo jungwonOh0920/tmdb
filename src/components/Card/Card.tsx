@@ -28,7 +28,7 @@ const Card = (props: CardType) => {
         {isHovered && <CardOverlay data={props.data} />}
         <Rate rate={props.data.vote_average} />
       </div>
-      <div className='card-footer'>
+      <div>
         <p className='truncate'>{props.data.title || props.data.name}</p>
         <span className='text-xs'>{props.data.release_date}</span>
       </div>
