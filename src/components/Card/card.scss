@@ -19,8 +19,8 @@
     }
 
     .card-overlay {
-        @include absolute_full;
-        @include flex_center;
+        @include absolute-full;
+        @include flex-center;
         flex-direction: column;
         background-color: rgba(122, 122, 122, 0.6);
         border-radius: 8px;

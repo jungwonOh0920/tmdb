@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import ContentHero from '../components/ContentHero/ContentHero'
+import "../styles/contentIntro.scss"
 
 enum platformTypes {
     tv,
@@ -20,11 +22,13 @@ const ContentIntro = () => {
         setPlatform(locationArray[2] === 'tv' ? platformTypes.tv : platformTypes.movie)
     }, [location.pathname])
 
+    // useEffect(() => {
+    //     console.log('content: ', contentData)
+    // }, [contentData])
+
     useEffect(() => {
         const fetchAPI = async () => {
-            console.log('platform: ', platform)
             if (platform === platformTypes.movie) {
-                console.log('hitting');
                 await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => {
                     if (res.ok) {
                         return res.json()
@@ -39,13 +43,11 @@ const ContentIntro = () => {
     }, [platform, id, key])
 
     return (
-        <div>
-            <h1>ContentIntro - Still working on it...</h1>
-            <p>{id}</p>
-            {
+        <div className='content-intro-container'>
+            <ContentHero contentData={contentData} />
+            {/* {
                 <p>{contentData ? contentData.title : ''}</p>
-            }
-
+            } */}
         </div>
     )
 }
