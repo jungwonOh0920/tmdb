@@ -1,0 +1,38 @@
+@import '../../styles/mixins';
+
+.content-hero-container {
+    @include all-text {
+        color: var(--tmdb-primary);
+    }
+
+    height: 520px;
+    position: relative;
+
+    .image-background {
+        height: 100%;
+
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
+
+        background-repeat: no-repeat;
+        background-position: left calc((50vw - 170px) - 340px) top;
+        background-size: cover;
+    }
+
+    .content-container {
+        padding: 30px;
+        display: flex;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+
+        .poster-container {
+            width: 300px;
+        }
+
+        .content-info {
+            padding-left: 20px;
+        }
+    }
+}
