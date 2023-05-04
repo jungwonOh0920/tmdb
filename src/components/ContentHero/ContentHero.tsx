@@ -11,6 +11,11 @@ const ContentHero = (prop: any) => {
         }
     }, [prop])
 
+    const getReleaseDate = () => {
+        let date = contentInfo?.contentData.release_date.split('-').join('/')
+        return date
+    }
+
     return (
         <div className='content-hero-container'>
             <div className='image-background' style={{
@@ -25,6 +30,8 @@ const ContentHero = (prop: any) => {
                     <h2>{contentInfo && contentInfo?.contentData.title}</h2>
                     <div className='facts'>
                         <span className='rating'>{contentInfo?.rating}</span>
+                        &bull;
+                        <span>{getReleaseDate()}</span>
                     </div>
                 </div>
             </div>

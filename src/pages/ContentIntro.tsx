@@ -16,7 +16,9 @@ interface ReleaseDatesType {
 export interface ContentDataType {
     backdrop_path: string,
     poster_path: string,
-    title: string
+    title: string,
+    release_date: string,
+    genres: { id: number, name: string }[]
 }
 
 export interface ContentInfoType {
