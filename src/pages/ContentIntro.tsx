@@ -18,7 +18,9 @@ export interface ContentDataType {
     poster_path: string,
     title: string,
     release_date: string,
-    genres: { id: number, name: string }[]
+    genres: { id: number, name: string }[],
+    runtime: number,
+    vote_average: number
 }
 
 export interface ContentInfoType {
@@ -35,6 +37,24 @@ const ContentIntro = () => {
     const [rating, setRating] = useState('')
 
     const key = process.env.REACT_APP_TMDB_API_KEY
+
+    useEffect(() => {
+        // callback function to call when event triggers
+        const onPageLoad = () => {
+            setTimeout(() => {
+                alert('I am still working on this page.. ^.^')
+            }, 1000)
+        };
+
+        // Check if the page has already loaded
+        if (document.readyState === 'complete') {
+            onPageLoad();
+        } else {
+            window.addEventListener('load', onPageLoad, false);
+            // Remove the event listener when component unmounts
+            return () => window.removeEventListener('load', onPageLoad);
+        }
+    }, [])
 
     useEffect(() => {
         const locationArray = location.pathname.split('/')

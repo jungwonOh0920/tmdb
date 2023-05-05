@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Rate from './Rate'
+import Rate from '../Rate/Rate'
 import CardOverlay from './CardOverlay'
 import './card.scss'
 
@@ -26,7 +26,9 @@ const Card = (props: CardType) => {
           alt='poster'
         />
         {isHovered && <CardOverlay data={props.data} />}
-        <Rate rate={props.data.vote_average} />
+        <div className='rate-container'>
+          <Rate rate={props.data.vote_average} />
+        </div>
       </div>
       <div>
         <p className='truncate'>{props.data.title || props.data.name}</p>
