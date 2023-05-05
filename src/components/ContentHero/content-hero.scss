@@ -27,14 +27,19 @@
 
         .content-info {
             padding-left: 20px;
-        }
 
-        .facts {
-            .rating {
-                border: 1px solid var(--tmdb-gray);
-                border-radius: 2px;
-                padding: 2px;
-                color: rgba(255, 255, 255, 0.6);
+            .facts {
+                .rating {
+                    border: 1px solid var(--tmdb-gray);
+                    border-radius: 2px;
+                    padding: 2px;
+                    color: rgba(255, 255, 255, 0.6);
+                }
+
+                .genres,
+                .runtime {
+                    @include bullet;
+                }
             }
         }
     }
