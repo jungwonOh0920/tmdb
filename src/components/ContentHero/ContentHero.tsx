@@ -8,7 +8,7 @@ const ContentHero = (prop: any) => {
 
     useEffect(() => {
         if (prop && prop.contentInfo && prop.contentInfo.contentData) {
-            console.log(prop);
+            console.log('content check: ', prop);
             setContentInfo(prop.contentInfo)
         }
     }, [prop])
@@ -33,27 +33,35 @@ const ContentHero = (prop: any) => {
                 backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${contentInfo && contentInfo.contentData.backdrop_path})`
             }}>
             </div>
-            <div className='content-container'>
-                <div className='poster-container'>
-                    <img src={`https://image.tmdb.org/t/p/original${contentInfo && contentInfo.contentData.poster_path}`} alt='post' />
-                </div>
-                <div className='content-info space-y-4'>
-                    <h2>{contentInfo && contentInfo?.contentData.title}</h2>
-                    <div className='facts'>
-                        <span className='rating'>{contentInfo?.rating}</span>
-                        <span className='pl-2'>{getReleaseDate()}</span>
-                        <span className='genres'>
-                            {
-                                contentInfo?.contentData.genres.map(genre => genre.name).join(', ')
-                            }
-                        </span>
-                        <span className='runtime'>{convertToHour(contentInfo?.contentData.runtime)}</span>
+            {
+                contentInfo &&
+                <section className='content-container'>
+                    <div className='poster-container'>
+                        <img src={`https://image.tmdb.org/t/p/original${contentInfo.contentData.poster_path}`} alt='post' />
                     </div>
+                    <section className='content-info space-y-4'>
+                        <h2>{contentInfo.contentData.title}</h2>
+                        <div className='facts'>
+                            {
+                                contentInfo?.rating && <span className='rating'>{contentInfo?.rating}</span>
+                            }
 
-                    <Rate rate={Math.floor(contentInfo?.contentData.vote_average || 0)} size={SizeType.medium} />
+                            <span className={contentInfo?.rating && 'pl-2'}>{getReleaseDate()}</span>
+                            <span className='genres'>
+                                {
+                                    contentInfo?.contentData.genres.map(genre => genre.name).join(', ')
+                                }
+                            </span>
 
-                </div>
-            </div>
+                            <span className='runtime'>{convertToHour(contentInfo?.contentData.runtime)}</span>
+                        </div>
+                        <p className='tagline'>{contentInfo?.contentData.tagline}</p>
+                        <h3>Overview</h3>
+                        <p>{contentInfo?.contentData.overview}</p>
+                        <Rate rate={Math.floor(contentInfo?.contentData.vote_average || 0)} size={SizeType.medium} />
+                    </section>
+                </section>
+            }
         </div>
     )
 }

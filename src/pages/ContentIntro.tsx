@@ -20,7 +20,9 @@ export interface ContentDataType {
     release_date: string,
     genres: { id: number, name: string }[],
     runtime: number,
-    vote_average: number
+    vote_average: number,
+    overview: string,
+    tagline: string
 }
 
 export interface ContentInfoType {
