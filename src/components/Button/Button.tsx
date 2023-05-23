@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 import "./button.scss";
 
-export enum buttonTypes {
+export enum ButtonTypes {
   gradientFill,
   noBorder,
   circle,
@@ -12,7 +12,7 @@ export enum buttonTypes {
 interface ButtonProps {
   linkTo?: string;
   children?: JSX.Element | string | null;
-  type?: buttonTypes
+  type?: ButtonTypes
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -20,9 +20,10 @@ const Button = (props: ButtonProps) => {
   const buttonClasses = classNames(
     'button',
     { 'nav-link': props.linkTo },
-    { 'gradient-fill': props.type === buttonTypes.gradientFill },
-    { 'circle': props.type === buttonTypes.circle },
-    { 'avatar': props.type === buttonTypes.avatar }
+    { 'gradient-fill': props.type === ButtonTypes.gradientFill },
+    { 'circle': props.type === ButtonTypes.circle },
+    { 'avatar': props.type === ButtonTypes.avatar },
+    { 'no-border': props.type === ButtonTypes.noBorder }
   )
 
   return props.linkTo ? (
