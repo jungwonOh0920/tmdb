@@ -14,7 +14,7 @@ function CardOverlay({ data }: any) {
     return (
         <div className='card-overlay'>
             <Button linkTo={`/contents/${isMovie ? 'movie' : 'tv'}/${data.id}`}>See details</Button>
-            <Button>Add to favorite</Button>
+            {/* <Button>Add to favorite</Button> */}
         </div>
     )
 }

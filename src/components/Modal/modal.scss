@@ -1,0 +1,40 @@
+.modal-container {
+    background-color: var(--tmdb-dark-bg);
+    position: fixed;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+
+    .inner-container {
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+
+        .modal {
+            position: absolute;
+            width: 80%;
+            max-width: 80rem;
+
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                padding-left: 8px;
+                padding-right: 8px;
+
+                h2 {
+                    margin-bottom: 0;
+                }
+            }
+
+            .modal-content {
+                * {
+                    min-width: 100%;
+                    aspect-ratio: 3 / 2;
+                }
+            }
+        }
+    }
+}

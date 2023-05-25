@@ -1,17 +1,32 @@
 import { useState, useEffect } from 'react'
 import { ContentInfoType } from '../../pages/ContentIntro'
 import Rate, { SizeType } from '../Rate/Rate'
+import Button from '../Button/Button'
 import './content-hero.scss'
+import Modal from '../Modal/Modal'
 
 const ContentHero = (prop: any) => {
     const [contentInfo, setContentInfo] = useState<ContentInfoType>()
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+    const [trailerKey, setTrailerKey] = useState<string>('')
+    const key = process.env.REACT_APP_TMDB_API_KEY
 
     useEffect(() => {
+        const fetchAPI = async () => {
+            try {
+                let res = await fetch(`https://api.themoviedb.org/3/movie/${contentInfo?.contentData.id}/videos?api_key=${key}&language=en-US`)
+                const jsonData = await res.json()
+                setTrailerKey(jsonData.results[0].key)
+            } catch (error) {
+                console.log(error)
+            }
+        }
         if (prop && prop.contentInfo && prop.contentInfo.contentData) {
             console.log('content check: ', prop);
             setContentInfo(prop.contentInfo)
+            fetchAPI()
         }
-    }, [prop])
+    }, [prop, contentInfo, key])
 
     const getReleaseDate = () => {
         let date = contentInfo?.contentData.release_date.split('-').join('/')
@@ -27,6 +42,10 @@ const ContentHero = (prop: any) => {
         return hourText + minText
     }
 
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen)
+    }
+
     return (
         <div className='content-hero-container'>
             <div className='image-background' style={{
@@ -39,26 +58,39 @@ const ContentHero = (prop: any) => {
                     <div className='poster-container'>
                         <img src={`https://image.tmdb.org/t/p/original${contentInfo.contentData.poster_path}`} alt='post' />
                     </div>
-                    <section className='content-info space-y-4'>
+                    <section className={`content-info ${isModalOpen ? 'space-y-4' : ''}`}>
                         <h2>{contentInfo.contentData.title}</h2>
                         <div className='facts'>
                             {
-                                contentInfo?.rating && <span className='rating'>{contentInfo?.rating}</span>
+                                contentInfo.rating && <span className='rating'>{contentInfo?.rating}</span>
                             }
 
-                            <span className={contentInfo?.rating && 'pl-2'}>{getReleaseDate()}</span>
+                            <span className={contentInfo.rating && 'pl-2'}>{getReleaseDate()}</span>
                             <span className='genres'>
                                 {
-                                    contentInfo?.contentData.genres.map(genre => genre.name).join(', ')
+                                    contentInfo.contentData.genres.map(genre => genre.name).join(', ')
                                 }
                             </span>
-
-                            <span className='runtime'>{convertToHour(contentInfo?.contentData.runtime)}</span>
+                            <span className='runtime'>{convertToHour(contentInfo.contentData.runtime)}</span>
                         </div>
-                        <p className='tagline'>{contentInfo?.contentData.tagline}</p>
+                        <p className='tagline'>{contentInfo.contentData.tagline}</p>
                         <h3>Overview</h3>
-                        <p>{contentInfo?.contentData.overview}</p>
-                        <Rate rate={Math.floor(contentInfo?.contentData.vote_average || 0)} size={SizeType.medium} />
+                        <p>{contentInfo.contentData.overview}</p>
+
+                        <Rate rate={Math.floor(contentInfo.contentData.vote_average || 0)} size={SizeType.medium} />
+                        <Button onClick={toggleModal}>Play Trailer</Button>
+                        {
+                            isModalOpen ?
+                                <>
+                                    <Modal modalHeader='Play Trailer' toggleModal={toggleModal}>
+                                        <iframe
+                                            // width='100%' height='100%'
+                                            title='trailer'
+                                            src={`https://www.youtube.com/embed/${trailerKey}`}></iframe>
+                                    </Modal>
+                                </>
+                                : ''
+                        }
                     </section>
                 </section>
             }
