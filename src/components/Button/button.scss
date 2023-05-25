@@ -48,4 +48,14 @@
         }
     }
 
+    &.no-border {
+        border: none;
+
+        @include hover {
+            border: none;
+            background-image: none;
+            color: var(--tmdb-secondary);
+        }
+    }
+
 }

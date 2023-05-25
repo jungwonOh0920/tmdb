@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import Button, { buttonTypes } from "../Button/Button"
+import Button, { ButtonTypes } from "../Button/Button"
 import eventBus from '../../assets/utilities/EventBus'
 import axios from "axios"
 import "./hero.scss"
@@ -16,7 +16,7 @@ const DesktopHero = () => (
           Bingeworthy TV, Hit Movies, Live Sports & So Much More
         </h1>
         <p className='mb-2'>Stream it all for only $4.99/month. Cancel anytime.</p>
-        <Button type={buttonTypes.gradientFill} linkTo='/aboutme'>
+        <Button type={ButtonTypes.gradientFill} linkTo='/aboutme'>
           See Resume &#128514;
         </Button>
       </div>
@@ -62,7 +62,7 @@ const Hero = () => {
   const MobileHero = () => (
     <div className="mobile-hero-container">
       <div className='mobile-resume-button-container'>
-        <Button type={buttonTypes.gradientFill} linkTo='/aboutme'>
+        <Button type={ButtonTypes.gradientFill} linkTo='/aboutme'>
           See Resume &#128514;
         </Button>
       </div>

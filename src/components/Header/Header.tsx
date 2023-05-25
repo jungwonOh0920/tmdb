@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Logo from "../../assets/tmdb-logo.svg"
-import Button, { buttonTypes } from "../Button/Button"
+import Button, { ButtonTypes } from "../Button/Button"
 import { Context } from '../Layout/Layout'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
@@ -62,7 +62,7 @@ function Header() {
         <div className={'profile-action-link'}>
           {
             contextUser ? (
-              <Button linkTo="profile" type={buttonTypes.avatar}>
+              <Button linkTo="profile" type={ButtonTypes.avatar}>
                 {
                   avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
                     <div className='initial-container'>{initial}</div>

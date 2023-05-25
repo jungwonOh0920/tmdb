@@ -22,7 +22,8 @@ export interface ContentDataType {
     runtime: number,
     vote_average: number,
     overview: string,
-    tagline: string
+    tagline: string,
+    id: number
 }
 
 export interface ContentInfoType {

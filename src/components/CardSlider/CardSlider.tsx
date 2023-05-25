@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons/faAngleLeft";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons/faAngleRight";
 import Loader from "../../components/Loader/Loader";
-import Button, { buttonTypes } from "../Button/Button";
+import Button, { ButtonTypes } from "../Button/Button";
 import "./card-slider.scss";
 
 interface CardSliderProps {
@@ -63,7 +63,7 @@ const CardSlider = (prop: CardSliderProps) => {
         Math.floor(scrollX) > 0 ? (
           <div className="scroll-button left">
             <Button
-              type={buttonTypes.circle}
+              type={ButtonTypes.circle}
               onClick={() => scroll((windowSize / 2) * -1)}
               children={<FontAwesomeIcon icon={faAngleLeft} />}
             />
@@ -79,7 +79,7 @@ const CardSlider = (prop: CardSliderProps) => {
       {!isScrollEnd && (
         <div className="scroll-button right">
           <Button
-            type={buttonTypes.circle}
+            type={ButtonTypes.circle}
             onClick={() => scroll(windowSize / 2)}
             children={<FontAwesomeIcon icon={faAngleRight} />}
           />
