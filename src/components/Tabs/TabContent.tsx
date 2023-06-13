@@ -1,10 +1,9 @@
-import React from 'react'
-
 interface TabContentPropTypes {
     id: string,
     activeTab: string,
     children: any
 }
+
 const TabContent = ({ id, activeTab, children }: TabContentPropTypes) => {
     return (
         activeTab === id ?

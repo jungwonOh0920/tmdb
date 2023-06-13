@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ContentInfoType } from '../../pages/ContentIntro'
+import { ContentInfoType } from '../../pages/ContentInfo'
 import Rate, { SizeType } from '../Rate/Rate'
 import Button from '../Button/Button'
 import './content-hero.scss'
@@ -84,7 +84,6 @@ const ContentHero = (prop: any) => {
                                 <>
                                     <Modal modalHeader='Play Trailer' toggleModal={toggleModal}>
                                         <iframe
-                                            // width='100%' height='100%'
                                             title='trailer'
                                             src={`https://www.youtube.com/embed/${trailerKey}`}></iframe>
                                     </Modal>
