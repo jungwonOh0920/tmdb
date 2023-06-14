@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import ContentHero from '../components/ContentHero/ContentHero'
 import "../styles/contentIntro.scss"
+import Tabs from '../components/Tabs/Tabs'
+import CardSlider from '../components/CardSlider/CardSlider'
+import Card from '../components/Card/Card'
 
 enum PlatformTypes {
     tv,
@@ -31,6 +34,11 @@ export interface ContentInfoType {
     rating: string
 }
 
+export interface RecommendationsDataType {
+    title: string,
+    id: number
+}
+
 const ContentIntro = () => {
     let location = useLocation()
     const [id, setId] = useState(0)
@@ -38,26 +46,28 @@ const ContentIntro = () => {
     const [contentInfo, setContentInfo] = useState<ContentInfoType>()
     const [contentData, setContentData] = useState<ContentDataType>()
     const [rating, setRating] = useState('')
+    const [recommendationsData, setRecommendationsData] = useState<RecommendationsDataType[]>([])
+    const [isLoading, setIsLoading] = useState<any>(false)
 
     const key = process.env.REACT_APP_TMDB_API_KEY
 
-    useEffect(() => {
-        // callback function to call when event triggers
-        const onPageLoad = () => {
-            setTimeout(() => {
-                alert('I am still working on this page.. ^.^')
-            }, 1000)
-        };
+    // useEffect(() => {
+    //     // callback function to call when event triggers
+    //     const onPageLoad = () => {
+    //         setTimeout(() => {
+    //             alert('I am still working on this page.. ^.^')
+    //         }, 1000)
+    //     };
 
-        // Check if the page has already loaded
-        if (document.readyState === 'complete') {
-            onPageLoad();
-        } else {
-            window.addEventListener('load', onPageLoad, false);
-            // Remove the event listener when component unmounts
-            return () => window.removeEventListener('load', onPageLoad);
-        }
-    }, [])
+    //     // Check if the page has already loaded
+    //     if (document.readyState === 'complete') {
+    //         onPageLoad();
+    //     } else {
+    //         window.addEventListener('load', onPageLoad, false);
+    //         // Remove the event listener when component unmounts
+    //         return () => window.removeEventListener('load', onPageLoad);
+    //     }
+    // }, [])
 
     useEffect(() => {
         const locationArray = location.pathname.split('/')
@@ -70,7 +80,20 @@ const ContentIntro = () => {
             contentData: contentData as ContentDataType,
             rating: rating
         })
-    }, [contentData, rating])
+
+        setIsLoading(true)
+
+        if (contentData) {
+            fetch(`https://api.themoviedb.org/3/movie/${contentData.id}/recommendations?api_key=${key}&language=en-US&page=1`).then((res) => res.json()).then(data => setRecommendationsData(data.results))
+        }
+    }, [contentData, rating, key])
+
+    useEffect(() => {
+        if (recommendationsData) {
+            setIsLoading(false)
+            console.log('rec: ', recommendationsData)
+        }
+    }, [recommendationsData])
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -101,8 +124,15 @@ const ContentIntro = () => {
         }
     }
     return (
-        <div className='content-intro-container'>
+        <div className='space-y-4'>
             <ContentHero contentInfo={contentInfo} />
+            <Tabs titles={['Recommendations']}>
+                <CardSlider isLoading={isLoading}>
+                    {
+                        recommendationsData?.map((data: RecommendationsDataType, idx: number) => <Card data={data} key={idx} />)
+                    }
+                </CardSlider>
+            </Tabs>
         </div>
     )
 }

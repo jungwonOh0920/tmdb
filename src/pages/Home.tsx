@@ -103,7 +103,7 @@ function Home() {
   //   </CardSlider>
   // )
 
-  const PopularList = () => (
+  const popularList = () => (
     <CardSlider isLoading={isLoading}>
       {popularData?.results.map((d, index) => <Card data={d} key={index} />)}
     </CardSlider>
@@ -128,7 +128,7 @@ function Home() {
       </section>
       <section>
         <Tabs titles={titles} >
-          {PopularList()}
+          {popularList()}
           {upcomingList()}
           {forRentList()}
           {/* {onTVList()} */}

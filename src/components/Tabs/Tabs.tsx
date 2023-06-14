@@ -1,16 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import TabContent from './TabContent'
 import TabNavItem from './TabNavItem'
 import './tabs.scss'
 
 type TabsPropTypes = {
-    children: JSX.Element[]
+    children: JSX.Element[] | JSX.Element
     titles: string[]
-
 }
+
 
 const Tabs = ({ children, titles }: TabsPropTypes) => {
     const [activeTab, setActiveTab] = useState('tab1')
+    const [isSingleTab, setIsSingleTab] = useState(false)
+
+    useEffect(() => {
+        if (children instanceof Array) {
+            setIsSingleTab(false)
+        } else {
+            setIsSingleTab(true)
+        }
+    }, [children])
 
     return (
         <div className='tabs-container'>
@@ -22,6 +31,7 @@ const Tabs = ({ children, titles }: TabsPropTypes) => {
                                 id={`tab${index + 1}`}
                                 title={title}
                                 activeTab={activeTab}
+                                isSingleTab={isSingleTab}
                                 setActiveTab={setActiveTab}
                                 key={index}
                             />
@@ -31,11 +41,17 @@ const Tabs = ({ children, titles }: TabsPropTypes) => {
             </ul>
             <div className='outlet'>
                 {
-                    children.map((content, index) => (
-                        <TabContent id={`tab${index + 1}`} activeTab={activeTab} key={index}>
-                            {children[index]}
-                        </TabContent>
-                    ))
+                    <>
+                        {
+                            children instanceof Array ?
+                                children.map((content, index) => {
+                                    return <TabContent id={`tab${index + 1}`} activeTab={activeTab} key={index}>
+                                        {children[index]}
+                                    </TabContent>
+                                })
+                                : <TabContent>{children}</TabContent>
+                        }
+                    </>
                 }
             </div>
         </div >
