@@ -1,3 +1,5 @@
+import './tabs.scss'
+
 interface TabNavItemPropTypes {
     id: string,
     activeTab: string,
@@ -6,15 +8,13 @@ interface TabNavItemPropTypes {
     setActiveTab(id: string): void
 }
 
-
-
 const TabNavItem = ({ id, activeTab, title, isSingleTab, setActiveTab }: TabNavItemPropTypes) => {
     const handleClick = () => {
         setActiveTab(id)
     }
 
     return (
-        isSingleTab ? <h3 style={{ color: 'red' }}>{title}</h3> :
+        isSingleTab ? <h3>{title}</h3> :
             <li onClick={handleClick} className={activeTab === id ? 'active' : ''}>
                 {title}
             </li>

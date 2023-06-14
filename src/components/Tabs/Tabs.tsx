@@ -8,9 +8,18 @@ type TabsPropTypes = {
     titles: string[]
 }
 
+
 const Tabs = ({ children, titles }: TabsPropTypes) => {
     const [activeTab, setActiveTab] = useState('tab1')
     const [isSingleTab, setIsSingleTab] = useState(false)
+
+    useEffect(() => {
+        if (children instanceof Array) {
+            setIsSingleTab(false)
+        } else {
+            setIsSingleTab(true)
+        }
+    }, [])
 
     return (
         <div className='tabs-container'>
@@ -40,7 +49,7 @@ const Tabs = ({ children, titles }: TabsPropTypes) => {
                                         {children[index]}
                                     </TabContent>
                                 })
-                                : <p>single tab</p>
+                                : <TabContent>{children}</TabContent>
                         }
                     </>
                 }

@@ -1,6 +1,6 @@
 interface TabContentPropTypes {
-    id: string,
-    activeTab: string,
+    id?: string,
+    activeTab?: string,
     children: any
 }
 

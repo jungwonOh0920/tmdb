@@ -34,6 +34,11 @@ export interface ContentInfoType {
     rating: string
 }
 
+export interface RecommendationsDataType {
+    title: string,
+    id: number
+}
+
 const ContentIntro = () => {
     let location = useLocation()
     const [id, setId] = useState(0)
@@ -41,7 +46,7 @@ const ContentIntro = () => {
     const [contentInfo, setContentInfo] = useState<ContentInfoType>()
     const [contentData, setContentData] = useState<ContentDataType>()
     const [rating, setRating] = useState('')
-    const [recommendationsData, setRecommendationsData] = useState()
+    const [recommendationsData, setRecommendationsData] = useState<RecommendationsDataType[]>([])
     const [isLoading, setIsLoading] = useState<any>(false)
 
     const key = process.env.REACT_APP_TMDB_API_KEY
@@ -121,13 +126,13 @@ const ContentIntro = () => {
     return (
         <div className='content-intro-container'>
             <ContentHero contentInfo={contentInfo} />
-            {/* <Tabs titles={['Recommendations']}>
+            <Tabs titles={['Recommendations']}>
                 <CardSlider isLoading={isLoading}>
                     {
-                        recommendationsData?.map((data, idx) => <Card data={data} key={idx} />)
+                        recommendationsData?.map((data: RecommendationsDataType, idx: number) => <Card data={data} key={idx} />)
                     }
                 </CardSlider>
-            </Tabs> */}
+            </Tabs>
         </div>
     )
 }
