@@ -19,7 +19,7 @@ const Tabs = ({ children, titles }: TabsPropTypes) => {
         } else {
             setIsSingleTab(true)
         }
-    }, [])
+    }, [children])
 
     return (
         <div className='tabs-container'>

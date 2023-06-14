@@ -86,7 +86,7 @@ const ContentIntro = () => {
         if (contentData) {
             fetch(`https://api.themoviedb.org/3/movie/${contentData.id}/recommendations?api_key=${key}&language=en-US&page=1`).then((res) => res.json()).then(data => setRecommendationsData(data.results))
         }
-    }, [contentData, rating])
+    }, [contentData, rating, key])
 
     useEffect(() => {
         if (recommendationsData) {
