@@ -124,7 +124,7 @@ const ContentIntro = () => {
         }
     }
     return (
-        <div className='content-intro-container'>
+        <div className='space-y-4'>
             <ContentHero contentInfo={contentInfo} />
             <Tabs titles={['Recommendations']}>
                 <CardSlider isLoading={isLoading}>

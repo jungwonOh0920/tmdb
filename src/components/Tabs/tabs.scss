@@ -4,7 +4,10 @@
     .menu-nav {
         display: flex;
         width: fit-content;
-        padding-left: 50px;
+
+        .single-tab-title {
+            margin: 0;
+        }
 
         li {
             border-bottom: 1px solid transparent;

@@ -14,7 +14,7 @@ const TabNavItem = ({ id, activeTab, title, isSingleTab, setActiveTab }: TabNavI
     }
 
     return (
-        isSingleTab ? <h3>{title}</h3> :
+        isSingleTab ? <h3 className='single-tab-title'>{title}</h3> :
             <li onClick={handleClick} className={activeTab === id ? 'active' : ''}>
                 {title}
             </li>
