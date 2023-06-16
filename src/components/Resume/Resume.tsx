@@ -32,12 +32,10 @@ function Resume() {
                         <p>Lehi, UT (Remote)</p>
                     </div>
                     <ul className='description-list'>
-                        <li>Coordinated with a team of UX and UI developers to build quality web applications with cross-browser compatibility.</li>
-                        <li>Analyze existing web applications and identify opportunities to enhance functionality and improve the user experience.</li>
-                        <li>Contributed the development of front-end systems using HTML, Typescript, and React, and Sass.</li>
-                        <li>Created and maintained components stylings for the Rainfocus platform that users can apply their customized brandings.</li>
-                        <li>Collaborated closely with UX/UI designers and product owners to develop user friendly products with consistency.</li>
-                        <li>Worked on the Agile methodology and used Scrum in implementing projects.</li>
+                        <li>Contributed to the development and maintenance of RainFocus core product set, ensuring exceptional usability and design..</li>
+                        <li>Collaborated with Project Managers and UI/UX designers to deliver outstanding RF platforms to customer</li>
+                        <li>Ensured consistency in React components' styling by working closely with the design and engineering teams.</li>
+                        <li>Developed with cross-browser compatibility and accessibility.</li>
                         <li>Source code management and project tracking with the agile team in Git and JIRA.</li>
                     </ul>
                     <br />
@@ -50,12 +48,10 @@ function Resume() {
                         <p>Irvine, CA</p>
                     </div>
                     <ul className='description-list'>
-                        <li>Frontend code reviews for browser compliance, troubleshooting and bug fixes.</li>
-                        <li>Maintained high quality of components/pages with testing framework - jest.</li>
-                        <li>Managed states through a single source of truth.</li>
-                        <li>Developed in Vue.js ecosystem including Vue CLI, Vuex, Vue Router, and Nuxt.js.</li>
-                        <li>Collaborated with project managers, UX/UI designers, and back-end engineers to build cross-browser compatible and accessibility compliant applications.</li>
-                        <li>Produced multiple visual elements of web applications by translating UI/UX design.</li>
+                        <li>Developed KUI, a new interface that significantly improved the delivery of over 30,000 films, documentaries, and educational videos.</li>
+                        <li>Conducted rigorous code reviews and successfully maintained browser compliance while troubleshooting and resolving numerous bugs.</li>
+                        <li>Utilized Jest testing to ensure high-quality components/pages were consistently delivered to company standards.</li>
+                        <li>Successfully managed states using a single source of truth approach, which resulted in streamlined processes and increased efficiency.</li>
                     </ul>
                     <br />
                     <div className='flex flex-row justify-between'>
@@ -67,8 +63,8 @@ function Resume() {
                         <p>Midvale, UT</p>
                     </div>
                     <ul className='description-list'>
-                        <li>Created unit tests and implemented dependency injection for Android development.</li>
-                        <li>Maintained version control using Git and sourcetree.</li>
+                        <li>Implemented robust unit tests and streamlined Android development by incorporating dependency injection techniques.</li>
+                        <li>Proficiently managed version control through Git and Sourcetree to ensure smooth collaboration among the team.</li>
                     </ul>
                 </div>
             </div>
@@ -86,9 +82,7 @@ function Resume() {
                     </div>
                     <ul className='description-list'>
                         <li>Utilizing and fetching The Movie Database API for contents.</li>
-                        <li>Customized components with React.js, Sass, and TailwindCSS.</li>
-                        <li>Using Firebase and Firestore for Authentication and database.</li>
-                        <li>Maintaining with a  version control(Git).</li>
+                        <li>Developing using React.js, Sass, TailwindCSS for front-end side and Firebase/Firestore for Authentication and database.</li>
                     </ul>
                 </div>
             </div>
@@ -107,9 +101,8 @@ function Resume() {
                     </div>
                     <ul className='description-list'>
                         <li>GPA: 3.7</li>
-                        <li>Served in Student Association Leadership.</li>
-                        <li>Taught and guided students as a tutor in Math and OOP in Java and C++. </li>
-                        <li>Data Structures, Algorithms and SQL.</li>
+                        <li>Taught and guided students as a tutor in Math and OOP in Java and C++.</li>
+                        <li>Completed classes for the Data Structures, Algorithms and SQL.</li>
                     </ul>
                 </div>
             </div>
