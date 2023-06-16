@@ -14,7 +14,7 @@ interface Props {
 const Rate = ({ rate, size }: Props) => {
 
     const getPercentage = (num: number): number => {
-        return num * 10
+        return Math.round(num * 10)
     }
 
     return (

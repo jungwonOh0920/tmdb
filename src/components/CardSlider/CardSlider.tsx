@@ -7,7 +7,7 @@ import Button, { ButtonTypes } from "../Button/Button";
 import "./card-slider.scss";
 
 interface CardSliderProps {
-  children: JSX.Element[] | undefined;
+  children: JSX.Element[] | JSX.Element | undefined;
   isLoading: boolean;
 }
 

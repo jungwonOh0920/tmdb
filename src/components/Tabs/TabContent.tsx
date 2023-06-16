@@ -1,15 +1,15 @@
 interface TabContentPropTypes {
     id?: string,
     activeTab?: string,
-    children: any
+    children: JSX.Element
 }
 
 const TabContent = ({ id, activeTab, children }: TabContentPropTypes) => {
     return (
         activeTab === id ?
-            <div className='tabContent'>
+            <>
                 {children}
-            </div>
+            </>
             : null
     )
 }

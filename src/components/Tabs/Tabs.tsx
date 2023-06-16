@@ -4,7 +4,7 @@ import TabNavItem from './TabNavItem'
 import './tabs.scss'
 
 type TabsPropTypes = {
-    children: JSX.Element[] | JSX.Element
+    children: JSX.Element[] | JSX.Element // can take multiple or single child(ren)
     titles: string[]
 }
 
