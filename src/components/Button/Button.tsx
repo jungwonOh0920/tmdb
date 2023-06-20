@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink } from "react-router-dom";
+import Tooltip from '../Tooltip/Tooltip';
 import classNames from "classnames";
 import "./button.scss";
 
@@ -38,7 +39,7 @@ const Button = (props: ButtonProps) => {
         {props.children}
       </NavLink>
       {
-        isHovered && props.type === ButtonTypes.avatar ? <div style={{ position: 'absolute', right: '0', top: '40px', height: '148px', width: '80px', backgroundColor: 'red' }}>Test</div> : ''
+        isHovered && props.type === ButtonTypes.avatar ? <Tooltip /> : ''
       }
     </div>
   ) : (
