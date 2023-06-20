@@ -36,10 +36,10 @@ const Button = (props: ButtonProps) => {
     >
       <NavLink className={buttonClasses} to={props.linkTo}>
         {props.children}
-        {
-          isHovered && props.type === ButtonTypes.avatar ? <div style={{ position: 'absolute', right: '0', top: '40px', height: '148px', width: '80px', backgroundColor: 'red' }}>Test</div> : ''
-        }
       </NavLink>
+      {
+        isHovered && props.type === ButtonTypes.avatar ? <div style={{ position: 'absolute', right: '0', top: '40px', height: '148px', width: '80px', backgroundColor: 'red' }}>Test</div> : ''
+      }
     </div>
   ) : (
     <button className={buttonClasses} onClick={props.onClick}>
