@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { NavLink } from "react-router-dom";
+import Tooltip from '../Tooltip/Tooltip';
 import classNames from "classnames";
 import "./button.scss";
 
@@ -17,6 +19,8 @@ interface ButtonProps {
 }
 
 const Button = (props: ButtonProps) => {
+  const [isHovered, setIsHovered] = useState(false)
+
   const buttonClasses = classNames(
     'button',
     { 'nav-link': props.linkTo },
@@ -27,9 +31,17 @@ const Button = (props: ButtonProps) => {
   )
 
   return props.linkTo ? (
-    <NavLink className={buttonClasses} to={props.linkTo}>
-      {props.children}
-    </NavLink>
+    <div className='relative'
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <NavLink className={buttonClasses} to={props.linkTo}>
+        {props.children}
+      </NavLink>
+      {
+        isHovered && props.type === ButtonTypes.avatar ? <Tooltip /> : ''
+      }
+    </div>
   ) : (
     <button className={buttonClasses} onClick={props.onClick}>
       {props.children}

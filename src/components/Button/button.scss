@@ -30,10 +30,15 @@
     &.avatar {
         max-width: 40px;
         max-height: 40px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: linear-gradient(black, black) padding-box,
             linear-gradient(to right, darkblue, darkorchid) border-box;
         border-radius: 50%;
         border: 1px solid transparent;
+        padding: 0;
     }
 
     &.gradient-fill {
