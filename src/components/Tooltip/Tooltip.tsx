@@ -5,7 +5,7 @@ const Tooltip = () => {
     const count = useAppSelector((state) => state.counter.value)
 
     return (
-        <div className='tooltip-container'>{count}</div>
+        <div className='tooltip-container'>{count} <p>still working on it...</p></div>
     )
 }
 
