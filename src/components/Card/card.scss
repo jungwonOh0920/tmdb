@@ -16,15 +16,22 @@
             min-height: 100%;
             border-radius: 8px;
         }
+
+        .card-overlay {
+            @include absolute-full;
+            @include flex-center;
+            flex-direction: column;
+            background-color: rgba(122, 122, 122, 0.6);
+            border-radius: 8px;
+
+            .favorite-container {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
     }
 
-    .card-overlay {
-        @include absolute-full;
-        @include flex-center;
-        flex-direction: column;
-        background-color: rgba(122, 122, 122, 0.6);
-        border-radius: 8px;
-    }
 
     .rate-container {
         position: absolute;
