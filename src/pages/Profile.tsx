@@ -42,17 +42,20 @@ function Profile() {
           </div>
         </>
       ) : <SignIn />}
+
       <br />
 
       {contextUser && (
-        <div className='text-right pr-4'>
-          <Button
-            onClick={logout}
-            children={"Log out"}
-          />
-        </div>
+        <>
+          <div className='text-right pr-4'>
+            <Button
+              onClick={logout}
+              children={"Log out"}
+            />
+          </div>
+          <div className={`blurry-gradient ${AvatarIdx > -1 ? `avatar-${AvatarIdx}` : ''}`}></div>
+        </>
       )}
-      <div className={`blurry-gradient ${AvatarIdx > -1 ? `avatar-${AvatarIdx}` : ''}`}></div>
 
     </div>
   );
