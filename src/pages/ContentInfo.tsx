@@ -84,13 +84,6 @@ const ContentIntro = () => {
     }, [contentData, rating, key])
 
     useEffect(() => {
-        if (recommendationsData) {
-            setIsLoading(false)
-            console.log('rec: ', recommendationsData)
-        }
-    }, [recommendationsData])
-
-    useEffect(() => {
         const fetchAPI = async () => {
             if (platform === PlatformTypes.movie) {
                 try {
