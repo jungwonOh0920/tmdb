@@ -54,15 +54,17 @@ const ContentIntro = () => {
 
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-    const fetchRecommendation = async () => {
-        await sleep(2000)
-        fetch(`https://api.themoviedb.org/3/movie/${contentData?.id}/recommendations?api_key=${key}&language=en-US&page=1`)
-            .then((res) => {
-                return res.json()
-            })
-            .then(data => setRecommendationsData(data.results))
-    }
+
     useEffect(() => {
+        const fetchRecommendation = async () => {
+            await sleep(2000)
+            fetch(`https://api.themoviedb.org/3/movie/${contentData?.id}/recommendations?api_key=${key}&language=en-US&page=1`)
+                .then((res) => {
+                    return res.json()
+                })
+                .then(data => setRecommendationsData(data.results))
+        }
+
         setContentInfo({
             contentData: contentData as ContentDataType,
             rating: rating
