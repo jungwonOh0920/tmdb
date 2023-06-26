@@ -2,17 +2,19 @@ import { useState } from "react"
 import Rate from '../Rate/Rate'
 import CardOverlay from './CardOverlay'
 import Button, { ButtonTypes } from '../Button/Button'
+import { VideoType } from '../../pages/Home'
+import { ContentDataType } from '../../pages/ContentInfo'
 import './card.scss'
 import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { useAppDispatch } from '../../hooks'
 import { decrement, increment } from '../../reducers/myMovies/counterSlice'
 
-interface CardType {
-  data: any
+interface CardPropType {
+  data: VideoType | ContentDataType
 }
 
-const Card = (props: CardType) => {
+const Card = ({ data }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
   const dispatch = useAppDispatch()
@@ -35,7 +37,7 @@ const Card = (props: CardType) => {
         onMouseLeave={() => { setIsHovered(false) }}
       >
         <img
-          src={`https://image.tmdb.org/t/p/original${props.data.poster_path}`}
+          src={`https://image.tmdb.org/t/p/original${data.poster_path}`}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
             currentTarget.src = 'https://placeimg.com/200/300/any'
@@ -44,7 +46,7 @@ const Card = (props: CardType) => {
         />
         {isHovered &&
           <div className='card-overlay-wrapper'>
-            <CardOverlay data={props.data} />
+            <CardOverlay data={data} />
             <div className='favorite-container'>
               <Button type={ButtonTypes.noBorder} onClick={handleClick}>
                 <img src={isFavorite ? favoriteFillSvg : favoriteEmptySvg} alt='favoriteEmptySvg' />
@@ -52,12 +54,12 @@ const Card = (props: CardType) => {
             </div>
           </div>}
         <div className='rate-container'>
-          <Rate rate={props.data.vote_average} />
+          <Rate rate={data.vote_average} />
         </div>
       </div>
       <div>
-        <p className='truncate'>{props.data.title || props.data.name}</p>
-        <span className='text-xs'>{props.data.release_date}</span>
+        <p className='truncate'>{data.title}</p>
+        <span className='text-xs'>{data.release_date}</span>
       </div>
     </div>
   );
