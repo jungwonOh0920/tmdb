@@ -42,7 +42,7 @@ export interface TVType {
 
 export type DataType = {
   page: number;
-  results: Array<VideoType> | Array<TVType>;
+  results: Array<VideoType>;
   total_pages: number;
   total_results: number;
 };
@@ -105,19 +105,19 @@ function Home() {
 
   const popularList = () => (
     <CardSlider isLoading={isLoading}>
-      {popularData?.results.map((d, index) => <Card data={d} key={index} />)}
+      {popularData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
     </CardSlider>
   )
 
   const upcomingList = () => (
     <CardSlider isLoading={isLoading}>
-      {upcomingData?.results.map((d, index) => <Card data={d} key={index} />)}
+      {upcomingData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
     </CardSlider>
   )
 
   const forRentList = () => (
     <CardSlider isLoading={isLoading}>
-      {forRentData?.results.map((d, index) => <Card data={d} key={index} />)}
+      {forRentData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
     </CardSlider>
   )
 

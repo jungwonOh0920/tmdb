@@ -22,7 +22,6 @@ const ContentHero = (prop: any) => {
             }
         }
         if (prop && prop.contentInfo && prop.contentInfo.contentData) {
-            console.log('content check: ', prop);
             setContentInfo(prop.contentInfo)
             fetchAPI()
         }
