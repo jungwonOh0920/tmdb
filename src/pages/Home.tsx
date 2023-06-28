@@ -94,14 +94,7 @@ function Home() {
     }
   }, [onTVData, popularData, upcomingData, forRentData])
 
-  // TODO: add TV
   const titles = ['Popular', 'Upcoming', 'For Rent']
-
-  // const onTVList = () => (
-  //   <CardSlider isLoading={isLoading}>
-  //     {onTVData?.results.map((d, index) => <Card data={d} key={index} />)}
-  //   </CardSlider>
-  // )
 
   const popularList = () => (
     <CardSlider isLoading={isLoading}>
@@ -131,7 +124,6 @@ function Home() {
           {popularList()}
           {upcomingList()}
           {forRentList()}
-          {/* {onTVList()} */}
         </Tabs>
       </section>
       <section>

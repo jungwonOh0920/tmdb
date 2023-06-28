@@ -1,5 +1,4 @@
 import { useEffect, useState, createContext } from 'react'
-import eventBus from '../../assets/utilities/EventBus'
 import {
   getAuth,
   User as FirebaseUser,
@@ -21,15 +20,9 @@ export interface UserInfoType {
 let Context: any
 
 const Layout = ({ children }: Props) => {
-  const [width, setWidth] = useState<number>(window.innerWidth)
   const [user, setUser] = useState<FirebaseUser | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   Context = createContext(user)
-
-  const handleResize = () => {
-    setWidth(window.innerWidth)
-    eventBus.dispatch('adjustWidth', width)
-  }
 
   const auth = getAuth()
 
@@ -49,16 +42,6 @@ const Layout = ({ children }: Props) => {
     setUser(auth.currentUser)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated])
-
-  useEffect(() => {
-    handleResize()
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [width])
 
   return (
     <div className="layout">

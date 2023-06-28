@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import Button, { ButtonTypes } from "../Button/Button"
-import eventBus from '../../assets/utilities/EventBus'
 import axios from "axios"
 import "./hero.scss"
 
@@ -40,14 +39,11 @@ const mobileHeroRow = (data: Array<Object>, idx: number) => {
 }
 
 const Hero = () => {
+  const [width, setWidth] = useState<number>(window.innerWidth)
   const [isMobile, setIsMobile] = useState(false)
   const [popularData, setPopularData] = useState<any>([])
 
   useEffect(() => {
-    eventBus.on('adjustWidth', (d: number) => {
-      setIsMobile(d < 760)
-    })
-
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
 
     for (let i = 1; i < 5; i++) {
@@ -58,7 +54,18 @@ const Hero = () => {
     }
   }, [])
 
-  // popu = [[],[],[],[]]
+  useEffect(() => {
+    window.addEventListener('resize', () => { setWidth(window.innerWidth) })
+
+    return () => {
+      window.removeEventListener('resize', () => { setWidth(window.innerWidth) })
+    }
+  }, [])
+
+  useEffect(() => {
+    setIsMobile(width < 760)
+  }, [width])
+
   const MobileHero = () => (
     <div className="mobile-hero-container">
       <div className='mobile-resume-button-container'>
