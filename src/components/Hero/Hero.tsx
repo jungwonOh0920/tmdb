@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import Button, { ButtonTypes } from "../Button/Button"
-import eventBus from '../../assets/utilities/EventBus'
 import axios from "axios"
 import "./hero.scss"
 
