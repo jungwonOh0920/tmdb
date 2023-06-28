@@ -26,11 +26,6 @@ const Layout = ({ children }: Props) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   Context = createContext(user)
 
-  const handleResize = () => {
-    setWidth(window.innerWidth)
-    eventBus.dispatch('adjustWidth', width)
-  }
-
   const auth = getAuth()
 
   useEffect(() => {
@@ -49,16 +44,6 @@ const Layout = ({ children }: Props) => {
     setUser(auth.currentUser)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated])
-
-  useEffect(() => {
-    handleResize()
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [width])
 
   return (
     <div className="layout">
