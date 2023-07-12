@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import classNames from "classnames";
 import './tmdb-input.scss';
 
 export enum InputTypes {
+    text = 'text',
     email = 'email',
     password = 'password',
     file = 'file'
