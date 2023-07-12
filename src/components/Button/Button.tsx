@@ -29,8 +29,8 @@ const Button = (props: ButtonProps) => {
 
   const buttonClasses = classNames(
     'button',
-    { 'medium-size': props.size == ButtonSizes.medium },
-    { 'small-size': props.size == ButtonSizes.small },
+    { 'medium-size': props.size === ButtonSizes.medium },
+    { 'small-size': props.size === ButtonSizes.small },
     { 'nav-link': props.linkTo },
     { 'gradient-fill': props.type === ButtonTypes.gradientFill },
     { 'circle': props.type === ButtonTypes.circle },
