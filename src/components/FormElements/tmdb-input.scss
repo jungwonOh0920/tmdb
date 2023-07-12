@@ -1,11 +1,11 @@
 .imdb-input-container {
-    background-color: red;
     position: relative;
+    width: 100%;
 
     .tmdb-input {
         width: 100%;
         background-color: var(--tmdb-primary);
-        color: var(--text-color);
+        color: yellow;
         padding: 22px 16px 6px;
     }
 
@@ -17,17 +17,19 @@
         transition: font 0.3s ease;
 
         &.focused {
-            color: gray;
+            color: var(--tmdb-gray);
             font-size: 12px;
         }
+
+        &.hidden-input-label {
+            padding: 4px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            position: absolute;
+            top: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     }
-}
-
-
-
-.hidden-input-label {
-    padding: 4px 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    cursor: pointer;
 }

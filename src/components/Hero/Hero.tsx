@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import Button, { ButtonTypes } from "../Button/Button"
+import Button, { ButtonTypes, ButtonSizes } from "../Button/Button"
 import axios from "axios"
 import "./hero.scss"
 
@@ -15,7 +15,7 @@ const DesktopHero = () => (
           Bingeworthy TV, Hit Movies, Live Sports & So Much More
         </h1>
         <p className='mb-2'>Stream it all for only $4.99/month. Cancel anytime.</p>
-        <Button type={ButtonTypes.gradientFill} linkTo='/aboutme'>
+        <Button size={ButtonSizes.small} type={ButtonTypes.gradientFill} linkTo='/aboutme'>
           See Resume &#128514;
         </Button>
       </div>

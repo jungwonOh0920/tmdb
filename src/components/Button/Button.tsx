@@ -11,10 +11,16 @@ export enum ButtonTypes {
   avatar
 }
 
+export enum ButtonSizes {
+  small = 'small',
+  medium = 'medium',
+}
+
 interface ButtonProps {
   linkTo?: string;
   children?: JSX.Element | string | null;
   type?: ButtonTypes
+  size?: ButtonSizes
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -23,6 +29,8 @@ const Button = (props: ButtonProps) => {
 
   const buttonClasses = classNames(
     'button',
+    { 'medium-size': props.size == ButtonSizes.medium },
+    { 'small-size': props.size == ButtonSizes.small },
     { 'nav-link': props.linkTo },
     { 'gradient-fill': props.type === ButtonTypes.gradientFill },
     { 'circle': props.type === ButtonTypes.circle },
