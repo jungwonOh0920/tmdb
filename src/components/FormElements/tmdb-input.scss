@@ -1,7 +1,29 @@
-.tmdb-input {
-    background-color: var(--tmdb-primary);
-    color: var(--text-color);
+.imdb-input-container {
+    background-color: red;
+    position: relative;
+
+    .tmdb-input {
+        width: 100%;
+        background-color: var(--tmdb-primary);
+        color: var(--text-color);
+        padding: 22px 16px 6px;
+    }
+
+    .input-label {
+        position: absolute;
+        top: 4px;
+        left: 8px;
+        font-size: 14px;
+        transition: font 0.3s ease;
+
+        &.focused {
+            color: gray;
+            font-size: 12px;
+        }
+    }
 }
+
+
 
 .hidden-input-label {
     padding: 4px 8px;

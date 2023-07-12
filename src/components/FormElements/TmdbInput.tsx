@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import classNames from "classnames";
 import './tmdb-input.scss';
 
@@ -17,11 +18,15 @@ interface TmdbInputProps {
 }
 
 function TmdbInput(props: TmdbInputProps) {
+    const [isInputFocused, setisInputFocused] = useState(false)
+
     const labelClasses = classNames(
-        { 'hidden-input-label': props.isHiddenInput }
+        'input-label',
+        { 'hidden-input-label': props.isHiddenInput },
+        { 'focused': isInputFocused }
     )
     return (
-        <>
+        <div className='imdb-input-container'>
             {(props.label || (props.isHiddenInput && !props.label)) && <label className={labelClasses} htmlFor='tmdb-input'>{props.label}</label>}
             <input
                 className='tmdb-input'
@@ -30,8 +35,10 @@ function TmdbInput(props: TmdbInputProps) {
                 onChange={props.onChange}
                 id={props.isHiddenInput ? 'tmdb-input' : props.id}
                 hidden={props.isHiddenInput}
+                onFocus={() => { setisInputFocused(true) }}
+                onBlur={() => { setisInputFocused(false) }}
             />
-        </>
+        </div>
     )
 }
 
