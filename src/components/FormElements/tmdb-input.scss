@@ -1,11 +1,35 @@
-.tmdb-input {
-    background-color: var(--tmdb-primary);
-    color: var(--text-color);
-}
+.imdb-input-container {
+    position: relative;
+    width: 100%;
 
-.hidden-input-label {
-    padding: 4px 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    cursor: pointer;
+    .tmdb-input {
+        width: 100%;
+        background-color: var(--tmdb-primary);
+        color: yellow;
+        padding: 22px 16px 6px;
+    }
+
+    .input-label {
+        position: absolute;
+        top: 4px;
+        left: 8px;
+        font-size: 14px;
+        transition: font 0.3s ease;
+
+        &.focused {
+            color: var(--tmdb-gray);
+            font-size: 12px;
+        }
+
+        &.hidden-input-label {
+            padding: 4px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            position: absolute;
+            top: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
 }

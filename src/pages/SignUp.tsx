@@ -8,7 +8,8 @@ import {
 import { db } from "../firebase.config";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { auth } from "../firebase.config";
-import Button from "../components/Button/Button";
+import Button, { ButtonSizes } from "../components/Button/Button";
+import TmdbInput, { InputTypes } from '../components/FormElements/TmdbInput'
 
 function SignUp() {
   interface formDataType {
@@ -64,10 +65,32 @@ function SignUp() {
 
   return (
     <div className="sign-up-container">
-      <header>
-        <p>Join Us!</p>
-      </header>
-      <form className="form" onSubmit={register}>
+      <h1>Join Us!</h1>
+      <form className="sign-up-form" onSubmit={register}>
+        <TmdbInput
+          label='name'
+          type={InputTypes.text}
+          onChange={onChange}
+          placeholder='Jay Oh'
+          id='name'
+        />
+        <TmdbInput
+          label='E-mail'
+          type={InputTypes.email}
+          onChange={onChange}
+          placeholder='JayIsAwesome@gmail.com'
+          id='email'
+        />
+        <TmdbInput
+          label='Password'
+          type={InputTypes.password}
+          onChange={onChange}
+          placeholder='123123'
+          id='password'
+        />
+        <Button children={"Register"} size={ButtonSizes.small} />
+      </form>
+      {/* <form className="form" onSubmit={register}>
         <input
           type="text"
           placeholder="John Doe"
@@ -90,7 +113,8 @@ function SignUp() {
           onChange={onChange}
         />
         <Button children={"Register"} />
-      </form>
+      </form> */}
+
       <NavLink to="/signin">Sign In Instead</NavLink>
     </div>
   );

@@ -1,14 +1,12 @@
 .sign-up-container {
-    color: white;
+    color: var(--text-color);
+    text-align: center;
 
-    .form {
+    .sign-up-form {
         display: flex;
         flex-direction: column;
         gap: 16px;
-        margin-top: 16px;
-
-        input {
-            color: black;
-        }
+        margin: 16px auto 0 auto;
+        width: 50%;
     }
 }
