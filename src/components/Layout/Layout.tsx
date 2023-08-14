@@ -6,6 +6,8 @@ import {
 } from 'firebase/auth'
 import Header from '../Header/Header'
 import './layout.scss'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type Props = {
   children: JSX.Element
@@ -43,6 +45,16 @@ const Layout = ({ children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated])
 
+  useEffect(() => {
+    user ? showToastMessage(true) : showToastMessage(false)
+  }, [user])
+
+  const showToastMessage = (signedIn: boolean) => {
+    toast.success(`Logged ${signedIn ? 'in' : 'out'}!`, {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
   return (
     <div className="layout">
       <Context.Provider value={user}>
@@ -50,6 +62,7 @@ const Layout = ({ children }: Props) => {
         <main className="main">
           {children}
         </main>
+        <ToastContainer />
       </Context.Provider>
     </div>
   );

@@ -53,7 +53,7 @@ function SignIn() {
     <div className="sign-in-container">
       <h1 className='text-3xl'>Welcome Back! <span>&#128075;</span></h1>
       {/* <form onSubmit={getSignedIn}> */}
-      <form onSubmit={showToastMessage}>
+      <form onSubmit={getSignedIn}>
         <TmdbInput
           label='Email'
           type={InputTypes.email}
