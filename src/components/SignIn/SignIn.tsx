@@ -11,9 +11,9 @@ function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  });
-  const { email, password } = formData;
-  const navigate = useNavigate();
+  })
+  const { email, password } = formData
+  const navigate = useNavigate()
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => {
@@ -21,17 +21,11 @@ function SignIn() {
         ...prevState,
         [e.target.id]: e.target.value,
       }
-    });
+    })
   }
 
-  const showToastMessage = () => {
-    // toast.promise(getSignedIn, {
-
-    // })
-  };
-
   const getSignedIn = async (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
       const auth = getAuth();
@@ -45,14 +39,21 @@ function SignIn() {
         navigate("/");
       }
     } catch (error) {
+      showToastErrMessage()
       console.log('err: ', error);
     }
-  };
+  }
+
+  const showToastErrMessage = () => {
+    toast.error('Incorrect Username/Password', {
+      theme: 'dark',
+      position: toast.POSITION.TOP_RIGHT
+    })
+  }
 
   return (
     <div className="sign-in-container">
       <h1 className='text-3xl'>Welcome Back! <span>&#128075;</span></h1>
-      {/* <form onSubmit={getSignedIn}> */}
       <form onSubmit={getSignedIn}>
         <TmdbInput
           label='Email'

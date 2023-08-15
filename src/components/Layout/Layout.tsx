@@ -6,8 +6,8 @@ import {
 } from 'firebase/auth'
 import Header from '../Header/Header'
 import './layout.scss'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 type Props = {
   children: JSX.Element
@@ -51,9 +51,10 @@ const Layout = ({ children }: Props) => {
 
   const showToastMessage = (signedIn: boolean) => {
     toast.success(`Logged ${signedIn ? 'in' : 'out'}!`, {
+      theme: 'dark',
       position: toast.POSITION.TOP_RIGHT
     });
-  };
+  }
 
   return (
     <div className="layout">
