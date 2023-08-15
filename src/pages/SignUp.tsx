@@ -10,6 +10,9 @@ import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { auth } from "../firebase.config";
 import Button, { ButtonSizes } from "../components/Button/Button";
 import TmdbInput, { InputTypes } from '../components/FormElements/TmdbInput'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { FirebaseError } from "firebase/app";
 
 function SignUp() {
   interface formDataType {
@@ -59,9 +62,19 @@ function SignUp() {
 
       navigate("/");
     } catch (error) {
+      if (error instanceof FirebaseError) {
+        showToastErrMessage(error.message)
+      }
       console.log("error: ", error);
     }
-  };
+  }
+
+  const showToastErrMessage = (error: string) => {
+    toast.error(error, {
+      theme: 'dark',
+      position: toast.POSITION.TOP_RIGHT
+    })
+  }
 
   return (
     <div className="sign-up-container">
@@ -90,32 +103,8 @@ function SignUp() {
         />
         <Button children={"Register"} size={ButtonSizes.small} />
       </form>
-      {/* <form className="form" onSubmit={register}>
-        <input
-          type="text"
-          placeholder="John Doe"
-          id="name"
-          value={name}
-          onChange={onChange}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          id="email"
-          value={email}
-          onChange={onChange}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          id="password"
-          value={password}
-          onChange={onChange}
-        />
-        <Button children={"Register"} />
-      </form> */}
-
       <NavLink to="/signin">Sign In Instead</NavLink>
+      <ToastContainer />
     </div>
   );
 }
