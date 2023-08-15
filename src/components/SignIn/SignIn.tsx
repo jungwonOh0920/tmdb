@@ -1,17 +1,19 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import Button from "../Button/Button";
-import "./signIn.scss";
-import TmdbInput, { InputTypes } from "../FormElements/TmdbInput";
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import Button from "../Button/Button"
+import "./signIn.scss"
+import TmdbInput, { InputTypes } from "../FormElements/TmdbInput"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  });
-  const { email, password } = formData;
-  const navigate = useNavigate();
+  })
+  const { email, password } = formData
+  const navigate = useNavigate()
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => {
@@ -19,12 +21,11 @@ function SignIn() {
         ...prevState,
         [e.target.id]: e.target.value,
       }
-    });
+    })
   }
 
-
-  const signIn = async (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const getSignedIn = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
     try {
       const auth = getAuth();
@@ -38,14 +39,22 @@ function SignIn() {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      showToastErrMessage()
+      console.log('err: ', error);
     }
-  };
+  }
+
+  const showToastErrMessage = () => {
+    toast.error('Incorrect Username/Password', {
+      theme: 'dark',
+      position: toast.POSITION.TOP_RIGHT
+    })
+  }
 
   return (
     <div className="sign-in-container">
       <h1 className='text-3xl'>Welcome Back! <span>&#128075;</span></h1>
-      <form onSubmit={signIn}>
+      <form onSubmit={getSignedIn}>
         <TmdbInput
           label='Email'
           type={InputTypes.email}
@@ -61,10 +70,11 @@ function SignIn() {
           id='password'
         />
         <div className="form-buttons-container">
-          <Button children={"Sign In"} />
+          <Button>Sign in</Button>
           <Button linkTo="/signup">Register Instead</Button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 }

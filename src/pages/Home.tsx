@@ -57,7 +57,6 @@ function Home() {
 
   // fetch API and check for user
   useEffect(() => {
-
     setIsLoading(true)
 
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
