@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Rate from '../Rate/Rate'
 import CardOverlay from './CardOverlay'
 import Button, { ButtonTypes } from '../Button/Button'
@@ -9,6 +9,10 @@ import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { useAppDispatch } from '../../hooks'
 import { decrement, increment } from '../../reducers/myMovies/counterSlice'
+import { Context } from '../Layout/Layout'
+import {
+  User as FirebaseUser,
+} from 'firebase/auth'
 
 interface CardPropType {
   data: VideoType | ContentDataType
@@ -17,6 +21,7 @@ interface CardPropType {
 const Card = ({ data }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
+  const contextUser: FirebaseUser | null = useContext(Context)
   const dispatch = useAppDispatch()
 
   const handleClick = () => {
@@ -47,11 +52,14 @@ const Card = ({ data }: CardPropType) => {
         {isHovered &&
           <div className='card-overlay-wrapper'>
             <CardOverlay data={data} />
-            <div className='favorite-container'>
-              <Button type={ButtonTypes.noBorder} onClick={handleClick}>
-                <img src={isFavorite ? favoriteFillSvg : favoriteEmptySvg} alt='favoriteEmptySvg' />
-              </Button>
-            </div>
+            {
+              contextUser ?
+                <div className='favorite-container'>
+                  <Button type={ButtonTypes.noBorder} onClick={handleClick}>
+                    <img src={isFavorite ? favoriteFillSvg : favoriteEmptySvg} alt='favoriteEmptySvg' />
+                  </Button>
+                </div> : null
+            }
           </div>}
         <div className='rate-container'>
           <Rate rate={data.vote_average} />
