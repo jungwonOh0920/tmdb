@@ -6,27 +6,31 @@ import { Context } from '../Layout/Layout'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
 import eventBus from "../../assets/utilities/EventBus"
+import {
+  User as FirebaseUser,
+} from 'firebase/auth'
 import "./header.scss"
 
 function Header() {
   const [avatar, setAvatar] = useState('')
   const [initial, setInitial] = useState('')
-  const contextUser: any = useContext(Context)
+  const contextUser: FirebaseUser | null = useContext(Context)
 
   useEffect(() => {
     const getAvatar = async () => {
-      const userRef = doc(db, 'users', contextUser.uid)
+      if (contextUser) {
+        const userRef = doc(db, 'users', contextUser.uid)
+        try {
+          const userSnap = await getDoc(userRef)
 
-      try {
-        const userSnap = await getDoc(userRef)
-
-        if (userSnap.exists()) {
-          const avatar: string = userSnap.data().avatar
-          setAvatar(avatar)
+          if (userSnap.exists()) {
+            const avatar: string = userSnap.data().avatar
+            setAvatar(avatar)
+          }
+          else { console.log('user avatar not exist') }
+        } catch (error) {
+          console.log(error)
         }
-        else { console.log('user avatar not exist') }
-      } catch (error) {
-        console.log(error)
       }
     }
 

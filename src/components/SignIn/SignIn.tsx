@@ -47,7 +47,7 @@ function SignIn() {
   const showToastErrMessage = () => {
     toast.error('Incorrect Username/Password', {
       theme: 'dark',
-      position: toast.POSITION.TOP_RIGHT
+      position: toast.POSITION.BOTTOM_RIGHT
     })
   }
 

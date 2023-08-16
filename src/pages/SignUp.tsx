@@ -72,7 +72,7 @@ function SignUp() {
   const showToastErrMessage = (error: string) => {
     toast.error(error, {
       theme: 'dark',
-      position: toast.POSITION.TOP_RIGHT
+      position: toast.POSITION.BOTTOM_RIGHT
     })
   }
 

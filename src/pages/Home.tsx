@@ -91,6 +91,7 @@ function Home() {
     if (onTVData && popularData && upcomingData && forRentData) {
       setIsLoading(false)
     }
+    console.log('pop: ', popularData)
   }, [onTVData, popularData, upcomingData, forRentData])
 
   const titles = ['Popular', 'Upcoming', 'For Rent']

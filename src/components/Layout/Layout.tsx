@@ -19,7 +19,7 @@ export interface UserInfoType {
   avatar: string | null | undefined
 }
 
-let Context: any
+let Context: React.Context<FirebaseUser | null>
 
 const Layout = ({ children }: Props) => {
   const [user, setUser] = useState<FirebaseUser | null>(null)
@@ -52,7 +52,7 @@ const Layout = ({ children }: Props) => {
   const showToastMessage = (signedIn: boolean) => {
     toast.success(`Logged ${signedIn ? 'in' : 'out'}!`, {
       theme: 'dark',
-      position: toast.POSITION.TOP_RIGHT
+      position: toast.POSITION.BOTTOM_RIGHT
     });
   }
 
