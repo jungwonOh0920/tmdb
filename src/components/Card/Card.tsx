@@ -8,7 +8,6 @@ import './card.scss'
 import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { useAppDispatch } from '../../hooks'
-// import { decrement, increment } from '../../reducers/myMovies/counterSlice'
 import { ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
 import { Context } from '../Layout/Layout'
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"

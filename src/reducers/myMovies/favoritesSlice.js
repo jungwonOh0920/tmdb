@@ -7,12 +7,10 @@ export const favoritesSlice = createSlice({
     },
     reducers: {
         ADD_A_FAV_MOVIE: (state, action) => {
-            console.log('called: ', action.payload);
-            // return state.movies.push(action.payload)
             state.movies = [...state.movies, action.payload]
         },
         DELETE_A_FAV_MOVIE: (state, action) => {
-            return state.movies.filter(element => element !== action.payload)
+            state.movies = state.movies.filter(element => element !== action.payload)
         }
     }
 })
