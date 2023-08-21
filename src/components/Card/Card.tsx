@@ -8,8 +8,11 @@ import './card.scss'
 import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { useAppDispatch } from '../../hooks'
-import { decrement, increment } from '../../reducers/myMovies/counterSlice'
+// import { decrement, increment } from '../../reducers/myMovies/counterSlice'
+import { ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
 import { Context } from '../Layout/Layout'
+import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"
+import { db } from '../../firebase.config'
 import {
   User as FirebaseUser,
 } from 'firebase/auth'
@@ -24,13 +27,36 @@ const Card = ({ data }: CardPropType) => {
   const contextUser: FirebaseUser | null = useContext(Context)
   const dispatch = useAppDispatch()
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setIsFavorite(!isFavorite)
 
     if (!isFavorite) {
-      dispatch(increment())
+      // updates in FE states
+      dispatch(ADD_A_FAV_MOVIE(data.id))
+
+      // updates on Firebase
+      if (contextUser) {
+        const userRef = doc(db, 'users', contextUser.uid)
+
+        // Adding the movie to Favorite Array on Firebase
+        await updateDoc(userRef, {
+          favorites: arrayUnion(data.id)
+        })
+      }
     } else {
-      dispatch(decrement())
+      // updates in FE states
+      dispatch(DELETE_A_FAV_MOVIE(data.id))
+
+      // updates on Firebase
+      if (contextUser) {
+        const userRef = doc(db, 'users', contextUser.uid)
+
+        // Removing the movie to Favorite Array on Firebase
+        await updateDoc(userRef, {
+          favorites: arrayRemove(data.id)
+        })
+      }
+
     }
   }
 

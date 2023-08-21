@@ -2,10 +2,15 @@ import './tooltip.scss'
 import { useAppSelector } from '../../hooks'
 
 const Tooltip = () => {
-    const count = useAppSelector((state) => state.counter.value)
+    const favs: string[] = useAppSelector((state) => state.favorites.movies)
+    console.log('favs: ', favs)
 
     return (
-        <div className='tooltip-container'>{count} <p>still working on it...</p></div>
+        <div className='tooltip-container'>
+            {favs ? favs.map((movieId) => {
+                return <p key={movieId}>{movieId}</p>
+            }) : null}
+            <p>still working on it...</p></div>
     )
 }
 
