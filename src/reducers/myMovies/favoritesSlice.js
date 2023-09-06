@@ -7,7 +7,17 @@ export const favoritesSlice = createSlice({
     },
     reducers: {
         ADD_A_FAV_MOVIE: (state, action) => {
-            state.movies = [...state.movies, action.payload]
+            let alreadySelected = false
+
+            state.movies.map((movie) => {
+                if (movie === action.payload) {
+                    alreadySelected = true
+                    return
+                }
+            })
+            if (!alreadySelected) {
+                state.movies = [...state.movies, action.payload]
+            }
         },
         DELETE_A_FAV_MOVIE: (state, action) => {
             state.movies = state.movies.filter(element => element !== action.payload)
