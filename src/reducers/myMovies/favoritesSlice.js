@@ -6,6 +6,9 @@ export const favoritesSlice = createSlice({
         movies: []
     },
     reducers: {
+        INITIALIZE: (state, action) => {
+            state.movies = action.payload
+        },
         ADD_A_FAV_MOVIE: (state, action) => {
             let alreadySelected = false
 
@@ -25,6 +28,6 @@ export const favoritesSlice = createSlice({
     }
 })
 
-export const {ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE} = favoritesSlice.actions
+export const {ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE, INITIALIZE} = favoritesSlice.actions
 
 export default favoritesSlice.reducer

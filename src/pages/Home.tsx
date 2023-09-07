@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import Card from "../components/Card/Card"
 import CardSlider from '../components/CardSlider/CardSlider'
@@ -6,6 +6,14 @@ import Tabs from '../components/Tabs/Tabs'
 import Hero from '../components/Hero/Hero'
 import Accordion from "../components/Accordion/Accordion"
 import HomeAccordionData from "../assets/HomeAccordionData"
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { Context } from '../components/Layout/Layout'
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { db } from '../firebase.config'
+import {
+  User as FirebaseUser,
+} from 'firebase/auth'
+import { INITIALIZE } from "../reducers/myMovies/favoritesSlice"
 
 export interface VideoType {
   adult: boolean;
@@ -54,10 +62,27 @@ function Home() {
   const [popularData, setPopularData] = useState<DataType>()
   const [upcomingData, setUpcomingData] = useState<DataType>()
   const [forRentData, setForRentData] = useState<DataType>()
+  const [favorites, setFavorites] = useState<number[]>([])
+  const contextUser: FirebaseUser | null = useContext(Context)
+  const dispatch = useAppDispatch()
+
+  const fetchFavorites = async () => {
+    if (contextUser) {
+      const userRef = doc(db, 'users', contextUser.uid)
+      const userSnap = await getDoc(userRef)
+
+      if (userSnap.exists()) {
+        setFavorites(userSnap.data().favorites)
+        dispatch(INITIALIZE(userSnap.data().favorites))
+      }
+
+    }
+  }
 
   // fetch API and check for user
   useEffect(() => {
     setIsLoading(true)
+    fetchFavorites()
 
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
 
@@ -93,11 +118,20 @@ function Home() {
     }
   }, [onTVData, popularData, upcomingData, forRentData])
 
+  useEffect(() => {
+    console.log(favorites);
+  }, [favorites])
+
   const titles = ['Popular', 'Upcoming', 'For Rent']
+
+  // const handleIsSelected = (id: number) => {
+  //   console.log(favorites.includes(id));
+  //   return favorites.includes(id)
+  // }
 
   const popularList = () => (
     <CardSlider isLoading={isLoading}>
-      {popularData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
+      {popularData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} favs={favorites} />)}
     </CardSlider>
   )
 

@@ -3,7 +3,6 @@ import { useAppSelector } from '../../hooks'
 
 const Tooltip = () => {
     const favs: string[] = useAppSelector((state) => state.favorites.movies)
-    console.log('favs: ', favs)
 
     return (
         <div className='tooltip-container'>

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Rate from '../Rate/Rate'
 import CardOverlay from './CardOverlay'
 import Button, { ButtonTypes } from '../Button/Button'
@@ -10,28 +10,38 @@ import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { useAppDispatch } from '../../hooks'
 import { ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
 import { Context } from '../Layout/Layout'
-import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
 import { db } from '../../firebase.config'
 import {
   User as FirebaseUser,
 } from 'firebase/auth'
 
 interface CardPropType {
-  data: VideoType | ContentDataType
+  data: VideoType | ContentDataType,
+  favs?: number[],
+  // isSelected: boolean
 }
 
-const Card = ({ data }: CardPropType) => {
+const Card = ({ data, favs }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
   const contextUser: FirebaseUser | null = useContext(Context)
   const dispatch = useAppDispatch()
 
+  useEffect(() => {
+    if (favs?.includes(data.id)) {
+      setIsFavorite(true)
+    }
+  }, [favs])
+
+
   const handleClick = async () => {
-    setIsFavorite(!isFavorite)
+    // setIsFavorite(!isFavorite)
 
     if (!isFavorite) {
       // updates in FE states
       dispatch(ADD_A_FAV_MOVIE(data.id))
+      setIsFavorite(true)
 
       // updates on Firebase
       if (contextUser) {
@@ -45,6 +55,7 @@ const Card = ({ data }: CardPropType) => {
     } else {
       // updates in FE states
       dispatch(DELETE_A_FAV_MOVIE(data.id))
+      setIsFavorite(false)
 
       // updates on Firebase
       if (contextUser) {
@@ -55,8 +66,8 @@ const Card = ({ data }: CardPropType) => {
           favorites: arrayRemove(data.id)
         })
       }
-
     }
+
   }
 
   return (
@@ -99,3 +110,7 @@ const Card = ({ data }: CardPropType) => {
 };
 
 export default Card;
+
+Card.defaultProps = {
+  isSelected: false
+}
