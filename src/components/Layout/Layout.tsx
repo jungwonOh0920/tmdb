@@ -8,8 +8,6 @@ import Header from '../Header/Header'
 import './layout.scss'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useAppDispatch } from '../../hooks'
-import { ADD_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
 
 type Props = {
   children: JSX.Element
@@ -45,8 +43,7 @@ const Layout = ({ children }: Props) => {
   useEffect(() => {
     setUser(auth.currentUser)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  }, [isAuthenticated])
+  }, [isAuthenticated, auth.currentUser])
 
   useEffect(() => {
     user ? showToastMessage(true) : showToastMessage(false)
