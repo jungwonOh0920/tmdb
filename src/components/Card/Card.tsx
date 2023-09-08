@@ -10,7 +10,7 @@ import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { useAppDispatch } from '../../hooks'
 import { ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
 import { Context } from '../Layout/Layout'
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
 import { db } from '../../firebase.config'
 import {
   User as FirebaseUser,
@@ -18,26 +18,23 @@ import {
 
 interface CardPropType {
   data: VideoType | ContentDataType,
-  favs?: number[],
-  // isSelected: boolean
+  alreadyFav: boolean
 }
 
-const Card = ({ data, favs }: CardPropType) => {
+const Card = ({ data, alreadyFav }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
   const contextUser: FirebaseUser | null = useContext(Context)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (favs?.includes(data.id)) {
+    if (alreadyFav) {
       setIsFavorite(true)
     }
-  }, [favs])
+  }, [alreadyFav])
 
 
   const handleClick = async () => {
-    // setIsFavorite(!isFavorite)
-
     if (!isFavorite) {
       // updates in FE states
       dispatch(ADD_A_FAV_MOVIE(data.id))
@@ -112,5 +109,5 @@ const Card = ({ data, favs }: CardPropType) => {
 export default Card;
 
 Card.defaultProps = {
-  isSelected: false
+  alreadyFav: false
 }

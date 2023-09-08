@@ -6,10 +6,11 @@ const Tooltip = () => {
 
     return (
         <div className='tooltip-container'>
+            <p>Your Favorites here. still working on it :)</p>
             {favs ? favs.map((movieId) => {
                 return <p key={movieId}>{movieId}</p>
             }) : null}
-            <p>still working on it...</p></div>
+        </div>
     )
 }
 

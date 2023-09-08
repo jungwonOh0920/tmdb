@@ -8,7 +8,7 @@ import Accordion from "../components/Accordion/Accordion"
 import HomeAccordionData from "../assets/HomeAccordionData"
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { Context } from '../components/Layout/Layout'
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase.config'
 import {
   User as FirebaseUser,
@@ -62,26 +62,27 @@ function Home() {
   const [popularData, setPopularData] = useState<DataType>()
   const [upcomingData, setUpcomingData] = useState<DataType>()
   const [forRentData, setForRentData] = useState<DataType>()
-  const [favorites, setFavorites] = useState<number[]>([])
   const contextUser: FirebaseUser | null = useContext(Context)
+
+  const favorites: number[] = useAppSelector((state) => state.favorites.movies)
+
   const dispatch = useAppDispatch()
-
-  const fetchFavorites = async () => {
-    if (contextUser) {
-      const userRef = doc(db, 'users', contextUser.uid)
-      const userSnap = await getDoc(userRef)
-
-      if (userSnap.exists()) {
-        setFavorites(userSnap.data().favorites)
-        dispatch(INITIALIZE(userSnap.data().favorites))
-      }
-
-    }
-  }
 
   // fetch API and check for user
   useEffect(() => {
     setIsLoading(true)
+
+    const fetchFavorites = async () => {
+      if (contextUser) {
+        const userRef = doc(db, 'users', contextUser.uid)
+        const userSnap = await getDoc(userRef)
+
+        if (userSnap.exists()) {
+          dispatch(INITIALIZE(userSnap.data().favorites))
+        }
+      }
+    }
+
     fetchFavorites()
 
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
@@ -110,7 +111,7 @@ function Home() {
       setForRentData(res.data);
     })
 
-  }, []);
+  }, [dispatch, contextUser]);
 
   useEffect(() => {
     if (onTVData && popularData && upcomingData && forRentData) {
@@ -118,32 +119,27 @@ function Home() {
     }
   }, [onTVData, popularData, upcomingData, forRentData])
 
-  useEffect(() => {
-    console.log(favorites);
-  }, [favorites])
-
   const titles = ['Popular', 'Upcoming', 'For Rent']
 
-  // const handleIsSelected = (id: number) => {
-  //   console.log(favorites.includes(id));
-  //   return favorites.includes(id)
-  // }
+  const handleIsSelected = (id: number): boolean => {
+    return favorites.includes(id)
+  }
 
   const popularList = () => (
     <CardSlider isLoading={isLoading}>
-      {popularData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} favs={favorites} />)}
+      {popularData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
 
   const upcomingList = () => (
     <CardSlider isLoading={isLoading}>
-      {upcomingData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
+      {upcomingData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
 
   const forRentList = () => (
     <CardSlider isLoading={isLoading}>
-      {forRentData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
+      {forRentData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
 
