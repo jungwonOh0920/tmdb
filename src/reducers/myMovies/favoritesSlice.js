@@ -12,7 +12,7 @@ export const favoritesSlice = createSlice({
         ADD_A_FAV_MOVIE: (state, action) => {
             let alreadySelected = false
 
-            state.movies.map((movie) => {
+            state.movies.forEach((movie) => {
                 if (movie === action.payload) {
                     alreadySelected = true
                     return
