@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Rate from '../Rate/Rate'
 import CardOverlay from './CardOverlay'
 import Button, { ButtonTypes } from '../Button/Button'
@@ -8,25 +8,63 @@ import './card.scss'
 import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { useAppDispatch } from '../../hooks'
-import { decrement, increment } from '../../reducers/myMovies/counterSlice'
+import { ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
+import { Context } from '../Layout/Layout'
+import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { db } from '../../firebase.config'
+import {
+  User as FirebaseUser,
+} from 'firebase/auth'
 
 interface CardPropType {
-  data: VideoType | ContentDataType
+  data: VideoType | ContentDataType,
+  alreadyFav: boolean
 }
 
-const Card = ({ data }: CardPropType) => {
+const Card = ({ data, alreadyFav }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
+  const contextUser: FirebaseUser | null = useContext(Context)
   const dispatch = useAppDispatch()
 
-  const handleClick = () => {
-    setIsFavorite(!isFavorite)
-
-    if (!isFavorite) {
-      dispatch(increment())
-    } else {
-      dispatch(decrement())
+  useEffect(() => {
+    if (alreadyFav) {
+      setIsFavorite(true)
     }
+  }, [alreadyFav])
+
+
+  const handleClick = async () => {
+    if (!isFavorite) {
+      // updates in FE states
+      dispatch(ADD_A_FAV_MOVIE(data.id))
+      setIsFavorite(true)
+
+      // updates on Firebase
+      if (contextUser) {
+        const userRef = doc(db, 'users', contextUser.uid)
+
+        // Adding the movie to Favorite Array on Firebase
+        await updateDoc(userRef, {
+          favorites: arrayUnion(data.id)
+        })
+      }
+    } else {
+      // updates in FE states
+      dispatch(DELETE_A_FAV_MOVIE(data.id))
+      setIsFavorite(false)
+
+      // updates on Firebase
+      if (contextUser) {
+        const userRef = doc(db, 'users', contextUser.uid)
+
+        // Removing the movie to Favorite Array on Firebase
+        await updateDoc(userRef, {
+          favorites: arrayRemove(data.id)
+        })
+      }
+    }
+
   }
 
   return (
@@ -47,11 +85,14 @@ const Card = ({ data }: CardPropType) => {
         {isHovered &&
           <div className='card-overlay-wrapper'>
             <CardOverlay data={data} />
-            <div className='favorite-container'>
-              <Button type={ButtonTypes.noBorder} onClick={handleClick}>
-                <img src={isFavorite ? favoriteFillSvg : favoriteEmptySvg} alt='favoriteEmptySvg' />
-              </Button>
-            </div>
+            {
+              contextUser ?
+                <div className='favorite-container'>
+                  <Button type={ButtonTypes.noBorder} onClick={handleClick}>
+                    <img src={isFavorite ? favoriteFillSvg : favoriteEmptySvg} alt='favoriteEmptySvg' />
+                  </Button>
+                </div> : null
+            }
           </div>}
         <div className='rate-container'>
           <Rate rate={data.vote_average} />
@@ -66,3 +107,7 @@ const Card = ({ data }: CardPropType) => {
 };
 
 export default Card;
+
+Card.defaultProps = {
+  alreadyFav: false
+}

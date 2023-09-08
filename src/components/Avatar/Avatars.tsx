@@ -4,8 +4,11 @@ import { Context } from '../Layout/Layout'
 import { avatarSrc } from '../../assets/avatarSrc'
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
-import { getStorage, ref, deleteObject } from "firebase/storage";
+import { getStorage, ref, deleteObject } from "firebase/storage"
 import eventBus from "../../assets/utilities/EventBus"
+import {
+    User as FirebaseUser,
+} from 'firebase/auth'
 import './avatars.scss'
 
 interface AvatarsProp {
@@ -14,9 +17,7 @@ interface AvatarsProp {
 }
 
 function Avatars(props: AvatarsProp) {
-    // User context
-    const contextUser: any = useContext(Context)
-
+    const contextUser: FirebaseUser | null = useContext(Context)
     const fullName = props.userName
     const firstName = fullName && fullName.split(' ')[0]
     const imgSrc = avatarSrc
@@ -26,36 +27,38 @@ function Avatars(props: AvatarsProp) {
     }
 
     const updateAvatar = async (idx: number) => {
-        const userRef = doc(db, 'users', contextUser.uid)
-        const userSnap = await getDoc(userRef)
+        if (contextUser) {
+            const userRef = doc(db, 'users', contextUser.uid)
+            const userSnap = await getDoc(userRef)
 
-        // delete UID image
-        const storage = getStorage()
+            // delete UID image
+            const storage = getStorage()
 
-        const imageToDeleteRef = ref(storage, `images/${contextUser.uid}`)
+            const imageToDeleteRef = ref(storage, `images/${contextUser.uid}`)
 
-        // TODO: check if it exists. Exucutes the following only when it exists
-        deleteObject(imageToDeleteRef).then(() => {
-            console.log('successfully deleted..')
-        }).catch((err) => {
-            console.log('err: ', err);
-        })
+            // TODO: check if it exists. Exucutes the following only when it exists
+            deleteObject(imageToDeleteRef).then(() => {
+                console.log('successfully deleted..')
+            }).catch((err) => {
+                console.log('err: ', err);
+            })
 
-        // update Avatar
-        if (userSnap.exists()) {
-            if (userSnap.data().avatar === imgSrc[idx].img) {
-                console.log('same avatar selected!')
-                return
+            // update Avatar
+            if (userSnap.exists()) {
+                if (userSnap.data().avatar === imgSrc[idx].img) {
+                    console.log('same avatar selected!')
+                    return
+                }
             }
+
+            await setDoc(userRef, {
+                name: contextUser.displayName,
+                email: contextUser.email,
+                avatar: imgSrc[idx].img
+            })
+
+            eventBus.dispatch('updateAvatar', imgSrc[idx].img)
         }
-
-        await setDoc(userRef, {
-            name: contextUser.displayName,
-            email: contextUser.email,
-            avatar: imgSrc[idx].img
-        })
-
-        eventBus.dispatch('updateAvatar', imgSrc[idx].img)
     }
 
     return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import Card from "../components/Card/Card"
 import CardSlider from '../components/CardSlider/CardSlider'
@@ -6,6 +6,14 @@ import Tabs from '../components/Tabs/Tabs'
 import Hero from '../components/Hero/Hero'
 import Accordion from "../components/Accordion/Accordion"
 import HomeAccordionData from "../assets/HomeAccordionData"
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { Context } from '../components/Layout/Layout'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase.config'
+import {
+  User as FirebaseUser,
+} from 'firebase/auth'
+import { INITIALIZE } from "../reducers/myMovies/favoritesSlice"
 
 export interface VideoType {
   adult: boolean;
@@ -54,10 +62,28 @@ function Home() {
   const [popularData, setPopularData] = useState<DataType>()
   const [upcomingData, setUpcomingData] = useState<DataType>()
   const [forRentData, setForRentData] = useState<DataType>()
+  const contextUser: FirebaseUser | null = useContext(Context)
+
+  const favorites: number[] = useAppSelector((state) => state.favorites.movies)
+
+  const dispatch = useAppDispatch()
 
   // fetch API and check for user
   useEffect(() => {
     setIsLoading(true)
+
+    const fetchFavorites = async () => {
+      if (contextUser) {
+        const userRef = doc(db, 'users', contextUser.uid)
+        const userSnap = await getDoc(userRef)
+
+        if (userSnap.exists()) {
+          dispatch(INITIALIZE(userSnap.data().favorites))
+        }
+      }
+    }
+
+    fetchFavorites()
 
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
 
@@ -85,7 +111,7 @@ function Home() {
       setForRentData(res.data);
     })
 
-  }, []);
+  }, [dispatch, contextUser]);
 
   useEffect(() => {
     if (onTVData && popularData && upcomingData && forRentData) {
@@ -95,21 +121,25 @@ function Home() {
 
   const titles = ['Popular', 'Upcoming', 'For Rent']
 
+  const handleIsSelected = (id: number): boolean => {
+    return favorites.includes(id)
+  }
+
   const popularList = () => (
     <CardSlider isLoading={isLoading}>
-      {popularData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
+      {popularData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
 
   const upcomingList = () => (
     <CardSlider isLoading={isLoading}>
-      {upcomingData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
+      {upcomingData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
 
   const forRentList = () => (
     <CardSlider isLoading={isLoading}>
-      {forRentData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} />)}
+      {forRentData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
 

@@ -8,6 +8,8 @@ import Header from '../Header/Header'
 import './layout.scss'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useAppDispatch } from '../../hooks'
+import { ADD_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
 
 type Props = {
   children: JSX.Element
@@ -19,7 +21,7 @@ export interface UserInfoType {
   avatar: string | null | undefined
 }
 
-let Context: any
+let Context: React.Context<FirebaseUser | null>
 
 const Layout = ({ children }: Props) => {
   const [user, setUser] = useState<FirebaseUser | null>(null)
@@ -43,6 +45,7 @@ const Layout = ({ children }: Props) => {
   useEffect(() => {
     setUser(auth.currentUser)
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [isAuthenticated])
 
   useEffect(() => {
@@ -52,7 +55,7 @@ const Layout = ({ children }: Props) => {
   const showToastMessage = (signedIn: boolean) => {
     toast.success(`Logged ${signedIn ? 'in' : 'out'}!`, {
       theme: 'dark',
-      position: toast.POSITION.TOP_RIGHT
+      position: toast.POSITION.BOTTOM_RIGHT
     });
   }
 
