@@ -64,7 +64,7 @@ function Home() {
   const [forRentData, setForRentData] = useState<DataType>()
   const contextUser: FirebaseUser | null = useContext(Context)
 
-  const favorites: number[] = useAppSelector((state) => state.favorites.movies)
+  const favorites: VideoType[] = useAppSelector((state) => state.favorites.movies)
 
   const dispatch = useAppDispatch()
 
@@ -122,7 +122,8 @@ function Home() {
   const titles = ['Popular', 'Upcoming', 'For Rent']
 
   const handleIsSelected = (id: number): boolean => {
-    return favorites.includes(id)
+    // return favorites.includes(id)
+    return favorites.filter((fav) => fav.id === id).length > 0
   }
 
   const popularList = () => (
