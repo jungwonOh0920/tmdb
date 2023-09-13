@@ -48,7 +48,10 @@ const Button = (props: ButtonProps) => {
         {props.children}
       </NavLink>
       {
-        isHovered && props.type === ButtonTypes.avatar ? <Tooltip><Snippet></Snippet></Tooltip > : ''
+        isHovered && props.type === ButtonTypes.avatar ? <Tooltip>
+          <h2>My movies</h2>
+          <Snippet />
+        </Tooltip > : ''
       }
     </div>
   ) : (
