@@ -33,11 +33,11 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
     }
   }, [alreadyFav])
 
-
   const handleClick = async () => {
     if (!isFavorite) {
       // updates in FE states
-      dispatch(ADD_A_FAV_MOVIE(data.id))
+      // dispatch(ADD_A_FAV_MOVIE(data.id))
+      dispatch(ADD_A_FAV_MOVIE(data))
       setIsFavorite(true)
 
       // updates on Firebase
@@ -46,12 +46,14 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
 
         // Adding the movie to Favorite Array on Firebase
         await updateDoc(userRef, {
-          favorites: arrayUnion(data.id)
+          // favorites: arrayUnion(data.id)
+          favorites: arrayUnion(data)
         })
       }
     } else {
       // updates in FE states
-      dispatch(DELETE_A_FAV_MOVIE(data.id))
+      // dispatch(DELETE_A_FAV_MOVIE(data.id))
+      dispatch(DELETE_A_FAV_MOVIE(data))
       setIsFavorite(false)
 
       // updates on Firebase
@@ -60,7 +62,8 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
 
         // Removing the movie to Favorite Array on Firebase
         await updateDoc(userRef, {
-          favorites: arrayRemove(data.id)
+          favorites: arrayRemove(data)
+          // favorites: arrayRemove(data.id)
         })
       }
     }

@@ -13,7 +13,7 @@ export const favoritesSlice = createSlice({
             let alreadySelected = false
 
             state.movies.forEach((movie) => {
-                if (movie === action.payload) {
+                if (movie.id === action.payload.id) {
                     alreadySelected = true
                     return
                 }
@@ -23,7 +23,7 @@ export const favoritesSlice = createSlice({
             }
         },
         DELETE_A_FAV_MOVIE: (state, action) => {
-            state.movies = state.movies.filter(element => element !== action.payload)
+            state.movies = state.movies.filter(movie => movie.id !== action.payload.id)
         }
     }
 })

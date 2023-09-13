@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import Tooltip from '../Tooltip/Tooltip';
 import classNames from "classnames";
 import "./button.scss";
+import Snippet from '../Snippet/Snippet';
 
 export enum ButtonTypes {
   gradientFill,
@@ -40,14 +41,17 @@ const Button = (props: ButtonProps) => {
 
   return props.linkTo ? (
     <div className='relative'
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <NavLink className={buttonClasses} to={props.linkTo}>
         {props.children}
       </NavLink>
       {
-        isHovered && props.type === ButtonTypes.avatar ? <Tooltip /> : ''
+        isHovered && props.type === ButtonTypes.avatar ? <Tooltip>
+          <h2>My movies</h2>
+          <Snippet />
+        </Tooltip > : ''
       }
     </div>
   ) : (
