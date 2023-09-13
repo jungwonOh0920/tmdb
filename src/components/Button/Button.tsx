@@ -41,7 +41,7 @@ const Button = (props: ButtonProps) => {
 
   return props.linkTo ? (
     <div className='relative'
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <NavLink className={buttonClasses} to={props.linkTo}>

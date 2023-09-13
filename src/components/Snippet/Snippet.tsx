@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 import './snippet.scss'
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Snippet = () => {
     const favs: VideoType[] = useAppSelector((state) => state.favorites.movies)
@@ -28,6 +29,7 @@ const Snippet = () => {
                     {isImgHovered ? <ImgHoverCover /> : null}
                 </div>
                 <p className={`title ${isImgHovered ? 'hovered' : ''}`}>{movie.title}</p>
+                <NavLink to={`/contents/movie/${movie.id}`} className='nav-link' />
             </div>
         )
     }
