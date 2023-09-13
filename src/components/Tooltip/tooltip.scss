@@ -2,7 +2,19 @@
     position: absolute;
     right: 0;
     top: 40px;
-    height: 148px;
     width: 200px;
-    background-color: blue;
+    max-height: 200px;
+    overflow-y: scroll;
+    padding: 4px;
+    background-color: var(--tmdb-teriary);
+    border-radius: 8px;
+    /* hide scroll on IE and Edge */
+    -ms-overflow-style: none;
+    /* hide scroll on Firefox */
+    scrollbar-width: none;
+}
+
+/* hide scroll on Chrome */
+.tooltip-container::-webkit-scrollbar {
+    display: none;
 }

@@ -1,0 +1,43 @@
+.snippet {
+    display: flex;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.snippet-img-container {
+    position: relative;
+    max-width: 80px;
+    min-width: 80px;
+    overflow: hidden;
+    background-color: blue;
+}
+
+.snippet-img {
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.img-hover-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--tmdb-light-bg);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    margin-left: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.title.hovered {
+    color: var(--tmdb-primary);
+}
