@@ -10,10 +10,16 @@ import {
   User as FirebaseUser,
 } from 'firebase/auth'
 import "./header.scss"
+import Tooltip from '../Tooltip/Tooltip'
+import Snippet from '../Snippet/Snippet'
 
 function Header() {
   const [avatar, setAvatar] = useState('')
   const [initial, setInitial] = useState('')
+  const [isProfileBtnHovered, setIsProfileBtnHovered] = useState(false)
+  const [isTooltipHovered, setIsTooltipHovered] = useState(false)
+  const [isTooltipOn, setIsTooltipOn] = useState(false)
+
   const contextUser: FirebaseUser | null = useContext(Context)
 
   useEffect(() => {
@@ -44,6 +50,17 @@ function Header() {
   }, [])
 
   useEffect(() => {
+    console.log('tooltip hovered? ', isTooltipHovered)
+  }, [isTooltipHovered])
+  useEffect(() => {
+    if (!isProfileBtnHovered && !isTooltipHovered) {
+      setIsTooltipOn(false)
+    } else if (isProfileBtnHovered || isTooltipHovered) {
+      setIsTooltipOn(true)
+    }
+  }, [isProfileBtnHovered, isTooltipHovered])
+
+  useEffect(() => {
     if (avatar === '' && contextUser && contextUser.displayName) {
       setInitial(contextUser.displayName[0])
     }
@@ -66,12 +83,30 @@ function Header() {
         <div className={'profile-action-link'}>
           {
             contextUser ? (
-              <Button linkTo="profile" type={ButtonTypes.avatar}>
+              <>
+                <Button
+                  linkTo="profile"
+                  type={ButtonTypes.avatar}
+                  onMouseEnter={() => { setIsProfileBtnHovered(true) }}
+                  onMouseLeave={() => { setIsProfileBtnHovered(false) }}
+                >
+                  {
+                    avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
+                      <div className='initial-container'>{initial}</div>
+                  }
+                </Button>
                 {
-                  avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
-                    <div className='initial-container'>{initial}</div>
+                  isTooltipOn ?
+                    <Tooltip
+                      onMouseOver={() => { setIsTooltipHovered(true) }}
+                      onMouseOut={() => { setIsTooltipHovered(false) }}>
+                      <>
+                        <h2>My favorites</h2>
+                        <Snippet />
+                      </>
+                    </Tooltip> : ''
                 }
-              </Button>
+              </>
             )
               :
               <Button linkTo="profile">Sign in</Button>

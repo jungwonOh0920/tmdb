@@ -1,9 +1,6 @@
-import { useState } from 'react'
 import { NavLink } from "react-router-dom";
-import Tooltip from '../Tooltip/Tooltip';
 import classNames from "classnames";
 import "./button.scss";
-import Snippet from '../Snippet/Snippet';
 
 export enum ButtonTypes {
   gradientFill,
@@ -23,11 +20,11 @@ interface ButtonProps {
   type?: ButtonTypes
   size?: ButtonSizes
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onMouseEnter?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const Button = (props: ButtonProps) => {
-  const [isHovered, setIsHovered] = useState(false)
-
   const buttonClasses = classNames(
     'button',
     { 'medium-size': props.size === ButtonSizes.medium },
@@ -41,18 +38,12 @@ const Button = (props: ButtonProps) => {
 
   return props.linkTo ? (
     <div className='relative'
-      onMouseOver={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
     >
       <NavLink className={buttonClasses} to={props.linkTo}>
         {props.children}
       </NavLink>
-      {
-        isHovered && props.type === ButtonTypes.avatar ? <Tooltip>
-          <h2>My movies</h2>
-          <Snippet />
-        </Tooltip > : ''
-      }
     </div>
   ) : (
     <button className={buttonClasses} onClick={props.onClick}>
