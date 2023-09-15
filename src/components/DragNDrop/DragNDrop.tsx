@@ -16,7 +16,6 @@ function DragNDrop() {
     const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         if (e.target.files && e.target.files[0]) {
-            console.log('file loaded: ', e.target.files[0])
             setFile(e.target.files[0])
             setFileName(e.target.files[0].name)
         }
@@ -59,7 +58,7 @@ function DragNDrop() {
                 const fileName = `${auth?.currentUser?.uid}`
 
                 const storageRef = ref(storage, 'images/' + fileName)
-                console.log('storageRef: ', storageRef)
+
                 const uploadTask = uploadBytesResumable(storageRef, file)
                 uploadTask.on('state_changed',
                     (snapshot) => {
@@ -82,7 +81,6 @@ function DragNDrop() {
                         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                             res(downloadURL)
-                            console.log('File available at', downloadURL);
                             eventBus.dispatch('updateAvatar', downloadURL)
                         });
                     }
