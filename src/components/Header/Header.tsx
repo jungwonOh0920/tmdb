@@ -50,9 +50,6 @@ function Header() {
   }, [])
 
   useEffect(() => {
-    console.log('tooltip hovered? ', isTooltipHovered)
-  }, [isTooltipHovered])
-  useEffect(() => {
     if (!isProfileBtnHovered && !isTooltipHovered) {
       setIsTooltipOn(false)
     } else if (isProfileBtnHovered || isTooltipHovered) {

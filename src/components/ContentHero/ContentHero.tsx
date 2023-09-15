@@ -4,6 +4,7 @@ import Rate, { SizeType } from '../Rate/Rate'
 import Button from '../Button/Button'
 import './content-hero.scss'
 import Modal from '../Modal/Modal'
+import noPoster from '../../assets/images/noPoster.png'
 
 const ContentHero = (prop: any) => {
     const [contentInfo, setContentInfo] = useState<ContentInfoType>()
@@ -55,7 +56,12 @@ const ContentHero = (prop: any) => {
                 contentInfo &&
                 <section className='content-container'>
                     <div className='poster-container'>
-                        <img src={`https://image.tmdb.org/t/p/original${contentInfo.contentData.poster_path}`} alt='post' />
+                        <img src={`https://image.tmdb.org/t/p/original${contentInfo.contentData.poster_path}`}
+                            onError={({ currentTarget }) => {
+                                currentTarget.onerror = null
+                                currentTarget.src = `${noPoster}`
+                            }}
+                            alt='post' />
                     </div>
                     <section className={`content-info ${isModalOpen ? 'space-y-4' : ''}`}>
                         <h2>{contentInfo.contentData.title}</h2>

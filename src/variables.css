@@ -11,4 +11,5 @@
     --tmdb-gradient: linear-gradient(90deg, var(--tmdb-teriary), var(--tmdb-secondary));
     --breakpoint-tablet: 768px;
     --breakpoint-desktop: 1024px;
+    --border-radius: 8px;
 }
