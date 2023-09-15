@@ -5,6 +5,7 @@
     --border-color: aliceblue;
     --text-color: aliceblue;
     --tmdb-gray: #C5C5C5;
+    --tmdb-black-bg: #000;
     --tmdb-dark-bg: rgba(23, 23, 23, 0.8);
     --tmdb-light-bg: rgba(23, 23, 23, 0.2);
     --tmdb-gradient: linear-gradient(90deg, var(--tmdb-teriary), var(--tmdb-secondary));

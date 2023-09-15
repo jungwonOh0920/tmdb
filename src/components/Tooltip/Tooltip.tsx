@@ -2,13 +2,13 @@ import './tooltip.scss'
 
 interface TooltipProps {
     children: JSX.Element
-    onMouseEnter?: (event: React.MouseEvent<HTMLDivElement>) => void
-    onMouseLeave?: (event: React.MouseEvent<HTMLDivElement>) => void
+    onMouseOver?: (event: React.MouseEvent<HTMLDivElement>) => void
+    onMouseOut?: (event: React.MouseEvent<HTMLDivElement>) => void
 }
 
-const Tooltip = ({ children, onMouseEnter, onMouseLeave }: TooltipProps) => {
+const Tooltip = ({ children, onMouseOver, onMouseOut }: TooltipProps) => {
     return (
-        <div className='tooltip-container' onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <div className='tooltip-container' onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
             {children}
         </div>
     )

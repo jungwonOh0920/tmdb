@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth'
 import "./header.scss"
 import Tooltip from '../Tooltip/Tooltip'
+import Snippet from '../Snippet/Snippet'
 
 function Header() {
   const [avatar, setAvatar] = useState('')
@@ -48,6 +49,9 @@ function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    console.log('tooltip hovered? ', isTooltipHovered)
+  }, [isTooltipHovered])
   useEffect(() => {
     if (!isProfileBtnHovered && !isTooltipHovered) {
       setIsTooltipOn(false)
@@ -92,7 +96,15 @@ function Header() {
                   }
                 </Button>
                 {
-                  isTooltipOn ? <Tooltip onMouseEnter={() => { setIsProfileBtnHovered(true) }} onMouseLeave={() => { setIsProfileBtnHovered(false) }}><h1>hello</h1></Tooltip> : ''
+                  isTooltipOn ?
+                    <Tooltip
+                      onMouseOver={() => { setIsTooltipHovered(true) }}
+                      onMouseOut={() => { setIsTooltipHovered(false) }}>
+                      <>
+                        <h2>My favorites</h2>
+                        <Snippet />
+                      </>
+                    </Tooltip> : ''
                 }
               </>
             )
