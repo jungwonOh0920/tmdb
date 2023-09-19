@@ -17,13 +17,9 @@ function Shows() {
         fetchAPI()
     }, [])
 
-    useEffect(() => {
-        console.log('tvshows: ', tvShows)
-    }, [tvShows])
-
     return (
-        <div className='tv-shows-container'>
-            <div className='sort-menu'></div>
+        <div className='tv-shows-container max-w-7xl'>
+            <div className='sort-menu'>filter section...</div>
             <div className='tv-card-container'>
                 {
                     tvShows.map((show) => <Card data={show} />)
