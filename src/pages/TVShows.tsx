@@ -5,6 +5,7 @@ import '../styles/tvshows.scss'
 function Shows() {
     const [tvShows, setTVShows] = useState([])
     const fetchAPI = (page = 1) => {
+        // fetch with api key as an example
         // const key = process.env.REACT_APP_TMDB_API_KEY
         // const URL = `https://api.themoviedb.org/3/tv/popular?api_key=${key}&language=en-US&page=${page}`
 
