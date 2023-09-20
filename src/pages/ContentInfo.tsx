@@ -47,23 +47,10 @@ const ContentIntro = () => {
     const [isLoading, setIsLoading] = useState<any>(false)
 
     const key = process.env.REACT_APP_TMDB_API_KEY
-    const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
 
-    const fetchTV = () => {
-        const URL = `https://api.themoviedb.org/3/tv/${id}`
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${TMDB_AUTHORIZATION}`
-            }
-        };
-        fetch(URL, options).then(res => res.json()).then(data => {
-            // console.log('tv check: ', data)
-            setTVData(data)
-        })
-    }
-
+    useEffect(() => {
+        console.log('tvData: ', TVData);
+    }, [TVData])
     useEffect(() => {
         const locationArray = location.pathname.split('/')
         setId(Number(locationArray[3]))
@@ -101,6 +88,22 @@ const ContentIntro = () => {
     }, [recommendationsData])
 
     useEffect(() => {
+        const fetchTV = () => {
+            const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
+
+            const URL = `https://api.themoviedb.org/3/tv/${id}`
+            const options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${TMDB_AUTHORIZATION}`
+                }
+            };
+            fetch(URL, options).then(res => res.json()).then(data => {
+                setTVData(data)
+            })
+        }
+
         const fetchAPI = async () => {
             if (platform === PlatformTypes.movie) {
                 try {
@@ -108,7 +111,6 @@ const ContentIntro = () => {
                         fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => res.json()),
                         fetch(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${key}`).then(res => res.json())
                     ])
-                    console.log('check: ', movieData)
                     setContentData(movieData)
                     getUSRating(releaseDates.results)
                 } catch (err) {
