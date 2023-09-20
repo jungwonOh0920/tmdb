@@ -4,6 +4,7 @@ import ContentHero from '../components/ContentHero/ContentHero'
 import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
+import { TVType } from '../pages/Home'
 import "../styles/contentIntro.scss"
 
 enum PlatformTypes {
@@ -40,11 +41,28 @@ const ContentIntro = () => {
     const [platform, setPlatform] = useState<PlatformTypes>()
     const [contentInfo, setContentInfo] = useState<ContentInfoType>()
     const [contentData, setContentData] = useState<ContentDataType>()
+    const [TVData, setTVData] = useState<TVType>()
     const [rating, setRating] = useState('')
     const [recommendationsData, setRecommendationsData] = useState<ContentDataType[]>([])
     const [isLoading, setIsLoading] = useState<any>(false)
 
     const key = process.env.REACT_APP_TMDB_API_KEY
+    const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
+
+    const fetchTV = () => {
+        const URL = `https://api.themoviedb.org/3/tv/${id}`
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${TMDB_AUTHORIZATION}`
+            }
+        };
+        fetch(URL, options).then(res => res.json()).then(data => {
+            // console.log('tv check: ', data)
+            setTVData(data)
+        })
+    }
 
     useEffect(() => {
         const locationArray = location.pathname.split('/')
@@ -53,7 +71,6 @@ const ContentIntro = () => {
     }, [location.pathname])
 
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
-
 
     useEffect(() => {
         const fetchRecommendation = async () => {
@@ -91,11 +108,14 @@ const ContentIntro = () => {
                         fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => res.json()),
                         fetch(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${key}`).then(res => res.json())
                     ])
+                    console.log('check: ', movieData)
                     setContentData(movieData)
                     getUSRating(releaseDates.results)
                 } catch (err) {
                     console.log('err: ', err);
                 }
+            } else {
+                fetchTV()
             }
         }
         fetchAPI()
