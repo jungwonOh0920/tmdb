@@ -60,7 +60,7 @@ const Layout = ({ children }: Props) => {
     <div className="layout">
       <Context.Provider value={user}>
         <Header />
-        <main className="main">
+        <main className="main max-w-7xl">
           {children}
         </main>
         <ToastContainer />

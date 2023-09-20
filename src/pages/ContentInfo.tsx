@@ -4,6 +4,7 @@ import ContentHero from '../components/ContentHero/ContentHero'
 import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
+import { TVType } from '../pages/Home'
 import "../styles/contentIntro.scss"
 
 enum PlatformTypes {
@@ -40,6 +41,7 @@ const ContentIntro = () => {
     const [platform, setPlatform] = useState<PlatformTypes>()
     const [contentInfo, setContentInfo] = useState<ContentInfoType>()
     const [contentData, setContentData] = useState<ContentDataType>()
+    const [TVData, setTVData] = useState<TVType>()
     const [rating, setRating] = useState('')
     const [recommendationsData, setRecommendationsData] = useState<ContentDataType[]>([])
     const [isLoading, setIsLoading] = useState<any>(false)
@@ -47,13 +49,15 @@ const ContentIntro = () => {
     const key = process.env.REACT_APP_TMDB_API_KEY
 
     useEffect(() => {
+        console.log('tvData: ', TVData);
+    }, [TVData])
+    useEffect(() => {
         const locationArray = location.pathname.split('/')
         setId(Number(locationArray[3]))
         setPlatform(locationArray[2] === 'tv' ? PlatformTypes.tv : PlatformTypes.movie)
     }, [location.pathname])
 
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
-
 
     useEffect(() => {
         const fetchRecommendation = async () => {
@@ -84,6 +88,22 @@ const ContentIntro = () => {
     }, [recommendationsData])
 
     useEffect(() => {
+        const fetchTV = () => {
+            const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
+
+            const URL = `https://api.themoviedb.org/3/tv/${id}`
+            const options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${TMDB_AUTHORIZATION}`
+                }
+            };
+            fetch(URL, options).then(res => res.json()).then(data => {
+                setTVData(data)
+            })
+        }
+
         const fetchAPI = async () => {
             if (platform === PlatformTypes.movie) {
                 try {
@@ -96,6 +116,8 @@ const ContentIntro = () => {
                 } catch (err) {
                     console.log('err: ', err);
                 }
+            } else {
+                fetchTV()
             }
         }
         fetchAPI()

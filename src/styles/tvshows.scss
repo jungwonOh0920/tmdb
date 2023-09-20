@@ -1,0 +1,21 @@
+.tv-shows-container {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sort-menu {
+    width: 300px;
+    max-width: 350px;
+    height: auto;
+    background-color: red;
+}
+
+.tv-card-container {
+    width: 100%;
+    max-width: 958px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

@@ -122,7 +122,6 @@ function Home() {
   const titles = ['Popular', 'Upcoming', 'For Rent']
 
   const handleIsSelected = (id: number): boolean => {
-    // return favorites.includes(id)
     return favorites.filter((fav) => fav.id === id).length > 0
   }
 
