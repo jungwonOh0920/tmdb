@@ -41,7 +41,7 @@ const ContentHero = (props: ContentHeroPropType) => {
         if (props.type === PlatformTypes.movie) {
             fetchTrailer()
         }
-    }, [props.type])
+    }, [props.type, props.content])
 
     const getReleaseDate = () => {
         if (props.type === PlatformTypes.movie) {
