@@ -82,6 +82,7 @@ const ContentIntro = () => {
     }, [movieInfo, rating, key])
 
     useEffect(() => {
+        console.log('check: ', recommendationsData);
         if (recommendationsData) {
             setIsLoading(false)
         }
@@ -139,13 +140,16 @@ const ContentIntro = () => {
                 platform === PlatformTypes.movie ? (movieInfoRate && <ContentHero type={PlatformTypes.movie} content={movieInfoRate} />) :
                     (TVInfo && <ContentHero type={PlatformTypes.tv} content={TVInfo} />)
             }
-            <Tabs titles={['Recommendations']}>
-                <CardSlider isLoading={isLoading}>
-                    {
-                        recommendationsData?.map((data: MovieInfoType, idx: number) => <Card data={data} key={idx} />)
-                    }
-                </CardSlider>
-            </Tabs>
+            {
+                recommendationsData.length ?
+                    <Tabs titles={['Recommendations']}>
+                        <CardSlider isLoading={isLoading}>
+                            {
+                                recommendationsData?.map((data: MovieInfoType, idx: number) => <Card data={data} key={idx} />)
+                            }
+                        </CardSlider>
+                    </Tabs> : ''
+            }
         </div>
     )
 }

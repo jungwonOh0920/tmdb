@@ -6,7 +6,6 @@ import Button from '../Button/Button'
 import './content-hero.scss'
 import Modal from '../Modal/Modal'
 import noPoster from '../../assets/images/noPoster.png'
-import { useLocation } from 'react-router-dom'
 import { PlatformTypes } from '../../pages/ContentInfo'
 
 interface MovieProp {
@@ -22,45 +21,34 @@ interface TVProp {
 type ContentHeroPropType = MovieProp | TVProp
 
 const ContentHero = (props: ContentHeroPropType) => {
-    let location = useLocation()
-    // const [platform, setPlatform] = useState<PlatformTypes>()
-    // const [contentInfo, setContentInfo] = useState<MovieInfoRateType>()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-    // const [trailerKey, setTrailerKey] = useState<string>('')
-    const key = process.env.REACT_APP_TMDB_API_KEY
+    const [trailerKey, setTrailerKey] = useState<string>('')
 
-    // useEffect(() => {
-    //     console.log('content check: ', props);
-    // }, [props])
+    useEffect(() => {
+        const key = process.env.REACT_APP_TMDB_API_KEY
+        const fetchTrailer = async () => {
+            if (props.type === PlatformTypes.movie) {
+                try {
+                    let res = await fetch(`https://api.themoviedb.org/3/movie/${props.content.contentData.id}/videos?api_key=${key}&language=en-US`)
+                    const jsonData = await res.json()
+                    setTrailerKey(jsonData.results[0].key)
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+        }
 
-    // useEffect(() => {
-    //     const locationArray = location.pathname.split('/')
-    //     setPlatform(locationArray[2] === 'tv' ? PlatformTypes.tv : PlatformTypes.movie)
-    // }, [location.pathname])
+        if (props.type === PlatformTypes.movie) {
+            fetchTrailer()
+        }
+    }, [props.type])
 
-    useEffect(() => { }, [])
-
-    // useEffect(() => {
-    //     console.log('contentInfo: ', contentInfo)
-    //     const fetchAPI = async () => {
-    //         try {
-    //             let res = await fetch(`https://api.themoviedb.org/3/movie/${contentInfo?.contentData.id}/videos?api_key=${key}&language=en-US`)
-    //             const jsonData = await res.json()
-    //             setTrailerKey(jsonData.results[0].key)
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }
-    //     if (prop && prop.contentInfo && prop.contentInfo.contentData) {
-    //         setContentInfo(prop.contentInfo)
-    //         fetchAPI()
-    //     }
-    // }, [prop, contentInfo, key])
-
-    // const getReleaseDate = () => {
-    //     let date = contentInfo?.contentData.release_date.split('-').join('/')
-    //     return date
-    // }
+    const getReleaseDate = () => {
+        if (props.type === PlatformTypes.movie) {
+            let date = props.content.contentData.release_date.split('-').join('/')
+            return date
+        }
+    }
 
     const convertToHour = (mins: number = 0) => {
         const hourNum = Math.floor(mins / 60)
@@ -75,56 +63,65 @@ const ContentHero = (props: ContentHeroPropType) => {
         setIsModalOpen(!isModalOpen)
     }
 
+    const movieHero = () => {
+        return <>
+            {props.type === PlatformTypes.movie && props.content.contentData && <>
+                <div className='image-background'
+                    style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${props.content.contentData.backdrop_path})` }}></div>
+                <section className='content-container'>
+                    <div className='poster-container'>
+                        <img src={`https://image.tmdb.org/t/p/original${props.content.contentData.poster_path}`}
+                            onError={({ currentTarget }) => {
+                                currentTarget.onerror = null
+                                currentTarget.src = `${noPoster}`
+                            }}
+                            alt='post' />
+                    </div>
+                    <div className={`content-info ${isModalOpen ? 'space-y-4' : ''}`}>
+                        <h2>{props.content.contentData.title}</h2>
+                        <div className='facts'>
+                            {
+                                props.content.rating ? <span className='rating'>{props.content?.rating}</span> : ''
+                            }
+                            <span className={props.content.rating && 'pl-2'}>{getReleaseDate()}</span>
+                            <span className='genres'>
+                                {
+                                    props.content.contentData.genres.map(genre => genre.name).join(', ')
+                                }
+                            </span>
+                            <span className='runtime'>{convertToHour(props.content.contentData.runtime)}</span>
+                        </div>
+                        <p className='tagline'>{props.content.contentData.tagline}</p>
+                        <h3>Overview</h3>
+                        <p>{props.content.contentData.overview}</p>
+                        <Rate rate={Math.floor(props.content.contentData.vote_average || 0)} size={SizeType.medium} />
+                        <Button onClick={toggleModal}>Play Trailer</Button>
+                        {
+                            isModalOpen ?
+                                <>
+                                    <Modal modalHeader='Play Trailer' toggleModal={toggleModal}>
+                                        <iframe
+                                            title='trailer'
+                                            src={`https://www.youtube.com/embed/${trailerKey}`}></iframe>
+                                    </Modal>
+                                </>
+                                : ''
+                        }
+                    </div>
+                </section>
+            </>
+            }
+        </>
+    }
+
+    const tvHero = () => {
+        return <div>tv detail page coming soon..</div>
+    }
+
     return (
         <div className='content-hero-container'>
-            {props.type === PlatformTypes.movie ? (props.content.contentData && props.content.contentData.title) : (props.content.name)}
-            {/* <div className='image-background'
-                style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${content.contentData && content.contentData.backdrop_path})` }}></div> */}
             {
-                // content.contentData &&
-                // <section className='content-container'>
-                //     <div className='poster-container'>
-                //         <img src={`https://image.tmdb.org/t/p/original${content.contentData.poster_path}`}
-                //             onError={({ currentTarget }) => {
-                //                 currentTarget.onerror = null
-                //                 currentTarget.src = `${noPoster}`
-                //             }}
-                //             alt='post' />
-                //     </div>
-                //     <section className={`content-info ${isModalOpen ? 'space-y-4' : ''}`}>
-                //         <h2>{content.contentData.title}</h2>
-                //         <div className='facts'>
-                //             {
-                //                 content.rating && <span className='rating'>{content?.rating}</span>
-                //             }
-
-                //             <span className={content.rating && 'pl-2'}>{getReleaseDate()}</span>
-                //             <span className='genres'>
-                //                 {
-                //                     content.contentData.genres.map(genre => genre.name).join(', ')
-                //                 }
-                //             </span>
-                //             <span className='runtime'>{convertToHour(content.contentData.runtime)}</span>
-                //         </div>
-                //         <p className='tagline'>{content.contentData.tagline}</p>
-                //         <h3>Overview</h3>
-                //         <p>{content.contentData.overview}</p>
-
-                //         <Rate rate={Math.floor(content.contentData.vote_average || 0)} size={SizeType.medium} />
-                //         <Button onClick={toggleModal}>Play Trailer</Button>
-                //         {
-                //             isModalOpen ?
-                //                 <>
-                //                     <Modal modalHeader='Play Trailer' toggleModal={toggleModal}>
-                //                         <iframe
-                //                             title='trailer'
-                //                             src={`https://www.youtube.com/embed/${trailerKey}`}></iframe>
-                //                     </Modal>
-                //                 </>
-                //                 : ''
-                //         }
-                //     </section>
-                // </section>
+                props.type === PlatformTypes.movie ? movieHero() : tvHero()
             }
         </div>
     )
