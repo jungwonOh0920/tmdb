@@ -7,7 +7,7 @@ import Card from '../components/Card/Card'
 import { TVType } from '../pages/Home'
 import "../styles/contentIntro.scss"
 
-enum PlatformTypes {
+export enum PlatformTypes {
     tv,
     movie
 }
@@ -136,9 +136,9 @@ const ContentIntro = () => {
     return (
         <div className='space-y-4'>
             {
-                movieInfoRate && <ContentHero content={movieInfoRate} />
+                platform === PlatformTypes.movie ? (movieInfoRate && <ContentHero type={PlatformTypes.movie} content={movieInfoRate} />) :
+                    (TVInfo && <ContentHero type={PlatformTypes.tv} content={TVInfo} />)
             }
-            {/* <ContentHero content={platform === PlatformTypes.movie ? movieInfoRate : TVInfo} /> */}
             <Tabs titles={['Recommendations']}>
                 <CardSlider isLoading={isLoading}>
                     {

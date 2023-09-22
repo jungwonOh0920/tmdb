@@ -24,7 +24,6 @@ function Shows() {
 
         fetch(URL, options).then(res => res.json())
             .then(data => {
-                console.log(data.results)
                 setTVShows(data.results)
             })
     }
