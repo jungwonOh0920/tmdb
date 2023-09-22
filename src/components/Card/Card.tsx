@@ -3,7 +3,7 @@ import Rate from '../Rate/Rate'
 import CardOverlay from './CardOverlay'
 import Button, { ButtonTypes } from '../Button/Button'
 import { VideoType } from '../../pages/Home'
-import { ContentDataType } from '../../pages/ContentInfo'
+import { MovieInfoType } from '../../pages/ContentInfo'
 import './card.scss'
 import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
@@ -18,7 +18,7 @@ import {
 import noPoster from '../../assets/images/noPoster.png'
 
 interface CardPropType {
-  data: VideoType | ContentDataType,
+  data: VideoType | MovieInfoType,
   alreadyFav: boolean
 }
 
