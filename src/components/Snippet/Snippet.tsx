@@ -1,10 +1,10 @@
 import { useAppSelector } from '../../hooks'
-import { VideoType } from '../../pages/Home'
+import { VideoType } from '../../types'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCirclePlay } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlay } from '@fortawesome/free-solid-svg-icons'
 import './snippet.scss'
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Snippet = () => {
     const favs: VideoType[] = useAppSelector((state) => state.favorites.movies)

@@ -14,50 +14,10 @@ import {
   User as FirebaseUser,
 } from 'firebase/auth'
 import { INITIALIZE } from "../reducers/myMovies/favoritesSlice"
-
-export interface VideoType {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: [];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-export interface TVType {
-  backdrop_path: string,
-  first_air_date: string,
-  genre_ids: [],
-  id: number,
-  name: string,
-  origin_country: [],
-  original_language: string,
-  original_name: string,
-  overview: string,
-  popularity: number,
-  poster_path: string,
-  vote_average: number,
-  vote_count: number
-}
-
-export type DataType = {
-  page: number;
-  results: Array<VideoType>;
-  total_pages: number;
-  total_results: number;
-};
+import { VideoType, DataType } from '../types'
 
 function Home() {
   const [isLoading, setIsLoading] = useState(false)
-
   const [onTVData, setonTVData] = useState<DataType>()
   const [popularData, setPopularData] = useState<DataType>()
   const [upcomingData, setUpcomingData] = useState<DataType>()
