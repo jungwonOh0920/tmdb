@@ -4,7 +4,7 @@ import ContentHero from '../components/ContentHero/ContentHero'
 import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
-import { TVObjectType, MovieObjectType, MovieWithRateType, PlatformTypes } from '../types'
+import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, PlatformTypes } from '../types'
 import "../styles/contentIntro.scss"
 
 interface ReleaseDatesType {
@@ -16,18 +16,15 @@ const ContentIntro = () => {
     let location = useLocation()
     const [id, setId] = useState(0)
     const [platform, setPlatform] = useState<PlatformTypes>()
-    const [movieInfoRate, setMovieInfoRate] = useState<MovieWithRateType>()
+    const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
     const [movieInfo, setMovieInfo] = useState<MovieObjectType>()
     const [TVInfo, setTVInfo] = useState<TVObjectType>()
+    const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
     const [rating, setRating] = useState('')
     const [recommendationsData, setRecommendationsData] = useState<MovieObjectType[]>([])
     const [isLoading, setIsLoading] = useState<any>(false)
-
     const key = process.env.REACT_APP_TMDB_API_KEY
 
-    // useEffect(() => {
-    //     console.log('tvData: ', TVInfo);
-    // }, [TVInfo])
     useEffect(() => {
         const locationArray = location.pathname.split('/')
         setId(Number(locationArray[3]))
@@ -46,8 +43,13 @@ const ContentIntro = () => {
                 .then(data => setRecommendationsData(data.results))
         }
 
-        setMovieInfoRate({
+        setMovieDataWithRate({
             contentData: movieInfo as MovieObjectType,
+            rating: rating
+        })
+
+        setTVDataWithRate({
+            contentData: TVInfo as TVObjectType,
             rating: rating
         })
 
@@ -56,49 +58,59 @@ const ContentIntro = () => {
         if (movieInfo) {
             fetchRecommendation()
         }
-    }, [movieInfo, rating, key])
+    }, [movieInfo, TVInfo, rating, key])
 
     useEffect(() => {
-        console.log('check: ', recommendationsData);
         if (recommendationsData) {
             setIsLoading(false)
         }
     }, [recommendationsData])
 
     useEffect(() => {
-        const fetchTV = () => {
+        const fetchTV = async () => {
             const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
+            const TV_END_POINT = `https://api.themoviedb.org/3/tv/${id}`
+            const TV_RATE_END_POINT = `https://api.themoviedb.org/3/tv/${id}/content_ratings`
 
-            const URL = `https://api.themoviedb.org/3/tv/${id}`
-            const options = {
+            const OPTIONS = {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
                     Authorization: `Bearer ${TMDB_AUTHORIZATION}`
                 }
-            };
-            fetch(URL, options).then(res => res.json()).then(data => {
-                setTVInfo(data)
-            })
+            }
+
+            let [tvData, contentRatings] = await Promise.all([
+                fetch(TV_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err)),
+                fetch(TV_RATE_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err))
+            ])
+            setTVInfo(tvData)
+            setRating(contentRatings.results[0].rating)
+        }
+
+        const fetchMovie = async () => {
+            try {
+                let [movieData, releaseDates] = await Promise.all([
+                    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => res.json()),
+                    fetch(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${key}`).then(res => res.json())
+                ])
+                setMovieInfo(movieData)
+                getUSRating(releaseDates.results)
+            } catch (err) {
+                console.log('err: ', err);
+            }
         }
 
         const fetchAPI = async () => {
             if (platform === PlatformTypes.movie) {
-                try {
-                    let [movieData, releaseDates] = await Promise.all([
-                        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => res.json()),
-                        fetch(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${key}`).then(res => res.json())
-                    ])
-                    setMovieInfo(movieData)
-                    getUSRating(releaseDates.results)
-                } catch (err) {
-                    console.log('err: ', err);
-                }
+                fetchMovie()
             } else {
                 fetchTV()
             }
         }
-        fetchAPI()
+        if (id) {
+            fetchAPI()
+        }
     }, [platform, id, key])
 
     const getUSRating = (releaseDates: ReleaseDatesType[]) => {
@@ -114,8 +126,8 @@ const ContentIntro = () => {
     return (
         <div className='space-y-4'>
             {
-                platform === PlatformTypes.movie ? (movieInfoRate && <ContentHero type={PlatformTypes.movie} content={movieInfoRate} />) :
-                    (TVInfo && <ContentHero type={PlatformTypes.tv} content={TVInfo} />)
+                platform === PlatformTypes.movie ? (movieDataWithRate && <ContentHero type={PlatformTypes.movie} content={movieDataWithRate} />) :
+                    (TVDataWithRate && <ContentHero type={PlatformTypes.tv} content={TVDataWithRate} />)
             }
             {
                 recommendationsData.length ?

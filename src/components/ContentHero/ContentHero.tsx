@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import { TVObjectType } from '../../types'
 import Rate, { SizeType } from '../Rate/Rate'
 import Button from '../Button/Button'
 import './content-hero.scss'
 import Modal from '../Modal/Modal'
 import noPoster from '../../assets/images/noPoster.png'
-import { MovieWithRateType, PlatformTypes } from '../../types'
+import { MovieWithRateType, PlatformTypes, TVWithRateType } from '../../types'
 
 interface MovieProp {
     type: PlatformTypes.movie
@@ -14,7 +13,7 @@ interface MovieProp {
 
 interface TVProp {
     type: PlatformTypes.tv
-    content: TVObjectType
+    content: TVWithRateType
 }
 
 type ContentHeroPropType = MovieProp | TVProp
@@ -24,10 +23,9 @@ const ContentHero = (props: ContentHeroPropType) => {
     const [trailerKey, setTrailerKey] = useState<string>('')
 
     useEffect(() => {
-        console.log('check: ', props)
         const key = process.env.REACT_APP_TMDB_API_KEY
         const fetchTrailer = async () => {
-            if (props.type === PlatformTypes.movie) {
+            if (props.type === PlatformTypes.movie && props.content.contentData) {
                 try {
                     let res = await fetch(`https://api.themoviedb.org/3/movie/${props.content.contentData.id}/videos?api_key=${key}&language=en-US`)
                     const jsonData = await res.json()
@@ -95,6 +93,7 @@ const ContentHero = (props: ContentHeroPropType) => {
                         <h3>Overview</h3>
                         <p>{props.content.contentData.overview}</p>
                         <Rate rate={Math.floor(props.content.contentData.vote_average || 0)} size={SizeType.medium} />
+                        <br />
                         <Button onClick={toggleModal}>Play Trailer</Button>
                         {
                             isModalOpen ?
@@ -116,12 +115,12 @@ const ContentHero = (props: ContentHeroPropType) => {
 
     const tvHero = () => {
         return <>{
-            props.type === PlatformTypes.tv && <>
+            props.type === PlatformTypes.tv && props.content.contentData && <>
                 <div className='image-background'
-                    style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${props.content.backdrop_path})` }}></div>
+                    style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${props.content.contentData.backdrop_path})` }}></div>
                 <section className='content-container'>
                     <div className='poster-container'>
-                        <img src={`https://image.tmdb.org/t/p/original${props.content.poster_path}`}
+                        <img src={`https://image.tmdb.org/t/p/original${props.content.contentData.poster_path}`}
                             onError={({ currentTarget }) => {
                                 currentTarget.onerror = null
                                 currentTarget.src = `${noPoster}`
@@ -129,23 +128,24 @@ const ContentHero = (props: ContentHeroPropType) => {
                             alt='post' />
                     </div>
                     <div className={`content-info ${isModalOpen ? 'space-y-4' : ''}`}>
-                        <h2>{props.content.name}</h2>
+                        <h2>{props.content.contentData.name}</h2>
                         <div className='facts'>
-                            {/* {
+                            {
                                 props.content.rating ? <span className='rating'>{props.content?.rating}</span> : ''
                             }
-                            <span className={props.content.rating && 'pl-2'}>{getReleaseDate()}</span> */}
+                            <span className={props.content.rating && 'pl-2'}>{getReleaseDate()}</span>
                             <span className='genres'>
                                 {
-                                    props.content.genres && props.content.genres.map(genre => genre.name).join(', ')
+                                    props.content.contentData.genres && props.content.contentData.genres.map(genre => genre.name).join(', ')
                                 }
                             </span>
                             {/* <span className='runtime'>{convertToHour(props.content.contentData.runtime)}</span> */}
                         </div>
-                        <p className='tagline'>{props.content.tagline}</p>
+                        <p className='tagline'>{props.content.contentData.tagline}</p>
                         <h3>Overview</h3>
-                        <p>{props.content.overview}</p>
-                        <Rate rate={Math.floor(props.content.vote_average || 0)} size={SizeType.medium} />
+                        <p>{props.content.contentData.overview}</p>
+                        <Rate rate={Math.floor(props.content.contentData.vote_average || 0)} size={SizeType.medium} />
+                        <br />
                         <Button onClick={toggleModal}>Play Trailer</Button>
                         {
                             isModalOpen ?
