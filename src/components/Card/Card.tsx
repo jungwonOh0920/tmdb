@@ -2,9 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import Rate from '../Rate/Rate'
 import CardOverlay from './CardOverlay'
 import Button, { ButtonTypes } from '../Button/Button'
-import { VideoType } from '../../pages/Home'
-import { MovieInfoType } from '../../pages/ContentInfo'
-import './card.scss'
+import { MovieObjectType, VideoType } from '../../types'
 import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { useAppDispatch } from '../../hooks'
@@ -16,9 +14,10 @@ import {
   User as FirebaseUser,
 } from 'firebase/auth'
 import noPoster from '../../assets/images/noPoster.png'
+import './card.scss'
 
 interface CardPropType {
-  data: VideoType | MovieInfoType,
+  data: VideoType | MovieObjectType,
   alreadyFav: boolean
 }
 

@@ -4,46 +4,23 @@ import ContentHero from '../components/ContentHero/ContentHero'
 import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
-import { TVType } from '../pages/Home'
+import { TVObjectType, MovieObjectType, MovieWithRateType, PlatformTypes } from '../types'
 import "../styles/contentIntro.scss"
-
-export enum PlatformTypes {
-    tv,
-    movie
-}
 
 interface ReleaseDatesType {
     iso_3166_1: string,
     release_dates: [{ certification: string }]
 }
 
-export interface MovieInfoType {
-    backdrop_path: string,
-    poster_path: string,
-    title: string,
-    release_date: string,
-    genres: { id: number, name: string }[],
-    runtime: number,
-    vote_average: number,
-    overview: string,
-    tagline: string,
-    id: number
-}
-
-export interface MovieInfoRateType {
-    contentData: MovieInfoType,
-    rating: string
-}
-
 const ContentIntro = () => {
     let location = useLocation()
     const [id, setId] = useState(0)
     const [platform, setPlatform] = useState<PlatformTypes>()
-    const [movieInfoRate, setMovieInfoRate] = useState<MovieInfoRateType>()
-    const [movieInfo, setMovieInfo] = useState<MovieInfoType>()
-    const [TVInfo, setTVInfo] = useState<TVType>()
+    const [movieInfoRate, setMovieInfoRate] = useState<MovieWithRateType>()
+    const [movieInfo, setMovieInfo] = useState<MovieObjectType>()
+    const [TVInfo, setTVInfo] = useState<TVObjectType>()
     const [rating, setRating] = useState('')
-    const [recommendationsData, setRecommendationsData] = useState<MovieInfoType[]>([])
+    const [recommendationsData, setRecommendationsData] = useState<MovieObjectType[]>([])
     const [isLoading, setIsLoading] = useState<any>(false)
 
     const key = process.env.REACT_APP_TMDB_API_KEY
@@ -70,7 +47,7 @@ const ContentIntro = () => {
         }
 
         setMovieInfoRate({
-            contentData: movieInfo as MovieInfoType,
+            contentData: movieInfo as MovieObjectType,
             rating: rating
         })
 
@@ -145,7 +122,7 @@ const ContentIntro = () => {
                     <Tabs titles={['Recommendations']}>
                         <CardSlider isLoading={isLoading}>
                             {
-                                recommendationsData?.map((data: MovieInfoType, idx: number) => <Card data={data} key={idx} />)
+                                recommendationsData?.map((data: MovieObjectType, idx: number) => <Card data={data} key={idx} />)
                             }
                         </CardSlider>
                     </Tabs> : ''
