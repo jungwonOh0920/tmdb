@@ -21,7 +21,8 @@
     }
 
     .contents {
-        height: 284px;
+        // height: 284px;
+        height: fit-content;
         display: flex;
         overflow-x: auto;
         overflow-y: hidden;

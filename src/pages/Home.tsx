@@ -19,9 +19,9 @@ import { VideoType, DataType } from '../types'
 function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [onTVData, setonTVData] = useState<DataType>()
-  const [popularData, setPopularData] = useState<DataType>()
-  const [upcomingData, setUpcomingData] = useState<DataType>()
-  const [forRentData, setForRentData] = useState<DataType>()
+  const [popularData, setPopularData] = useState<VideoType[]>()
+  const [upcomingData, setUpcomingData] = useState<VideoType[]>()
+  const [forRentData, setForRentData] = useState<VideoType[]>()
   const contextUser: FirebaseUser | null = useContext(Context)
 
   const favorites: VideoType[] = useAppSelector((state) => state.favorites.movies)
@@ -49,7 +49,7 @@ function Home() {
 
     const onTVUrl = `https://api.themoviedb.org/3/tv/on_the_air?api_key=${api_key}&language=en-US&page=1`
 
-    const popularUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=1`;
+    const popularUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=1`
 
     const upcomingUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${api_key}&language=en-US&page=1`
 
@@ -60,15 +60,15 @@ function Home() {
     })
 
     axios.get(popularUrl).then((res) => {
-      setPopularData(res.data);
+      setPopularData(res.data.results)
     })
 
     axios.get(upcomingUrl).then((res) => {
-      setUpcomingData(res.data);
+      setUpcomingData(res.data.results)
     })
 
     axios.get(forRentUrl).then((res) => {
-      setForRentData(res.data);
+      setForRentData(res.data.results)
     })
 
   }, [dispatch, contextUser]);
@@ -79,6 +79,10 @@ function Home() {
     }
   }, [onTVData, popularData, upcomingData, forRentData])
 
+  useEffect(() => {
+    console.log('popularData: ', popularData)
+  }, [popularData])
+
   const titles = ['Popular', 'Upcoming', 'For Rent']
 
   const handleIsSelected = (id: number): boolean => {
@@ -87,19 +91,25 @@ function Home() {
 
   const popularList = () => (
     <CardSlider isLoading={isLoading}>
-      {popularData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
+      {popularData?.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
+    </CardSlider>
+  )
+
+  const popularTrailers = () => (
+    <CardSlider isLoading={isLoading}>
+      {popularData && popularData.map((movie: VideoType, idx) => <Card data={movie} landscape key={idx} />)}
     </CardSlider>
   )
 
   const upcomingList = () => (
     <CardSlider isLoading={isLoading}>
-      {upcomingData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
+      {upcomingData?.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
 
   const forRentList = () => (
     <CardSlider isLoading={isLoading}>
-      {forRentData?.results.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
+      {forRentData?.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
 
@@ -113,6 +123,10 @@ function Home() {
           {popularList()}
           {upcomingList()}
           {forRentList()}
+        </Tabs>
+        <Tabs tabTitles={['popular', 'Upcoming']} title='Latest Trailers'>
+          {popularTrailers()}
+          {upcomingList()}
         </Tabs>
       </section>
       <section>

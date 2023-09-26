@@ -14,14 +14,16 @@ import {
   User as FirebaseUser,
 } from 'firebase/auth'
 import noPoster from '../../assets/images/noPoster.png'
+import classNames from 'classnames'
 import './card.scss'
 
 interface CardPropType {
   data: VideoType | MovieObjectType,
   alreadyFav: boolean
+  landscape?: boolean
 }
 
-const Card = ({ data, alreadyFav }: CardPropType) => {
+const Card = ({ data, alreadyFav, landscape }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
   const contextUser: FirebaseUser | null = useContext(Context)
@@ -66,8 +68,13 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
 
   }
 
+  const cardContainerClasses = classNames(
+    'card-container',
+    { 'landscape': landscape }
+  )
+
   return (
-    <div className="card-container">
+    <div className={cardContainerClasses}>
       <div
         className="image-container"
         onMouseEnter={() => { setIsHovered(true) }}
@@ -108,5 +115,6 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
 export default Card;
 
 Card.defaultProps = {
-  alreadyFav: false
+  alreadyFav: false,
+  landscape: false
 }
