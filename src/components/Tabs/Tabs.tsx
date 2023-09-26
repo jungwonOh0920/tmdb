@@ -4,12 +4,13 @@ import TabNavItem from './TabNavItem'
 import './tabs.scss'
 
 type TabsPropTypes = {
-    children: JSX.Element[] | JSX.Element // can take multiple or single child(ren)
-    titles: string[]
+    children: JSX.Element[] | JSX.Element // can take multiple or single
+    tabTitles: string[]
+    title?: string
 }
 
 
-const Tabs = ({ children, titles }: TabsPropTypes) => {
+const Tabs = ({ children, tabTitles, title }: TabsPropTypes) => {
     const [activeTab, setActiveTab] = useState('tab1')
     const [isSingleTab, setIsSingleTab] = useState(false)
 
@@ -23,22 +24,25 @@ const Tabs = ({ children, titles }: TabsPropTypes) => {
 
     return (
         <div className='tabs-container'>
-            <ul className='menu-nav'>
-                {
-                    titles.map((title, index) => {
-                        return (
-                            <TabNavItem
-                                id={`tab${index + 1}`}
-                                title={title}
-                                activeTab={activeTab}
-                                isSingleTab={isSingleTab}
-                                setActiveTab={setActiveTab}
-                                key={index}
-                            />
-                        )
-                    })
-                }
-            </ul>
+            <div className='flex leading-none'>
+                {title ? <h2 className='mb-0 mr-4'>{title}</h2> : ''}
+                <ul className='menu-nav'>
+                    {
+                        tabTitles.map((title, index) => {
+                            return (
+                                <TabNavItem
+                                    id={`tab${index + 1}`}
+                                    title={title}
+                                    activeTab={activeTab}
+                                    isSingleTab={isSingleTab}
+                                    setActiveTab={setActiveTab}
+                                    key={index}
+                                />
+                            )
+                        })
+                    }
+                </ul>
+            </div>
             <div className='outlet'>
                 {
                     <>

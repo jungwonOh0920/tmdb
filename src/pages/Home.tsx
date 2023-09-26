@@ -109,7 +109,7 @@ function Home() {
         <Hero />
       </section>
       <section>
-        <Tabs titles={titles} >
+        <Tabs tabTitles={titles} title='Trending'>
           {popularList()}
           {upcomingList()}
           {forRentList()}

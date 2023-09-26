@@ -1,9 +1,10 @@
 @import '../../styles/mixins';
 
 .tabs-container {
+    padding: 24px 0 16px;
+
     .menu-nav {
         display: flex;
-        width: fit-content;
 
         .single-tab-title {
             margin: 0;
@@ -13,16 +14,16 @@
             border-bottom: 1px solid transparent;
             padding: 4px 16px;
             background-color: rgb(28, 31, 32);
-            color: aliceblue;
+            color: var(--text-color);
 
             &.active {
                 background-color: rgba(3, 37, 65, 1);
-                color: aliceblue;
-                border: 1px solid skyblue;
+                color: var(--text-color);
+                border: 1px solid var(--tmdb-secondary);
             }
 
             &:hover {
-                border-bottom: 1px solid skyblue;
+                border-bottom: 1px solid var(--tmdb-secondary);
                 cursor: pointer;
             }
 
