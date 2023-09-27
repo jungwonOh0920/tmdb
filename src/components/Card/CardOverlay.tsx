@@ -1,21 +1,19 @@
-import { useEffect, useState } from 'react'
-import Button from '../Button/Button'
 import './card.scss'
 
-function CardOverlay({ data }: any) {
-    const [isMovie, setIsMovie] = useState(false)
+interface CardOverlayPropType {
+    children: JSX.Element
+}
 
-    useEffect(() => {
-        if (data.title && data.release_date) {
-            setIsMovie(true)
-        }
-    }, [data.title, data.release_date])
+const OverlayBody = ({ children }: any) => {
+    return <div className='overlay-body'>{children}</div>
+}
 
+function CardOverlay({ children }: CardOverlayPropType) {
     return (
-        <div className='card-overlay'>
-            <Button linkTo={`/contents/${isMovie ? 'movie' : 'tv'}/${data.id}`}>See details</Button>
-        </div>
+        <div className='card-overlay'>{children}</div>
     )
 }
 
 export default CardOverlay
+
+CardOverlay.OverlayBody = OverlayBody
