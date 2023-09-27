@@ -6,11 +6,11 @@ import './tabs.scss'
 type TabsPropTypes = {
     children: JSX.Element[] | JSX.Element // can take multiple or single
     tabTitles: string[]
-    title?: string
+    title?: string,
+    backgroundImg?: string
 }
 
-
-const Tabs = ({ children, tabTitles, title }: TabsPropTypes) => {
+const Tabs = ({ children, tabTitles, title, backgroundImg }: TabsPropTypes) => {
     const [activeTab, setActiveTab] = useState('tab1')
     const [isSingleTab, setIsSingleTab] = useState(false)
 
@@ -24,8 +24,10 @@ const Tabs = ({ children, tabTitles, title }: TabsPropTypes) => {
 
     return (
         <div className='tabs-container'>
+            {backgroundImg && backgroundImg.length && <img src={`https://image.tmdb.org/t/p/original/${backgroundImg}`} alt='tabs-background' className='tabs-container-bg' />}
+
             <div className='flex leading-none'>
-                {title ? <h2 className='mb-0 mr-4'>{title}</h2> : ''}
+                {title ? <h2 className='title'>{title}</h2> : ''}
                 <ul className='menu-nav'>
                     {
                         tabTitles.map((title, index) => {

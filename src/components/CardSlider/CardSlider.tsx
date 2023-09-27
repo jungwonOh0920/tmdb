@@ -91,3 +91,7 @@ const CardSlider = (prop: CardSliderProps) => {
 };
 
 export default CardSlider;
+
+CardSlider.defaultProps = {
+  isLoading: false
+}

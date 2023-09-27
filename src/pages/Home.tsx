@@ -22,6 +22,7 @@ function Home() {
   const [popularData, setPopularData] = useState<VideoType[]>()
   const [upcomingData, setUpcomingData] = useState<VideoType[]>()
   const [forRentData, setForRentData] = useState<VideoType[]>()
+  const [tabBackgroundImage, setTabBackgroundImage] = useState('')
   const contextUser: FirebaseUser | null = useContext(Context)
 
   const favorites: VideoType[] = useAppSelector((state) => state.favorites.movies)
@@ -79,9 +80,9 @@ function Home() {
     }
   }, [onTVData, popularData, upcomingData, forRentData])
 
-  useEffect(() => {
-    console.log('popularData: ', popularData)
-  }, [popularData])
+  // useEffect(() => {
+  //   console.log('popularData: ', popularData)
+  // }, [popularData])
 
   const titles = ['Popular', 'Upcoming', 'For Rent']
 
@@ -97,7 +98,9 @@ function Home() {
 
   const popularTrailers = () => (
     <CardSlider isLoading={isLoading}>
-      {popularData && popularData.map((movie: VideoType, idx) => <Card data={movie} landscape key={idx} />)}
+      {popularData && popularData.map((movie: VideoType, idx) => <Card data={movie} landscape key={idx} onChangeBackgroundImage={(newImage) => {
+        setTabBackgroundImage(newImage)
+      }} />)}
     </CardSlider>
   )
 
@@ -124,7 +127,7 @@ function Home() {
           {upcomingList()}
           {forRentList()}
         </Tabs>
-        <Tabs tabTitles={['popular', 'Upcoming']} title='Latest Trailers'>
+        <Tabs tabTitles={['popular', 'Upcoming']} title='Latest Trailers' backgroundImg={tabBackgroundImage}>
           {popularTrailers()}
           {upcomingList()}
         </Tabs>

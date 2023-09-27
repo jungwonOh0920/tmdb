@@ -47,7 +47,8 @@
     }
 
     .title-container {
-        height: 3.5rem;
+        // height: 3.5rem;
+        height: fit-content;
         width: 160px;
         min-width: 160px;
         overflow: hidden;

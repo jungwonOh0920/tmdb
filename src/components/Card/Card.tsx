@@ -20,12 +20,13 @@ import './card.scss'
 import { faPlay } from "@fortawesome/free-solid-svg-icons"
 
 interface CardPropType {
-  data: VideoType | MovieObjectType,
+  data: VideoType | MovieObjectType
   alreadyFav: boolean
   landscape?: boolean
+  onChangeBackgroundImage?: (newImage: string) => void
 }
 
-const Card = ({ data, alreadyFav, landscape }: CardPropType) => {
+const Card = ({ data, alreadyFav, landscape, onChangeBackgroundImage }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
   const contextUser: FirebaseUser | null = useContext(Context)
@@ -36,6 +37,12 @@ const Card = ({ data, alreadyFav, landscape }: CardPropType) => {
       setIsFavorite(true)
     }
   }, [alreadyFav])
+
+  useEffect(() => {
+    if (isHovered && onChangeBackgroundImage) {
+      onChangeBackgroundImage(data.backdrop_path)
+    }
+  }, [isHovered, onChangeBackgroundImage, data.backdrop_path])
 
   const handleClick = async () => {
     if (!isFavorite) {

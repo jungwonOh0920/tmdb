@@ -5,6 +5,8 @@
     padding-left: 2.5rem;
     padding-right: 2.5rem;
     background-color: transparent;
+    z-index: 2;
+    // border: 1px solid red;
 
     .scroll-button {
         position: absolute;
@@ -24,6 +26,7 @@
         // height: 284px;
         height: fit-content;
         display: flex;
+        align-items: flex-end;
         overflow-x: auto;
         overflow-y: hidden;
         scroll-behavior: smooth;

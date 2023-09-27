@@ -2,9 +2,25 @@
 
 .tabs-container {
     padding: 24px 0 16px;
+    position: relative;
+    overflow: hidden;
+
+    .tabs-container-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: .5;
+        z-index: 1;
+    }
+
+    .title {
+        margin: 0 16px 0 0;
+        z-index: 2;
+    }
 
     .menu-nav {
         display: flex;
+        z-index: 2;
 
         .single-tab-title {
             margin: 0;
