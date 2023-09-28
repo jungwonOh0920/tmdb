@@ -16,7 +16,7 @@ const getWindowSize = () => {
   return innerWidth;
 };
 
-const CardSlider = (prop: CardSliderProps) => {
+const CardSlider = ({ children, isLoading }: CardSliderProps) => {
   const [windowSize, setWindowSize] = useState(getWindowSize);
   const [offset, setOffset] = useState(0);
   const [scrollX, setScrollX] = useState(0);
@@ -68,12 +68,11 @@ const CardSlider = (prop: CardSliderProps) => {
               children={<FontAwesomeIcon icon={faAngleLeft} />}
             />
           </div>
-
         ) : null
       }
 
       <div className="contents space-x-4" ref={contentsRef}>
-        {prop.isLoading ? <Loader /> : prop.children}
+        {isLoading ? <Loader /> : children}
       </div>
 
       {!isScrollEnd && (

@@ -23,10 +23,11 @@ interface CardPropType {
   data: VideoType | MovieObjectType
   alreadyFav: boolean
   landscape?: boolean
+  index?: number,
   onChangeBackgroundImage?: (newImage: string) => void
 }
 
-const Card = ({ data, alreadyFav, landscape, onChangeBackgroundImage }: CardPropType) => {
+const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
   const contextUser: FirebaseUser | null = useContext(Context)
@@ -39,10 +40,13 @@ const Card = ({ data, alreadyFav, landscape, onChangeBackgroundImage }: CardProp
   }, [alreadyFav])
 
   useEffect(() => {
-    if (isHovered && onChangeBackgroundImage) {
+    if (onChangeBackgroundImage && index === 0) {
       onChangeBackgroundImage(data.backdrop_path)
     }
-  }, [isHovered, onChangeBackgroundImage, data.backdrop_path])
+    else if (isHovered && onChangeBackgroundImage) {
+      onChangeBackgroundImage(data.backdrop_path)
+    }
+  }, [isHovered, onChangeBackgroundImage, data.backdrop_path, index])
 
   const handleClick = async () => {
     if (!isFavorite) {

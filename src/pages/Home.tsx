@@ -96,13 +96,16 @@ function Home() {
     </CardSlider>
   )
 
-  const popularTrailers = () => (
-    <CardSlider isLoading={isLoading}>
-      {popularData && popularData.map((movie: VideoType, idx) => <Card data={movie} landscape key={idx} onChangeBackgroundImage={(newImage) => {
-        setTabBackgroundImage(newImage)
-      }} />)}
-    </CardSlider>
-  )
+  const popularTrailers = () => {
+    if (popularData) {
+      return <CardSlider isLoading={isLoading}>
+        {popularData && popularData.map((movie: VideoType, idx) => <Card data={movie} landscape index={idx} key={idx} onChangeBackgroundImage={(newImage) => {
+          setTabBackgroundImage(newImage)
+        }} />)}
+      </CardSlider>
+    } else return <></>
+  }
+
 
   const upcomingList = () => (
     <CardSlider isLoading={isLoading}>

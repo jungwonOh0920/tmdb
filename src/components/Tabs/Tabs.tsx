@@ -24,8 +24,7 @@ const Tabs = ({ children, tabTitles, title, backgroundImg }: TabsPropTypes) => {
 
     return (
         <div className='tabs-container'>
-            {backgroundImg && backgroundImg.length && <img src={`https://image.tmdb.org/t/p/original/${backgroundImg}`} alt='tabs-background' className='tabs-container-bg' />}
-
+            {backgroundImg && <img src={`https://image.tmdb.org/t/p/original/${backgroundImg}`} alt='tabs-background' className='tabs-container-bg' />}
             <div className='flex leading-none'>
                 {title ? <h2 className='title'>{title}</h2> : ''}
                 <ul className='menu-nav'>
