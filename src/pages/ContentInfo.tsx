@@ -131,7 +131,7 @@ const ContentIntro = () => {
             }
             {
                 recommendationsData.length ?
-                    <Tabs titles={['Recommendations']}>
+                    <Tabs tabTitles={['Recommendations']}>
                         <CardSlider isLoading={isLoading}>
                             {
                                 recommendationsData?.map((data: MovieObjectType, idx: number) => <Card data={data} key={idx} />)

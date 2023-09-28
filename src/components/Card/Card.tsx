@@ -5,6 +5,7 @@ import Button, { ButtonTypes } from '../Button/Button'
 import { MovieObjectType, VideoType } from '../../types'
 import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppDispatch } from '../../hooks'
 import { ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
 import { Context } from '../Layout/Layout'
@@ -14,14 +15,19 @@ import {
   User as FirebaseUser,
 } from 'firebase/auth'
 import noPoster from '../../assets/images/noPoster.png'
+import classNames from 'classnames'
 import './card.scss'
+import { faPlay } from "@fortawesome/free-solid-svg-icons"
 
 interface CardPropType {
-  data: VideoType | MovieObjectType,
+  data: VideoType | MovieObjectType
   alreadyFav: boolean
+  landscape?: boolean
+  index?: number,
+  onChangeBackgroundImage?: (newImage: string) => void
 }
 
-const Card = ({ data, alreadyFav }: CardPropType) => {
+const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
   const contextUser: FirebaseUser | null = useContext(Context)
@@ -32,6 +38,15 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
       setIsFavorite(true)
     }
   }, [alreadyFav])
+
+  useEffect(() => {
+    if (onChangeBackgroundImage && index === 0) {
+      onChangeBackgroundImage(data.backdrop_path)
+    }
+    else if (isHovered && onChangeBackgroundImage) {
+      onChangeBackgroundImage(data.backdrop_path)
+    }
+  }, [isHovered, onChangeBackgroundImage, data.backdrop_path, index])
 
   const handleClick = async () => {
     if (!isFavorite) {
@@ -66,15 +81,20 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
 
   }
 
+  const cardContainerClasses = classNames(
+    'card-container',
+    { 'landscape': landscape }
+  )
+
   return (
-    <div className="card-container">
+    <div className={cardContainerClasses}>
       <div
         className="image-container"
         onMouseEnter={() => { setIsHovered(true) }}
         onMouseLeave={() => { setIsHovered(false) }}
       >
         <img
-          src={`https://image.tmdb.org/t/p/original${data.poster_path}`}
+          src={`https://image.tmdb.org/t/p/original${landscape ? data.backdrop_path : data.poster_path}`}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null
             currentTarget.src = `${noPoster}`
@@ -83,24 +103,32 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
         />
         {isHovered &&
           <div className='card-overlay-wrapper'>
-            <CardOverlay data={data} />
-            {
-              contextUser ?
-                <div className='favorite-container'>
-                  <Button type={ButtonTypes.noBorder} onClick={handleClick}>
-                    <img src={isFavorite ? favoriteFillSvg : favoriteEmptySvg} alt='favoriteEmptySvg' />
-                  </Button>
-                </div> : null
-            }
+            <CardOverlay>
+              {landscape ? <Button type={ButtonTypes.noBorder} onClick={() => alert('working on trailer modal...')}>
+                <FontAwesomeIcon icon={faPlay} size='2xl' />
+              </Button> : <>
+                <Button linkTo={`/contents/${data.title && data.release_date ? 'movie' : 'tv'}/${data.id}`}>See details</Button>
+                {
+                  contextUser ?
+                    <div className='favorite-container'>
+                      <Button type={ButtonTypes.noBorder} onClick={handleClick}>
+                        <img src={isFavorite ? favoriteFillSvg : favoriteEmptySvg} alt='favoriteEmptySvg' />
+                      </Button>
+                    </div> : null
+                }</>}
+
+            </CardOverlay>
           </div>}
       </div>
-      <div className="h-14">
+      <div className='title-container h-14'>
         <p className='truncate'>{data.title}</p>
-        <span className='text-xs'>{data.release_date}</span>
+        {landscape ? null : <span className='text-xs'>{data.release_date}</span>}
       </div>
-      <div className='rate-container'>
-        <Rate rate={data.vote_average} />
-      </div>
+      {
+        landscape ? null : <div className='rate-container'>
+          <Rate rate={data.vote_average} />
+        </div>
+      }
     </div>
   );
 };
@@ -108,5 +136,6 @@ const Card = ({ data, alreadyFav }: CardPropType) => {
 export default Card;
 
 Card.defaultProps = {
-  alreadyFav: false
+  alreadyFav: false,
+  landscape: false
 }
