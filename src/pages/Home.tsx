@@ -20,7 +20,9 @@ function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [onTVData, setonTVData] = useState<DataType>()
   const [popularData, setPopularData] = useState<VideoType[]>()
+  const [popularDataForTrailer, setPopularDataForTrailer] = useState<VideoType[]>()
   const [upcomingData, setUpcomingData] = useState<VideoType[]>()
+  const [upcomingDataForTrailer, setUpcomingDataForTrailer] = useState<VideoType[]>()
   const [forRentData, setForRentData] = useState<VideoType[]>()
   const [tabBackgroundImage, setTabBackgroundImage] = useState('')
   const contextUser: FirebaseUser | null = useContext(Context)
@@ -56,6 +58,10 @@ function Home() {
 
     const forRentUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&watch_region=US&with_watch_monetization_types=rent`
 
+    const popularTrailerUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=en-US&page=2`
+
+    const upcomingTrailerUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${api_key}&language=en-US&page=2`
+
     axios.get(onTVUrl).then((res) => {
       setonTVData(res.data)
     })
@@ -72,6 +78,14 @@ function Home() {
       setForRentData(res.data.results)
     })
 
+    axios.get(popularTrailerUrl).then((res) => {
+      setPopularDataForTrailer(res.data.results)
+    })
+
+    axios.get(upcomingTrailerUrl).then((res) => {
+      setUpcomingDataForTrailer(res.data.results)
+    })
+
   }, [dispatch, contextUser]);
 
   useEffect(() => {
@@ -79,10 +93,6 @@ function Home() {
       setIsLoading(false)
     }
   }, [onTVData, popularData, upcomingData, forRentData])
-
-  // useEffect(() => {
-  //   console.log('popularData: ', popularData)
-  // }, [popularData])
 
   const titles = ['Popular', 'Upcoming', 'For Rent']
 
@@ -95,18 +105,6 @@ function Home() {
       {popularData?.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
-
-  const popularTrailers = () => {
-    if (popularData) {
-      return <CardSlider isLoading={isLoading}>
-        {popularData && popularData.map((movie: VideoType, idx) => <Card data={movie} landscape index={idx} key={idx} onChangeBackgroundImage={(newImage) => {
-          setTabBackgroundImage(newImage)
-        }} />)}
-      </CardSlider>
-    } else return <></>
-  }
-
-
   const upcomingList = () => (
     <CardSlider isLoading={isLoading}>
       {upcomingData?.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
@@ -118,6 +116,27 @@ function Home() {
       {forRentData?.map((d: VideoType, idx: number) => <Card data={d} key={idx} alreadyFav={handleIsSelected(d.id)} />)}
     </CardSlider>
   )
+
+  const popularTrailers = () => {
+    if (popularDataForTrailer) {
+      return <CardSlider isLoading={isLoading}>
+        {popularDataForTrailer && popularDataForTrailer.map((movie: VideoType, idx) => <Card data={movie} landscape index={idx} key={idx} onChangeBackgroundImage={(newImage) => {
+          setTabBackgroundImage(newImage)
+        }} />)}
+      </CardSlider>
+    } else return <></>
+  }
+
+  const upcomingTrailers = () => {
+    if (upcomingDataForTrailer) {
+      return <CardSlider isLoading={isLoading}>
+        {upcomingDataForTrailer && upcomingDataForTrailer.map((movie: VideoType, idx) => <Card data={movie} landscape index={idx} key={idx} onChangeBackgroundImage={(newImage) => {
+          setTabBackgroundImage(newImage)
+        }} />)}
+      </CardSlider>
+    } else return <></>
+  }
+
 
   return (
     <div className='space-y-8'>
@@ -132,7 +151,7 @@ function Home() {
         </Tabs>
         <Tabs tabTitles={['popular', 'Upcoming']} title='Latest Trailers' backgroundImg={tabBackgroundImage}>
           {popularTrailers()}
-          {upcomingList()}
+          {upcomingTrailers()}
         </Tabs>
       </section>
       <section>
