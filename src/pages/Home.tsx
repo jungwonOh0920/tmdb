@@ -144,15 +144,17 @@ function Home() {
         <Hero />
       </section>
       <section>
-        <Tabs tabTitles={titles} title='Trending'>
-          {popularList()}
-          {upcomingList()}
-          {forRentList()}
-        </Tabs>
-        <Tabs tabTitles={['popular', 'Upcoming']} title='Latest Trailers' backgroundImg={tabBackgroundImage}>
-          {popularTrailers()}
-          {upcomingTrailers()}
-        </Tabs>
+        <div className='space-y-8'>
+          <Tabs tabTitles={titles} title='Trending'>
+            {popularList()}
+            {upcomingList()}
+            {forRentList()}
+          </Tabs>
+          <Tabs tabTitles={['popular', 'Upcoming']} title='Latest Trailers' backgroundImg={tabBackgroundImage}>
+            {popularTrailers()}
+            {upcomingTrailers()}
+          </Tabs>
+        </div>
       </section>
       <section>
         {
