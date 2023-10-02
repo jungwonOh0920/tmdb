@@ -1,46 +1,57 @@
-# Getting Started with Create React App
+## A Clone Project - Streaming Site
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A mock web application with data from The Movie Database, built with React, Redux, Typescript, SCSS, TailwindCSS, and Firebase.
+Demo: https://jayohtmdb.netlify.app/home 
 
-## Available Scripts
+## Explanation
+The Movie Database provides vast amount of movie/TV data and actors. With the TMDB data, I'm building my own kingdom that looks like any streaming site such as Netflix. It's not following the exact same design or pattern from a company's site. Instead, I add things that I think it's cool. For example, the home page design is mostly coming from TMDB but the profile page is Peacock style. It's my playground to teach myself about front-end skills. 
 
-In the project directory, you can run:
+## Project Status
 
-### `npm start`
+This project is currently in development as I keep adding features and sophisticating the project. I still see a lot of bugs I need to fix as I develop so bear with me.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project Screen Shots
+### Home page as logged In
+Emphasizing on the most important thing - the button to my resume 😁
+<img src='./src/assets/images/home-screen.png' alt='home-screen'>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Browsing on Home page
+`Tab`, `Card Slider`, `Card` components.
+<img src='./src/assets/images/card-slider.png' alt='card-slider'>
 
-### `npm test`
+### Movie Detail page
+<img src='./src/assets/images/movie-detail-page.png' alt='movie-detail-page'>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Profile page
+Users can either choose a character or upload their profile image.
+<img src='./src/assets/images/profile.png' alt='movie-detail-page'>
 
-### `npm run build`
+### Save favorites
+When logged in, it allows users to save their favorites and it will show on the profile button when the mouse is hovered. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<img src='./src/assets/images/fav.png' alt='movie-detail-page'>
+<img src='./src/assets/images/tooltip.png' alt='movie-detail-page'>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation and Setup Instructions
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Clone down this repository. You will need node and npm installed globally on your machine.
 
-### `npm run eject`
+Installation:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+`npm install`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To Start Server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`npm start`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To Visit App:
 
-## Learn More
+`localhost:3000/`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Reflection
+
+I'm still building this project as I practice things I'm not familiar with. So, far I learned
+- Clean code is important. I don't want to come back later simply because I code sloppy this time to make things work. 
+- Don't get too scared of messing things around. The worst thing that can happen is to break this project. I can go back to the previous commit. 😝
+- Consistency is the key. 💪
