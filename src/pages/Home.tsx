@@ -97,7 +97,10 @@ function Home() {
   const titles = ['Popular', 'Upcoming', 'For Rent']
 
   const handleIsSelected = (id: number): boolean => {
-    return favorites.filter((fav) => fav.id === id).length > 0
+    if (favorites) {
+      return favorites.filter((fav) => fav.id === id).length > 0
+    }
+    return false
   }
 
   const popularList = () => (
