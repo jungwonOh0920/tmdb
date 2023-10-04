@@ -1,0 +1,45 @@
+$tool-tip-background: #fff;
+$tool-tip-margin: 30px;
+$tooltip-arrow-size: 6px;
+
+.new-tooltip-container {
+    position: relative;
+    display: inline-block;
+
+    .tooltip-tip {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        background-color: $tool-tip-background;
+        color: black;
+        z-index: 100;
+        white-space: nowrap;
+        border-radius: 4px;
+        line-height: 1;
+        padding: 6px;
+
+        .bottom {
+            bottom: calc(var($tool-tip-margin) * -1);
+        }
+
+        .bottom::before {
+            bottom: 100%;
+            border-bottom-color: var($tool-tip-margin);
+        }
+    }
+
+    /* CSS border triangles */
+    .tooltip-tip::before {
+        content: " ";
+        background-color: $tool-tip-background;
+        left: 50%;
+        border: solid red;
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-width: $tooltip-arrow-size;
+        margin-left: calc($tooltip-arrow-size * -1);
+    }
+}
