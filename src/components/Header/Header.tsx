@@ -9,9 +9,9 @@ import eventBus from "../../assets/utilities/EventBus"
 import {
   User as FirebaseUser,
 } from 'firebase/auth'
-import "./header.scss"
 import Tooltip from '../Tooltip/Tooltip'
 import Snippet from '../Snippet/Snippet'
+import "./header.scss"
 
 function Header() {
   const [avatar, setAvatar] = useState('')

@@ -11,11 +11,11 @@ export enum ToolTipPosition {
 interface TooltipType {
     children: JSX.Element
     content: String
-    position: ToolTipPosition
+    position?: ToolTipPosition
     delay?: number
 }
 
-const NewTooltip = ({ children, content, delay }: TooltipType) => {
+const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
     let timeout: ReturnType<typeof setTimeout>
     const [isActive, setIsActive] = useState(false)
 
@@ -33,7 +33,7 @@ const NewTooltip = ({ children, content, delay }: TooltipType) => {
     return (
         <div className='new-tooltip-container' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             {children}
-            {isActive && <div className='tooltip-tip bottom'>{content}</div>}
+            {isActive && <div className={`tooltip-tip ${position || 'bottom'}`}>{content}</div>}
         </div>
     )
 }
