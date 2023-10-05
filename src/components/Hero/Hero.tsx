@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import Button, { ButtonTypes, ButtonSizes } from '../Button/Button'
-import NewTooltip, { ToolTipPosition } from '../NewTooltip/NewTooltip'
+import NewTooltip from '../NewTooltip/NewTooltip'
 import axios from 'axios'
 import './hero.scss'
+
+const resumeTip = () => (<p className='text-inherit w-full'>in case you wonder about me :)</p>)
 
 const DesktopHero = () => (
   <div className="hero-container">
@@ -16,7 +18,7 @@ const DesktopHero = () => (
           Bingeworthy TV, Hit Movies, Live Sports & So Much More
         </h1>
         <p className='mb-2'>Stream it all for only $4.99/month. Cancel anytime.</p>
-        <NewTooltip content='test' position={ToolTipPosition.bottom}>
+        <NewTooltip content={resumeTip()}>
           <Button size={ButtonSizes.small} type={ButtonTypes.gradientFill} linkTo='/aboutme'>
             See Resume &#128514;
           </Button>

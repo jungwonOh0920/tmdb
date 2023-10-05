@@ -5,11 +5,14 @@ $tooltip-arrow-size: 6px;
 .new-tooltip-container {
     position: relative;
     display: inline-block;
+    color: var(--tmdb-primary);
 
     .tooltip-tip {
+        max-width: 250px;
+        // white-space: nowrap;
+        text-overflow: ellipsis;
         position: absolute;
         left: 50%;
-        // bottom: 0;
         transform: translateX(-50%);
         background-color: $tool-tip-background-color;
         color: var(--tmdb-primary);
@@ -32,7 +35,8 @@ $tooltip-arrow-size: 6px;
         }
 
         &.bottom {
-            bottom: calc($tool-tip-margin * -1 - $tooltip-arrow-size);
+            // don't know why it's not working on the head
+            // bottom: calc($tool-tip-margin * -1);
         }
 
         &.bottom::before {
