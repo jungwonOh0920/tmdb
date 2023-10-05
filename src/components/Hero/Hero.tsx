@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Button, { ButtonTypes, ButtonSizes } from '../Button/Button'
-import NewTooltip from '../NewTooltip/NewTooltip'
+import Tooltip from '../NewTooltip/Tooltip'
 import axios from 'axios'
 import './hero.scss'
 
@@ -18,11 +18,11 @@ const DesktopHero = () => (
           Bingeworthy TV, Hit Movies, Live Sports & So Much More
         </h1>
         <p className='mb-2'>Stream it all for only $4.99/month. Cancel anytime.</p>
-        <NewTooltip content={resumeTip()}>
+        <Tooltip content={resumeTip()}>
           <Button size={ButtonSizes.small} type={ButtonTypes.gradientFill} linkTo='/aboutme'>
             See Resume &#128514;
           </Button>
-        </NewTooltip>
+        </Tooltip>
       </div>
     </div>
   </div>

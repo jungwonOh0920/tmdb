@@ -9,7 +9,7 @@ import eventBus from "../../assets/utilities/EventBus"
 import {
   User as FirebaseUser,
 } from 'firebase/auth'
-import NewTooltip from '../NewTooltip/NewTooltip'
+import Tooltip from '../NewTooltip/Tooltip'
 import Snippet from '../Snippet/Snippet'
 import "./header.scss"
 
@@ -71,7 +71,7 @@ function Header() {
         <div className={'profile-action-link'}>
           {
             contextUser ? (
-              <NewTooltip content={tooltipContent()}>
+              <Tooltip content={tooltipContent()}>
                 <Button
                   linkTo="profile"
                   type={ButtonTypes.avatar}>
@@ -80,7 +80,7 @@ function Header() {
                       <div className='initial-container'>{initial}</div>
                   }
                 </Button>
-              </NewTooltip>
+              </Tooltip>
             )
               :
               <Button linkTo="profile">Sign in</Button>
