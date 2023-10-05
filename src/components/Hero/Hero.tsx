@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react"
-import Button, { ButtonTypes, ButtonSizes } from "../Button/Button"
-import axios from "axios"
-import "./hero.scss"
+import { useEffect, useState } from 'react'
+import Button, { ButtonTypes, ButtonSizes } from '../Button/Button'
+import Tooltip from '../NewTooltip/Tooltip'
+import axios from 'axios'
+import './hero.scss'
+
+const resumeTip = () => (<p className='text-inherit w-full'>in case you wonder about me :)</p>)
 
 const DesktopHero = () => (
   <div className="hero-container">
@@ -15,9 +18,11 @@ const DesktopHero = () => (
           Bingeworthy TV, Hit Movies, Live Sports & So Much More
         </h1>
         <p className='mb-2'>Stream it all for only $4.99/month. Cancel anytime.</p>
-        <Button size={ButtonSizes.small} type={ButtonTypes.gradientFill} linkTo='/aboutme'>
-          See Resume &#128514;
-        </Button>
+        <Tooltip content={resumeTip()}>
+          <Button size={ButtonSizes.small} type={ButtonTypes.gradientFill} linkTo='/aboutme'>
+            See Resume &#128514;
+          </Button>
+        </Tooltip>
       </div>
     </div>
   </div>

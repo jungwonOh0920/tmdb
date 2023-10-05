@@ -9,17 +9,13 @@ import eventBus from "../../assets/utilities/EventBus"
 import {
   User as FirebaseUser,
 } from 'firebase/auth'
-import "./header.scss"
-import Tooltip from '../Tooltip/Tooltip'
+import Tooltip from '../NewTooltip/Tooltip'
 import Snippet from '../Snippet/Snippet'
+import "./header.scss"
 
 function Header() {
   const [avatar, setAvatar] = useState('')
   const [initial, setInitial] = useState('')
-  const [isProfileBtnHovered, setIsProfileBtnHovered] = useState(false)
-  const [isTooltipHovered, setIsTooltipHovered] = useState(false)
-  const [isTooltipOn, setIsTooltipOn] = useState(false)
-
   const contextUser: FirebaseUser | null = useContext(Context)
 
   useEffect(() => {
@@ -50,19 +46,14 @@ function Header() {
   }, [])
 
   useEffect(() => {
-    if (!isProfileBtnHovered && !isTooltipHovered) {
-      setIsTooltipOn(false)
-    } else if (isProfileBtnHovered || isTooltipHovered) {
-      setIsTooltipOn(true)
-    }
-  }, [isProfileBtnHovered, isTooltipHovered])
-
-  useEffect(() => {
     if (avatar === '' && contextUser && contextUser.displayName) {
       setInitial(contextUser.displayName[0])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar])
+
+  const tooltipContent = () => (<><h2>My favorites</h2>
+    <Snippet /></>)
 
   return (
     <div className="header-container">
@@ -79,6 +70,22 @@ function Header() {
         </div>
         <div className={'profile-action-link'}>
           {
+            contextUser ? (
+              <Tooltip content={tooltipContent()}>
+                <Button
+                  linkTo="profile"
+                  type={ButtonTypes.avatar}>
+                  {
+                    avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
+                      <div className='initial-container'>{initial}</div>
+                  }
+                </Button>
+              </Tooltip>
+            )
+              :
+              <Button linkTo="profile">Sign in</Button>
+          }
+          {/* {
             contextUser ? (
               <>
                 <Button
@@ -107,7 +114,7 @@ function Header() {
             )
               :
               <Button linkTo="profile">Sign in</Button>
-          }
+          } */}
         </div>
       </div>
     </div>

@@ -1,0 +1,84 @@
+$tool-tip-background-color: #fff;
+$tool-tip-margin: 30px;
+$tooltip-arrow-size: 6px;
+
+.new-tooltip-container {
+    position: relative;
+    display: inline-block;
+    color: var(--tmdb-primary);
+
+    .tooltip-tip {
+        max-width: 250px;
+        // white-space: nowrap;
+        text-overflow: ellipsis;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: $tool-tip-background-color;
+        color: var(--tmdb-primary);
+        z-index: 100;
+        white-space: nowrap;
+        border-radius: 4px;
+        line-height: 1;
+        padding: 6px;
+
+
+        /* CSS border triangles */
+        &::before {
+            content: " ";
+            left: 50%;
+            border: solid $tooltip-arrow-size transparent;
+            height: 0;
+            width: 0;
+            position: absolute;
+            margin-left: calc($tooltip-arrow-size * -1);
+        }
+
+        &.bottom {
+            // don't know why it's not working on the head
+            // bottom: calc($tool-tip-margin * -1);
+        }
+
+        &.bottom::before {
+            bottom: 100%;
+            border-bottom-color: $tool-tip-background-color;
+        }
+
+        &.top {
+            top: calc($tool-tip-margin * -1 - $tooltip-arrow-size);
+        }
+
+        &.top::before {
+            top: 100%;
+            border-top-color: $tool-tip-background-color;
+        }
+
+        &.left {
+            left: auto;
+            right: calc(100% + $tooltip-arrow-size * 2);
+            top: 50%;
+            transform: translateX(0) translateY(-50%);
+        }
+
+        &.left::before {
+            left: auto;
+            right: calc($tooltip-arrow-size * -2);
+            top: 50%;
+            transform: translateX(0) translateY(-50%);
+            border-left-color: $tool-tip-background-color;
+        }
+
+        &.right {
+            left: calc(100% + $tooltip-arrow-size * 2);
+            top: 50%;
+            transform: translateX(0) translateY(-50%);
+        }
+
+        &.right::before {
+            left: calc($tooltip-arrow-size * -1);
+            top: 50%;
+            transform: translateX(0) translateY(-50%);
+            border-right-color: $tool-tip-background-color;
+        }
+    }
+}

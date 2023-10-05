@@ -38,10 +38,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: var(--tmdb-primary);
 }
 
 .title.hovered {
-    color: var(--tmdb-primary);
+    color: var(--tmdb-secondary);
 }
 
 .snippet .nav-link {

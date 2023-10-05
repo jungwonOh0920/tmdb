@@ -43,6 +43,7 @@
 
         .profile-action-link {
             @include flex-center;
+            position: relative;
         }
     }
 

@@ -17,11 +17,13 @@
     }
 
     &.medium-size {
-        width: 50%;
+        // width: 50%;
+        max-width: 200px;
     }
 
     &.small-size {
-        width: 25%;
+        // width: 25%;
+        max-width: 130px;
     }
 
     &.circle {
