@@ -16,7 +16,7 @@ const DesktopHero = () => (
           Bingeworthy TV, Hit Movies, Live Sports & So Much More
         </h1>
         <p className='mb-2'>Stream it all for only $4.99/month. Cancel anytime.</p>
-        <NewTooltip content='test'>
+        <NewTooltip content='test' position={ToolTipPosition.bottom}>
           <Button size={ButtonSizes.small} type={ButtonTypes.gradientFill} linkTo='/aboutme'>
             See Resume &#128514;
           </Button>

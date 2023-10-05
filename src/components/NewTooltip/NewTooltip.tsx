@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
+import classNames from 'classnames'
 import './tooltip.scss'
 
 export enum ToolTipPosition {
-    top,
     bottom,
+    top,
     left,
     right
 }
@@ -19,6 +20,14 @@ const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
     let timeout: ReturnType<typeof setTimeout>
     const [isActive, setIsActive] = useState(false)
 
+    const tooltipClasses = classNames('tooltip-tip',
+        { 'top': position == ToolTipPosition.top },
+        { 'bottom': position == ToolTipPosition.bottom },
+        { 'left': position == ToolTipPosition.left },
+        { 'right': position == ToolTipPosition.right },
+    )
+
+    useEffect(() => { console.log(position); }, [position])
     const handleMouseEnter = () => {
         timeout = setTimeout(() => {
             setIsActive(true)
@@ -33,7 +42,7 @@ const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
     return (
         <div className='new-tooltip-container' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             {children}
-            {isActive && <div className={`tooltip-tip ${position || 'bottom'}`}>{content}</div>}
+            {isActive && <div className={tooltipClasses}>{content}</div>}
         </div>
     )
 }
