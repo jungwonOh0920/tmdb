@@ -5,6 +5,7 @@
     position: relative;
     overflow: hidden;
     border-radius: var(--border-radius);
+    z-index: 0;
 
     .tabs-container-bg {
         position: absolute;

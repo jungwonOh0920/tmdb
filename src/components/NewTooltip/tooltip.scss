@@ -34,10 +34,10 @@ $tooltip-arrow-size: 6px;
             margin-left: calc($tooltip-arrow-size * -1);
         }
 
-        &.bottom {
-            // don't know why it's not working on the head
-            // bottom: calc($tool-tip-margin * -1);
-        }
+        // &.bottom {
+        // don't know why it's not working on the head
+        // bottom: calc($tool-tip-margin * -1);
+        // }
 
         &.bottom::before {
             bottom: 100%;
