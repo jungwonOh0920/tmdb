@@ -1,6 +1,5 @@
-import React from 'react'
+import Button, { ButtonTypes } from '../Button/Button'
 import './modal.scss'
-import Button, { ButtonTypes } from '../Button/Button';
 
 interface ModalProps {
     children: JSX.Element;
@@ -10,7 +9,7 @@ interface ModalProps {
 
 const Modal = (props: ModalProps) => {
     return (
-        <div className='modal-container'>
+        <div className='modal-container' onClick={props.toggleModal}>
             <div className='inner-container'>
                 <div className="modal">
                     <div className='modal-header'>
