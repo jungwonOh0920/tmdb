@@ -30,11 +30,11 @@ const DesktopHero = () => (
 
 const mobileHeroRow = (data: Array<Object>, idx: number) => {
   return (
-    <div className='mobile-hero-container'>
+    <div className='mobile-hero-container' key={idx}>
       <div className={`row row-${idx}`}>
         {
-          data.map((d: any) => (
-            <div className='img-container'>
+          data.map((d: any, idx: number) => (
+            <div className='img-container' key={idx}>
               <img src={`https://image.tmdb.org/t/p/original${d.backdrop_path}`} alt='backdrop-img' />
             </div>
           ))}

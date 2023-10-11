@@ -13,9 +13,10 @@ import {
 import Tooltip from '../NewTooltip/Tooltip'
 import Snippet from '../Snippet/Snippet'
 import classNames from 'classnames'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+
+
 import "./header.scss"
+import SliderMenu from '../SliderMenu/SliderMenu'
 
 function Header() {
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
@@ -89,10 +90,8 @@ function Header() {
           <NavLink to='/' className='w-full'><img src={isMobile ? MobileLogo : Logo} alt="logo" className={isMobile ? 'mobile-logo-img' : ''} /></NavLink>
         </div>
         {isMobile ?
-          <div className={`${isMobile ? 'absolute left-4 top-0 bottom-0 flex' : ''}`}>
-            <Button type={ButtonTypes.noBorder}>
-              <FontAwesomeIcon icon={faBars} title='hello' />
-            </Button>
+          <div className='absolute left-4 top-0 bottom-0 flex'>
+            <SliderMenu />
           </div>
           :
           <ul className="header-list">

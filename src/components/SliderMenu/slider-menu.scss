@@ -1,0 +1,16 @@
+.menu-list {
+    background-color: red;
+    position: fixed;
+    left: -100%;
+    top: 52px;
+    // top: 0;
+    bottom: 0;
+    // width: 200px;
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+
+    &.open {
+        left: 0;
+    }
+}
