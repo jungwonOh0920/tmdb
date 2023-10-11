@@ -1,19 +1,31 @@
 import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import Button, { ButtonTypes } from '../Button/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import './slider-menu.scss'
 
 const SliderMenu = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+    const closeSliderMenu = () => { setIsMenuOpen(false) }
+
     return (
-        <div className='flex'>
-            <Button type={ButtonTypes.noBorder} onClick={() => { setIsMenuOpen(!isMenuOpen) }}>
-                <FontAwesomeIcon icon={faBars} title='hello' />
+        <div className='slider-menu'>
+            <Button type={ButtonTypes.noBorder} onClick={() => { setIsMenuOpen(true) }}>
+                <FontAwesomeIcon icon={faBars} />
             </Button>
             <div className={isMenuOpen ? 'menu-list open' : 'menu-list'}>
-                Menu List comes here...
+                <div className='absolute top-1 right-1'>
+                    <Button type={ButtonTypes.circle} onClick={closeSliderMenu}>
+                        <FontAwesomeIcon icon={faXmark} />
+                    </Button>
+                </div>
+                <ul>
+                    <li><NavLink to="/" onClick={closeSliderMenu}>Movies</NavLink></li>
+                    <li><NavLink to="tv-shows" onClick={closeSliderMenu}>TV Shows</NavLink></li>
+                    <li><NavLink to="about" onClick={closeSliderMenu}>About</NavLink></li>
+                </ul>
             </div>
         </div>
     )
