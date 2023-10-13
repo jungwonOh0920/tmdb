@@ -1,6 +1,7 @@
 $tool-tip-background-color: #fff;
 $tool-tip-margin: 30px;
 $tooltip-arrow-size: 6px;
+$tooltip-width: 250px;
 
 .new-tooltip-container {
     position: relative;
@@ -8,7 +9,8 @@ $tooltip-arrow-size: 6px;
     color: var(--tmdb-primary);
 
     .tooltip-tip {
-        max-width: 250px;
+        width: $tooltip-width;
+        max-width: $tooltip-width;
         // white-space: nowrap;
         text-overflow: ellipsis;
         position: absolute;
@@ -41,6 +43,16 @@ $tooltip-arrow-size: 6px;
 
         &.bottom::before {
             bottom: 100%;
+            border-bottom-color: $tool-tip-background-color;
+        }
+
+        &.bottom-right {
+            transform: none;
+        }
+
+        &.bottom-right::before {
+            bottom: 100%;
+            left: calc(100% - $tooltip-arrow-size * 2);
             border-bottom-color: $tool-tip-background-color;
         }
 
