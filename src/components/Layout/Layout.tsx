@@ -1,12 +1,12 @@
-import { useEffect, useState, createContext } from 'react'
+import React, { useEffect, useState, createContext } from 'react'
 import {
   getAuth,
   User as FirebaseUser,
   onAuthStateChanged,
 } from 'firebase/auth'
 import Header from '../Header/Header'
-import './layout.scss'
 import { ToastContainer, toast } from 'react-toastify'
+import './layout.scss'
 import 'react-toastify/dist/ReactToastify.css'
 
 type Props = {
@@ -19,12 +19,45 @@ export interface UserInfoType {
   avatar: string | null | undefined
 }
 
-let Context: React.Context<FirebaseUser | null>
+
+let ResponsivenessContext: React.Context<boolean>
+
+const ResponsivenessProvider = ({ children }: Props) => {
+
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
+  const [isMobile, setIsMobile] = useState(false)
+
+
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      setScreenWidth(window.innerWidth)
+    })
+
+    return window.removeEventListener('resize', () => {
+      setScreenWidth(window.innerWidth)
+    })
+  }, [])
+
+  useEffect(() => {
+    setIsMobile(screenWidth < 760)
+    ResponsivenessContext = createContext(isMobile)
+  }, [screenWidth, isMobile])
+
+  return (ResponsivenessContext &&
+    <ResponsivenessContext.Provider value={isMobile}>
+      {children}
+    </ResponsivenessContext.Provider>
+  )
+}
+
+let UserContext: React.Context<FirebaseUser | null>
 
 const Layout = ({ children }: Props) => {
   const [user, setUser] = useState<FirebaseUser | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  Context = createContext(user)
+
+  UserContext = createContext(user)
 
   const auth = getAuth()
 
@@ -58,15 +91,17 @@ const Layout = ({ children }: Props) => {
 
   return (
     <div className="layout">
-      <Context.Provider value={user}>
-        <Header />
-        <main className="main max-w-7xl">
-          {children}
-        </main>
-        <ToastContainer />
-      </Context.Provider>
+      <ResponsivenessProvider>
+        <UserContext.Provider value={user}>
+          <Header />
+          <main className="main max-w-7xl">
+            {children}
+          </main>
+          <ToastContainer />
+        </UserContext.Provider>
+      </ResponsivenessProvider>
     </div>
   );
 };
-export { Context }
+export { UserContext, ResponsivenessContext }
 export default Layout;

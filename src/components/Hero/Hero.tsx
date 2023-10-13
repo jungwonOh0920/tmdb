@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { ResponsivenessContext } from '../Layout/Layout'
 import Button, { ButtonTypes, ButtonSizes } from '../Button/Button'
 import Tooltip from '../NewTooltip/Tooltip'
 import axios from 'axios'
@@ -30,11 +31,11 @@ const DesktopHero = () => (
 
 const mobileHeroRow = (data: Array<Object>, idx: number) => {
   return (
-    <div className='mobile-hero-container'>
+    <div className='mobile-hero-container' key={idx}>
       <div className={`row row-${idx}`}>
         {
-          data.map((d: any) => (
-            <div className='img-container'>
+          data.map((d: any, idx: number) => (
+            <div className='img-container' key={idx}>
               <img src={`https://image.tmdb.org/t/p/original${d.backdrop_path}`} alt='backdrop-img' />
             </div>
           ))}
@@ -44,9 +45,8 @@ const mobileHeroRow = (data: Array<Object>, idx: number) => {
 }
 
 const Hero = () => {
-  const [width, setWidth] = useState<number>(window.innerWidth)
-  const [isMobile, setIsMobile] = useState(false)
   const [popularData, setPopularData] = useState<any>([])
+  const isMobileContext: boolean = useContext(ResponsivenessContext)
 
   useEffect(() => {
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
@@ -58,18 +58,6 @@ const Hero = () => {
       })
     }
   }, [])
-
-  useEffect(() => {
-    window.addEventListener('resize', () => { setWidth(window.innerWidth) })
-
-    return () => {
-      window.removeEventListener('resize', () => { setWidth(window.innerWidth) })
-    }
-  }, [])
-
-  useEffect(() => {
-    setIsMobile(width < 760)
-  }, [width])
 
   const MobileHero = () => (
     <div className="mobile-hero-container">
@@ -86,7 +74,7 @@ const Hero = () => {
     </div>
   )
   return (
-    isMobile ? <MobileHero /> : <DesktopHero />
+    isMobileContext ? <MobileHero /> : <DesktopHero />
   )
 }
 

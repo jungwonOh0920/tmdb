@@ -7,13 +7,14 @@ import Hero from '../components/Hero/Hero'
 import Accordion from "../components/Accordion/Accordion"
 import HomeAccordionData from "../assets/HomeAccordionData"
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { Context } from '../components/Layout/Layout'
+import { UserContext, ResponsivenessContext } from '../components/Layout/Layout'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase.config'
 import {
   User as FirebaseUser,
 } from 'firebase/auth'
 import { INITIALIZE } from "../reducers/myMovies/favoritesSlice"
+import classNames from 'classnames'
 import { VideoType, DataType } from '../types'
 
 function Home() {
@@ -25,7 +26,8 @@ function Home() {
   const [upcomingDataForTrailer, setUpcomingDataForTrailer] = useState<VideoType[]>()
   const [forRentData, setForRentData] = useState<VideoType[]>()
   const [tabBackgroundImage, setTabBackgroundImage] = useState('')
-  const contextUser: FirebaseUser | null = useContext(Context)
+  const contextUser: FirebaseUser | null = useContext(UserContext)
+  const contextIsMobile: boolean = useContext(ResponsivenessContext)
 
   const favorites: VideoType[] = useAppSelector((state) => state.favorites.movies)
 
@@ -140,9 +142,12 @@ function Home() {
     } else return <></>
   }
 
-
+  const HomeContainerClasses = classNames(
+    'space-y-8',
+    { 'pl-2 pr-2': contextIsMobile }
+  )
   return (
-    <div className='space-y-8'>
+    <div className={HomeContainerClasses}>
       <section>
         <Hero />
       </section>
