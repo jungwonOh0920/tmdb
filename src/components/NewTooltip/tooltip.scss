@@ -56,6 +56,17 @@ $tooltip-width: 250px;
             border-bottom-color: $tool-tip-background-color;
         }
 
+        &.bottom-left {
+            transform: none;
+            left: 0;
+        }
+
+        &.bottom-left::before {
+            bottom: 100%;
+            left: calc($tooltip-arrow-size * 2);
+            border-bottom-color: $tool-tip-background-color;
+        }
+
         &.top {
             top: calc($tool-tip-margin * -1 - $tooltip-arrow-size);
         }

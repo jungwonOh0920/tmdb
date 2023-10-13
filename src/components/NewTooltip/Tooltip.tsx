@@ -29,6 +29,7 @@ const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
         { 'top': position === ToolTipPosition.top },
         { 'bottom': position === ToolTipPosition.bottom },
         { 'bottom-right': position === ToolTipPosition.bottomRight },
+        { 'bottom-left': position === ToolTipPosition.bottomLeft },
         { 'left': position === ToolTipPosition.left },
         { 'right': position === ToolTipPosition.right },
     )
