@@ -42,7 +42,7 @@ const ResponsivenessProvider = ({ children }: Props) => {
   useEffect(() => {
     setIsMobile(screenWidth < 760)
     ResponsivenessContext = createContext(isMobile)
-  }, [screenWidth])
+  }, [screenWidth, isMobile])
 
   return (ResponsivenessContext &&
     <ResponsivenessContext.Provider value={isMobile}>
