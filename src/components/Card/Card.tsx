@@ -8,7 +8,7 @@ import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAppDispatch } from '../../hooks'
 import { ADD_A_FAV_MOVIE, DELETE_A_FAV_MOVIE } from '../../reducers/myMovies/favoritesSlice'
-import { Context } from '../Layout/Layout'
+import { UserContext } from '../Layout/Layout'
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
 import { db } from '../../firebase.config'
 import {
@@ -30,7 +30,7 @@ interface CardPropType {
 const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
-  const contextUser: FirebaseUser | null = useContext(Context)
+  const contextUser: FirebaseUser | null = useContext(UserContext)
   const dispatch = useAppDispatch()
 
   useEffect(() => {

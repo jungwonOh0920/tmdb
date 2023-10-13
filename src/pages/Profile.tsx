@@ -3,7 +3,10 @@ import { getAuth } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import SignIn from "../components/SignIn/SignIn"
 import Avatars from "../components/Avatar/Avatars"
-import { Context } from '../components/Layout/Layout'
+import { UserContext } from '../components/Layout/Layout'
+import {
+  User as FirebaseUser,
+} from 'firebase/auth'
 import Button from "../components/Button/Button"
 import DragNDrop from "../components/DragNDrop/DragNDrop"
 import "../styles/profile.scss"
@@ -11,7 +14,7 @@ import "../styles/profile.scss"
 
 function Profile() {
   // User context
-  const contextUser: any = useContext(Context)
+  const contextUser: FirebaseUser | null = useContext(UserContext)
 
   const [AvatarIdx, setAvatarIdx] = useState(-1)
 

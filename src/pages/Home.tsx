@@ -7,7 +7,7 @@ import Hero from '../components/Hero/Hero'
 import Accordion from "../components/Accordion/Accordion"
 import HomeAccordionData from "../assets/HomeAccordionData"
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { Context } from '../components/Layout/Layout'
+import { UserContext } from '../components/Layout/Layout'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase.config'
 import {
@@ -25,7 +25,7 @@ function Home() {
   const [upcomingDataForTrailer, setUpcomingDataForTrailer] = useState<VideoType[]>()
   const [forRentData, setForRentData] = useState<VideoType[]>()
   const [tabBackgroundImage, setTabBackgroundImage] = useState('')
-  const contextUser: FirebaseUser | null = useContext(Context)
+  const contextUser: FirebaseUser | null = useContext(UserContext)
 
   const favorites: VideoType[] = useAppSelector((state) => state.favorites.movies)
 

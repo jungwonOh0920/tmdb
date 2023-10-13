@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import Avatar from './Avatar'
-import { Context } from '../Layout/Layout'
+import { UserContext } from '../Layout/Layout'
 import { avatarSrc } from '../../assets/avatarSrc'
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
@@ -17,7 +17,7 @@ interface AvatarsProp {
 }
 
 function Avatars(props: AvatarsProp) {
-    const contextUser: FirebaseUser | null = useContext(Context)
+    const contextUser: FirebaseUser | null = useContext(UserContext)
     const fullName = props.userName
     const firstName = fullName && fullName.split(' ')[0]
     const imgSrc = avatarSrc

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import Logo from '../../assets/images/tmdb-logo.svg'
 import MobileLogo from '../../assets/images/tmdb-mobile-logo.svg'
 import Button, { ButtonTypes } from "../Button/Button"
-import { Context } from '../Layout/Layout'
+import { UserContext, ResponsivenessContext } from '../Layout/Layout'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
 import eventBus from "../../assets/utilities/EventBus"
@@ -13,24 +13,16 @@ import {
 import Tooltip from '../NewTooltip/Tooltip'
 import Snippet from '../Snippet/Snippet'
 import classNames from 'classnames'
-
-
-import "./header.scss"
 import SliderMenu from '../SliderMenu/SliderMenu'
+import "./header.scss"
 
 function Header() {
-  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
-  const [isMobile, setIsMobile] = useState(false)
   const [avatar, setAvatar] = useState('')
   const [initial, setInitial] = useState('')
-  const contextUser: FirebaseUser | null = useContext(Context)
+  const contextUser: FirebaseUser | null = useContext(UserContext)
+  const contextIsMobile: boolean = useContext(ResponsivenessContext)
 
   useEffect(() => {
-    // handle responsive
-    window.addEventListener('resize', () => {
-      setScreenWidth(window.innerWidth)
-    })
-
     // handle Avatar
     const getAvatar = async () => {
       if (contextUser) {
@@ -56,13 +48,7 @@ function Header() {
       setAvatar(imgSrc)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
-    return () => {
-      window.removeEventListener('resize', () => {
-        setScreenWidth(window.innerWidth)
-      })
-    }
-  }, [])
+  }, [contextUser])
 
   useEffect(() => {
     if (avatar === '' && contextUser && contextUser.displayName) {
@@ -71,25 +57,21 @@ function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar])
 
-  useEffect(() => {
-    setIsMobile(screenWidth < 760)
-  }, [screenWidth])
-
   const tooltipContent = () => (<><h2>My favorites</h2><Snippet /></>)
 
   const innerContainerClasses = classNames(
     'header-inner-container',
     'max-x-7xl',
-    { 'mobile': isMobile }
+    { 'mobile': contextIsMobile }
   )
 
   return (
     <div className="header-container">
       <div className={innerContainerClasses}>
-        <div className={`${isMobile ? '' : 'ml-4'} logo-container`}>
-          <NavLink to='/' className='w-full'><img src={isMobile ? MobileLogo : Logo} alt="logo" className={isMobile ? 'mobile-logo-img' : ''} /></NavLink>
+        <div className={`${contextIsMobile ? '' : 'ml-4'} logo-container`}>
+          <NavLink to='/' className='w-full'><img src={contextIsMobile ? MobileLogo : Logo} alt="logo" className={contextIsMobile ? 'mobile-logo-img' : ''} /></NavLink>
         </div>
-        {isMobile ?
+        {contextIsMobile ?
           <div className='absolute left-4 top-0 bottom-0 flex'>
             <SliderMenu />
           </div>
