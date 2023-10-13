@@ -10,7 +10,7 @@ import eventBus from "../../assets/utilities/EventBus"
 import {
   User as FirebaseUser,
 } from 'firebase/auth'
-import Tooltip from '../NewTooltip/Tooltip'
+import Tooltip, { ToolTipPosition } from '../NewTooltip/Tooltip'
 import Snippet from '../Snippet/Snippet'
 import classNames from 'classnames'
 import SliderMenu from '../SliderMenu/SliderMenu'
@@ -85,7 +85,7 @@ function Header() {
         <div className={'profile-action-link'}>
           {
             contextUser ? (
-              <Tooltip content={tooltipContent()}>
+              <Tooltip content={tooltipContent()} position={ToolTipPosition.bottomRight}>
                 <Button
                   linkTo="profile"
                   type={ButtonTypes.avatar}>

@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import './tooltip.scss'
 
 export enum ToolTipPosition {
     bottom,
+    bottomRight,
+    bottomLeft,
     top,
     left,
     right
@@ -16,13 +18,18 @@ interface TooltipType {
     delay?: number
 }
 
+
 const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
     let timeout: ReturnType<typeof setTimeout>
     const [isActive, setIsActive] = useState(false)
+    const [childWidth, setChildWidth] = useState(0)
+    const tooltipChildRef = useRef<HTMLDivElement>(null)
 
     const tooltipClasses = classNames('tooltip-tip',
         { 'top': position === ToolTipPosition.top },
         { 'bottom': position === ToolTipPosition.bottom },
+        { 'bottom-right': position === ToolTipPosition.bottomRight },
+        { 'bottom-left': position === ToolTipPosition.bottomLeft },
         { 'left': position === ToolTipPosition.left },
         { 'right': position === ToolTipPosition.right },
     )
@@ -38,10 +45,19 @@ const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
         setIsActive(false)
     }
 
+
+    useEffect(() => {
+        if (tooltipChildRef.current) {
+            setChildWidth(tooltipChildRef.current.offsetWidth)
+        }
+    }, [])
+
+    useEffect(() => { console.log(childWidth) }, [childWidth])
+
     return (
         <div className='new-tooltip-container' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            {children}
-            {isActive && <div className={tooltipClasses}>{content}</div>}
+            <div ref={tooltipChildRef}>{children}</div>
+            {isActive && <div className={tooltipClasses} style={position === ToolTipPosition.bottomRight ? { left: `${-250 + childWidth}px` } : {}}>{content}</div>}
         </div>
     )
 }
