@@ -34,10 +34,10 @@ function Shows() {
 
     return (
         <div className='tv-shows-container max-w-7xl'>
-            <div className='sort-menu'>filter section...</div>
+            <div className='sort-menu'>filter section coming soon...</div>
             <div className='tv-card-container'>
                 {
-                    tvShows.map((show, idx) => <div key={idx}><Card data={show} /></div>)
+                    tvShows.map((show, idx) => <div key={idx} className='ml-auto mr-auto'><Card data={show} /></div>)
                 }
             </div>
         </div>

@@ -1,8 +1,6 @@
 .tv-shows-container {
     display: flex;
-    justify-content: space-between;
-    margin-left: auto;
-    margin-right: auto;
+    justify-content: center;
 }
 
 .sort-menu {
@@ -14,8 +12,7 @@
 
 .tv-card-container {
     width: 100%;
-    max-width: 958px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
 }
