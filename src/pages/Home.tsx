@@ -167,7 +167,9 @@ function Home() {
       <section>
         {
           HomeAccordionData.map(({ title, content }, idx) => (
-            <Accordion title={title} content={content} key={idx} />
+            <Accordion title={title} key={idx} open={idx === 0 ? true : false}>
+              <Accordion.Content><p>{content}</p></Accordion.Content>
+            </Accordion>
           ))
         }
       </section>

@@ -52,8 +52,6 @@ const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
         }
     }, [])
 
-    useEffect(() => { console.log(childWidth) }, [childWidth])
-
     return (
         <div className='new-tooltip-container' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div ref={tooltipChildRef}>{children}</div>
