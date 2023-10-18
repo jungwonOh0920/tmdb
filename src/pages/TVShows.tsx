@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Card from '../components/Card/Card'
 import Accordion from '../components/Accordion/Accordion'
+import Pill from '../components/Pill/Pill'
 import { GenreType } from '../types'
 import '../styles/tvshows.scss'
 
@@ -42,16 +43,12 @@ function Shows() {
         fetchGenres()
     }, [])
 
-    useEffect(() => {
-        console.log('genres: ', genres);
-    }, [genres])
-
     const FilterContent = () => {
-        return <div>{genres}</div>
+        return <>{genres.map((genre) => <Pill selectable>{genre}</Pill>)}</>
     }
 
     return (
-        <div className='tv-shows-container max-w-7xl'>
+        <div className='max-w-7xl flex flex-col justify-center md:flex-row'>
             <div className='sort-menu'>
                 <Accordion title='filter' open>
                     <Accordion.Content><FilterContent /></Accordion.Content>

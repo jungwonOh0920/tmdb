@@ -11,7 +11,7 @@ interface AccordionProp {
 const Accordion = ({ children, title, open }: AccordionProp) => {
     const [isActive, setIsActive] = useState(false)
     const contentClasses = classNames(
-        { 'activated': isActive || open },
+        { 'activated mt-4': isActive || open },
         { 'deactivated': !isActive }
     )
 

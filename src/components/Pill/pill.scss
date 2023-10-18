@@ -1,0 +1,17 @@
+.pill-container {
+    display: inline-block;
+    width: fit-content;
+    padding: 4px 8px;
+    border: 1px solid var(--tmdb-gray);
+    border-radius: var(--border-radius);
+    margin: 0 4px 4px 0;
+
+    &.selectable:hover {
+        cursor: pointer;
+    }
+
+    &.selected {
+        background-color: var(--tmdb-secondary);
+        border: 1px solid var(--tmdb-secondary);
+    }
+}

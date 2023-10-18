@@ -1,13 +1,12 @@
 .tv-shows-container {
-    display: flex;
     justify-content: center;
 }
 
 .sort-menu {
-    width: 300px;
+    padding-right: 4px;
     max-width: 350px;
     height: auto;
-    border: 0.5px solid red;
+    margin: 0 auto;
 }
 
 .tv-card-container {
