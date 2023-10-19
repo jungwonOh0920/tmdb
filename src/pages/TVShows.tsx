@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Card from '../components/Card/Card'
 import Accordion from '../components/Accordion/Accordion'
 import Pill from '../components/Pill/Pill'
@@ -8,6 +8,7 @@ import '../styles/tvshows.scss'
 function Shows() {
     const [tvShows, setTVShows] = useState([])
     const [genres, setGenres] = useState<string[]>([])
+    const [activeGenres, setActiveGenres] = useState<string[]>([])
 
     useEffect(() => {
         const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
@@ -43,8 +44,24 @@ function Shows() {
         fetchGenres()
     }, [])
 
+    useEffect(() => { console.log('tvShows: ', tvShows); }, [tvShows])
+
+    useEffect(() => {
+        console.log('activeGenres: ', activeGenres);
+    }, [activeGenres])
+
+    const handlePillClick = (genre: string) => {
+        console.log('genre param: ', genre);
+        if (!activeGenres.includes(genre)) {
+            setActiveGenres([...activeGenres, genre])
+        } else {
+            const temp = activeGenres.filter((g) => g !== genre)
+            setActiveGenres(temp)
+        }
+    }
+
     const FilterContent = () => {
-        return <>{genres.map((genre) => <Pill selectable>{genre}</Pill>)}</>
+        return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>
     }
 
     return (
