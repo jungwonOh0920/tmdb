@@ -50,7 +50,7 @@ function Shows() {
         console.log('activeGenres: ', activeGenres);
     }, [activeGenres])
 
-    const handlePillClick = (genre: string) => {
+    const handlePillClick = useCallback((genre: string) => {
         console.log('genre param: ', genre);
         if (!activeGenres.includes(genre)) {
             setActiveGenres([...activeGenres, genre])
@@ -58,7 +58,7 @@ function Shows() {
             const temp = activeGenres.filter((g) => g !== genre)
             setActiveGenres(temp)
         }
-    }
+    }, [])
 
     const FilterContent = () => {
         return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>

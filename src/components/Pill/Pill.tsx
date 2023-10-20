@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, memo } from 'react'
 import classNames from 'classnames'
 import './pill.scss'
 
@@ -17,16 +17,13 @@ const Pill = ({ children, selectable, onClickHandler }: PillPropTypes) => {
         { 'selected': selectable && isSelected }
     )
 
-    // const memoizedOnClickHandler = useCallback(onClickHandler, [onClickHandler]);
-
     const handleClick = () => {
-        // setIsSelected(!isSelected)
-        // TODO: state is not changing when I call the following function.
+        setIsSelected((prevIsSelected) => !prevIsSelected)
         onClickHandler(children)
     }
 
     useEffect(() => {
-        console.log('isSelected called: ', isSelected);
+        console.log('isSelected: ', isSelected);
     }, [isSelected])
 
     return (
@@ -34,7 +31,7 @@ const Pill = ({ children, selectable, onClickHandler }: PillPropTypes) => {
     )
 }
 
-export default Pill
+export default memo(Pill)
 
 Pill.defaultProps = {
     selectable: false
