@@ -58,7 +58,7 @@ function Shows() {
             const temp = activeGenres.filter((g) => g !== genre)
             setActiveGenres(temp)
         }
-    }, [])
+    }, [activeGenres])
 
     const FilterContent = () => {
         return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>
