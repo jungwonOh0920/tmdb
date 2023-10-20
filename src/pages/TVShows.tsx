@@ -1,19 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Card from '../components/Card/Card'
+import Accordion from '../components/Accordion/Accordion'
+import Pill from '../components/Pill/Pill'
+import { GenreType } from '../types'
 import '../styles/tvshows.scss'
 
 function Shows() {
     const [tvShows, setTVShows] = useState([])
-    const fetchAPI = (page = 1) => {
-        // fetch with api key as an example
-        // const key = process.env.REACT_APP_TMDB_API_KEY
-        // const URL = `https://api.themoviedb.org/3/tv/popular?api_key=${key}&language=en-US&page=${page}`
+    const [genres, setGenres] = useState<string[]>([])
+    const [activeGenres, setActiveGenres] = useState<string[]>([])
 
-        // fetch(URL)
-        //     .then(res => res.json())
-        //     .then(data => setTVShows(data.results))
+    useEffect(() => {
         const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
-        const URL = 'https://api.themoviedb.org/3/trending/tv/day?language=en-US'
         const options = {
             method: 'GET',
             headers: {
@@ -21,20 +19,58 @@ function Shows() {
                 Authorization: `Bearer ${TMDB_AUTHORIZATION}`
             }
         };
+        const fetchAPI = (page = 1) => {
+            const URL = 'https://api.themoviedb.org/3/trending/tv/day?language=en-US'
 
-        fetch(URL, options).then(res => res.json())
-            .then(data => {
-                setTVShows(data.results)
-            })
-    }
+            fetch(URL, options).then(res => res.json())
+                .then(data => {
+                    setTVShows(data.results)
+                }).catch(err => console.error(err))
+        }
 
-    useEffect(() => {
+        const fetchGenres = () => {
+            const URL = 'https://api.themoviedb.org/3/genre/tv/list?language=en'
+
+            fetch(URL, options).then(res => res.json())
+                .then(data => {
+                    data.genres.forEach((genre: GenreType) => {
+                        setGenres((prev) => [...prev, genre.name])
+                    })
+
+                }).catch(err => console.error(err))
+        }
+
         fetchAPI()
+        fetchGenres()
     }, [])
 
+    useEffect(() => { console.log('tvShows: ', tvShows); }, [tvShows])
+
+    useEffect(() => {
+        console.log('activeGenres: ', activeGenres);
+    }, [activeGenres])
+
+    const handlePillClick = useCallback((genre: string) => {
+        console.log('genre param: ', genre);
+        if (!activeGenres.includes(genre)) {
+            setActiveGenres([...activeGenres, genre])
+        } else {
+            const temp = activeGenres.filter((g) => g !== genre)
+            setActiveGenres(temp)
+        }
+    }, [activeGenres])
+
+    const FilterContent = () => {
+        return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>
+    }
+
     return (
-        <div className='tv-shows-container max-w-7xl'>
-            <div className='sort-menu'>filter section coming soon...</div>
+        <div className='max-w-7xl flex flex-col justify-center md:flex-row'>
+            <div className='sort-menu'>
+                <Accordion title='filter' open>
+                    <Accordion.Content><FilterContent /></Accordion.Content>
+                </Accordion>
+            </div>
             <div className='tv-card-container'>
                 {
                     tvShows.map((show, idx) => <div key={idx} className='ml-auto mr-auto'><Card data={show} /></div>)

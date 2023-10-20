@@ -1,7 +1,7 @@
 export interface VideoType {
     adult: boolean;
     backdrop_path: string;
-    genre_ids: [];
+    genre_ids: number[];
     id: number;
     original_language: string;
     original_title: string;
@@ -66,4 +66,9 @@ export type DataType = {
     results: Array<VideoType>;
     total_pages: number;
     total_results: number;
+}
+
+export interface GenreType {
+    id: number,
+    name: string
 }
