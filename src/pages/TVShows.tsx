@@ -4,6 +4,7 @@ import Accordion from '../components/Accordion/Accordion'
 import Pill from '../components/Pill/Pill'
 import { GenreType } from '../types'
 import '../styles/tvshows.scss'
+import Tooltip, { ToolTipPosition } from '../components/Tooltip/Tooltip'
 
 function Shows() {
     const [tvShows, setTVShows] = useState([])
@@ -62,9 +63,11 @@ function Shows() {
     return (
         <div className='max-w-7xl flex flex-col justify-center md:flex-row'>
             <div className='sort-menu'>
-                <Accordion title='filter' open>
-                    <Accordion.Content><FilterContent /></Accordion.Content>
-                </Accordion>
+                <Tooltip content={<>Filter genres feature is coming soon :)</>} position={ToolTipPosition.top}>
+                    <Accordion title='filter' open>
+                        <Accordion.Content><FilterContent /></Accordion.Content>
+                    </Accordion>
+                </Tooltip>
             </div>
             <div className='tv-card-container'>
                 {

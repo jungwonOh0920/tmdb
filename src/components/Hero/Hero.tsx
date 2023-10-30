@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 import { ResponsivenessContext } from '../Layout/Layout'
 import Button, { ButtonTypes, ButtonSizes } from '../Button/Button'
-import Tooltip, { ToolTipPosition } from '../NewTooltip/Tooltip'
+import Tooltip, { ToolTipPosition } from '../Tooltip/Tooltip'
 import axios from 'axios'
 import './hero.scss'
 

@@ -19,7 +19,7 @@ interface TooltipType {
 }
 
 
-const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
+const Tooltip = ({ children, content, position, delay }: TooltipType) => {
     let timeout: ReturnType<typeof setTimeout>
     const [isActive, setIsActive] = useState(false)
     const [childWidth, setChildWidth] = useState(0)
@@ -60,8 +60,8 @@ const NewTooltip = ({ children, content, position, delay }: TooltipType) => {
     )
 }
 
-export default NewTooltip
+export default Tooltip
 
-NewTooltip.defaultProps = {
+Tooltip.defaultProps = {
     position: ToolTipPosition.bottom
 }
