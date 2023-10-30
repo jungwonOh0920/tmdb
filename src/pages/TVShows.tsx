@@ -33,7 +33,7 @@ function Shows() {
 
             fetch(URL, options).then(res => res.json())
                 .then(data => {
-                    data.genres.forEach((genre: GenreType) => {
+                    data.genres.forEach((genre: GenreType, idx: number) => {
                         setGenres((prev) => [...prev, genre.name])
                     })
 
@@ -44,25 +44,20 @@ function Shows() {
         fetchGenres()
     }, [])
 
-    useEffect(() => { console.log('tvShows: ', tvShows); }, [tvShows])
-
     useEffect(() => {
         console.log('activeGenres: ', activeGenres);
     }, [activeGenres])
 
-    const handlePillClick = useCallback((genre: string) => {
-        console.log('genre param: ', genre);
-        if (!activeGenres.includes(genre)) {
-            setActiveGenres([...activeGenres, genre])
-        } else {
-            const temp = activeGenres.filter((g) => g !== genre)
-            setActiveGenres(temp)
-        }
-    }, [activeGenres])
-
-    const FilterContent = () => {
-        return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>
+    const handlePillClick = (genre: string) => {
+        setActiveGenres((prev) => {
+            if (prev.includes(genre)) return prev.filter(item => item !== genre)
+            else return [...prev, genre]
+        })
     }
+
+    const FilterContent = useCallback(() => {
+        return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>
+    }, [genres])
 
     return (
         <div className='max-w-7xl flex flex-col justify-center md:flex-row'>
