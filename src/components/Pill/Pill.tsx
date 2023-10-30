@@ -1,4 +1,4 @@
-import { useEffect, useState, memo } from 'react'
+import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import './pill.scss'
 
@@ -31,7 +31,7 @@ const Pill = ({ children, selectable, onClickHandler }: PillPropTypes) => {
     )
 }
 
-export default memo(Pill)
+export default Pill
 
 Pill.defaultProps = {
     selectable: false

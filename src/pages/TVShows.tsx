@@ -4,6 +4,7 @@ import Accordion from '../components/Accordion/Accordion'
 import Pill from '../components/Pill/Pill'
 import { GenreType } from '../types'
 import '../styles/tvshows.scss'
+import Tooltip, { ToolTipPosition } from '../components/Tooltip/Tooltip'
 
 function Shows() {
     const [tvShows, setTVShows] = useState([])
@@ -33,7 +34,7 @@ function Shows() {
 
             fetch(URL, options).then(res => res.json())
                 .then(data => {
-                    data.genres.forEach((genre: GenreType) => {
+                    data.genres.forEach((genre: GenreType, idx: number) => {
                         setGenres((prev) => [...prev, genre.name])
                     })
 
@@ -44,32 +45,29 @@ function Shows() {
         fetchGenres()
     }, [])
 
-    useEffect(() => { console.log('tvShows: ', tvShows); }, [tvShows])
-
     useEffect(() => {
         console.log('activeGenres: ', activeGenres);
     }, [activeGenres])
 
-    const handlePillClick = useCallback((genre: string) => {
-        console.log('genre param: ', genre);
-        if (!activeGenres.includes(genre)) {
-            setActiveGenres([...activeGenres, genre])
-        } else {
-            const temp = activeGenres.filter((g) => g !== genre)
-            setActiveGenres(temp)
-        }
-    }, [activeGenres])
-
-    const FilterContent = () => {
-        return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>
+    const handlePillClick = (genre: string) => {
+        setActiveGenres((prev) => {
+            if (prev.includes(genre)) return prev.filter(item => item !== genre)
+            else return [...prev, genre]
+        })
     }
+
+    const FilterContent = useCallback(() => {
+        return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>
+    }, [genres])
 
     return (
         <div className='max-w-7xl flex flex-col justify-center md:flex-row'>
             <div className='sort-menu'>
-                <Accordion title='filter' open>
-                    <Accordion.Content><FilterContent /></Accordion.Content>
-                </Accordion>
+                <Tooltip content={<>Filter genres feature is coming soon :)</>} position={ToolTipPosition.top}>
+                    <Accordion title='filter' open>
+                        <Accordion.Content><FilterContent /></Accordion.Content>
+                    </Accordion>
+                </Tooltip>
             </div>
             <div className='tv-card-container'>
                 {

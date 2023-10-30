@@ -10,7 +10,7 @@ import eventBus from "../../assets/utilities/EventBus"
 import {
   User as FirebaseUser,
 } from 'firebase/auth'
-import Tooltip, { ToolTipPosition } from '../NewTooltip/Tooltip'
+import Tooltip, { ToolTipPosition } from '../Tooltip/Tooltip'
 import Snippet from '../Snippet/Snippet'
 import classNames from 'classnames'
 import SliderMenu from '../SliderMenu/SliderMenu'
