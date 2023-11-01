@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import Card from '../components/Card/Card'
 import Accordion from '../components/Accordion/Accordion'
 import Pill from '../components/Pill/Pill'
@@ -8,11 +8,12 @@ import Tooltip, { ToolTipPosition } from '../components/Tooltip/Tooltip'
 
 function Shows() {
     const [tvShows, setTVShows] = useState([])
-    const [genres, setGenres] = useState<string[]>([])
+    const [genresMap, setGenresMap] = useState(new Map())
     const [activeGenres, setActiveGenres] = useState<string[]>([])
 
     useEffect(() => {
         const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
+
         const options = {
             method: 'GET',
             headers: {
@@ -20,30 +21,26 @@ function Shows() {
                 Authorization: `Bearer ${TMDB_AUTHORIZATION}`
             }
         };
-        const fetchAPI = (page = 1) => {
-            const URL = 'https://api.themoviedb.org/3/trending/tv/day?language=en-US'
 
-            fetch(URL, options).then(res => res.json())
-                .then(data => {
-                    setTVShows(data.results)
-                }).catch(err => console.error(err))
-        }
+        const TV_URL = 'https://api.themoviedb.org/3/trending/tv/day?language=en-US'
+        const GENRE_URL = 'https://api.themoviedb.org/3/genre/tv/list?language=en'
 
-        const fetchGenres = () => {
-            const URL = 'https://api.themoviedb.org/3/genre/tv/list?language=en'
+        Promise.all([
+            fetch(TV_URL, options),
+            fetch(GENRE_URL, options)
+        ])
+            .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+            .then(([data1, data2]) => {
+                setTVShows(data1.results)
+                data2.genres.forEach((genre: GenreType) => {
+                    setGenresMap(new Map(genresMap.set(genre.id, genre.name)))
+                })
+            })
+    }, [])// eslint-disable-line
 
-            fetch(URL, options).then(res => res.json())
-                .then(data => {
-                    data.genres.forEach((genre: GenreType, idx: number) => {
-                        setGenres((prev) => [...prev, genre.name])
-                    })
-
-                }).catch(err => console.error(err))
-        }
-
-        fetchAPI()
-        fetchGenres()
-    }, [])
+    useEffect(() => {
+        console.log('genres in map: ', genresMap);
+    }, [genresMap])
 
     useEffect(() => {
         console.log('activeGenres: ', activeGenres);
@@ -56,16 +53,23 @@ function Shows() {
         })
     }
 
-    const FilterContent = useCallback(() => {
-        return <>{genres.map((genre, idx) => <Pill selectable key={idx} onClickHandler={handlePillClick}>{genre}</Pill>)}</>
-    }, [genres])
+    const getPill = () => {
+        let pillContainer: Array<JSX.Element> = []
+
+        genresMap.forEach((value: string) => {
+            pillContainer.push(<Pill selectable onClickHandler={handlePillClick}>{value}</Pill>)
+        })
+        return pillContainer.map((pill, idx) => <span key={idx}>{pill}</span>)
+    }
 
     return (
         <div className='max-w-7xl flex flex-col justify-center md:flex-row'>
             <div className='sort-menu'>
-                <Tooltip content={<>Filter genres feature is coming soon :)</>} position={ToolTipPosition.top}>
+                <Tooltip content={<>Filter genres feature is coming soon ^.^</>} position={ToolTipPosition.top}>
                     <Accordion title='filter' open>
-                        <Accordion.Content><FilterContent /></Accordion.Content>
+                        <Accordion.Content>
+                            <>{getPill()}</>
+                        </Accordion.Content>
                     </Accordion>
                 </Tooltip>
             </div>
