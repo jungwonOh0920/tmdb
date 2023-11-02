@@ -27,16 +27,15 @@ const ResponsivenessProvider = ({ children }: Props) => {
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
   const [isMobile, setIsMobile] = useState(false)
 
-
+  const resizeWindow = () => {
+    setScreenWidth(window.innerWidth)
+  }
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
-      setScreenWidth(window.innerWidth)
-    })
+    resizeWindow()
+    window.addEventListener('resize', resizeWindow)
 
-    return window.removeEventListener('resize', () => {
-      setScreenWidth(window.innerWidth)
-    })
+    return window.removeEventListener('resize', resizeWindow)
   }, [])
 
   useEffect(() => {
