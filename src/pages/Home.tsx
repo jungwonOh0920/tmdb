@@ -50,7 +50,7 @@ function Home() {
 
     fetchFavorites()
 
-    const api_key = process.env.REACT_APP_TMDB_API_KEY;
+    const api_key = process.env.REACT_APP_TMDB_API_KEY
 
     const onTVUrl = `https://api.themoviedb.org/3/tv/on_the_air?api_key=${api_key}&language=en-US&page=1`
 
@@ -64,29 +64,21 @@ function Home() {
 
     const upcomingTrailerUrl = `https://api.themoviedb.org/3/movie/upcoming?api_key=${api_key}&language=en-US&page=2`
 
-    axios.get(onTVUrl).then((res) => {
-      setonTVData(res.data)
-    })
-
-    axios.get(popularUrl).then((res) => {
-      setPopularData(res.data.results)
-    })
-
-    axios.get(upcomingUrl).then((res) => {
-      setUpcomingData(res.data.results)
-    })
-
-    axios.get(forRentUrl).then((res) => {
-      setForRentData(res.data.results)
-    })
-
-    axios.get(popularTrailerUrl).then((res) => {
-      setPopularDataForTrailer(res.data.results)
-    })
-
-    axios.get(upcomingTrailerUrl).then((res) => {
-      setUpcomingDataForTrailer(res.data.results)
-    })
+    axios.all([
+      axios.get(onTVUrl),
+      axios.get(popularUrl),
+      axios.get(upcomingUrl),
+      axios.get(forRentUrl),
+      axios.get(popularTrailerUrl),
+      axios.get(upcomingTrailerUrl)
+    ]).then(axios.spread((tv, pop, upcoming, rent, popTrailer, upcomingTrailer) => {
+      setonTVData(tv.data)
+      setPopularData(pop.data.results)
+      setUpcomingData(upcoming.data.results)
+      setForRentData(rent.data.results)
+      setPopularDataForTrailer(popTrailer.data.results)
+      setUpcomingDataForTrailer(upcomingTrailer.data.results)
+    }))
 
   }, [dispatch, contextUser]);
 
