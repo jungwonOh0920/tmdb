@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import TVShows from "./pages/TVShows";
+import TVShow from "./pages/TVShow";
 import SignUp from "./pages/SignUp";
 import Layout from "./components/Layout/Layout";
 import Profile from "./pages/Profile";
@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/tv-shows" element={<TVShows />} />
+          <Route path="/tv-shows" element={<TVShow />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/aboutme" element={<Resume />} />
