@@ -32,6 +32,7 @@ const ResponsivenessProvider = ({ children }: Props) => {
   }
 
   useEffect(() => {
+    console.log('test')
     resizeWindow()
     window.addEventListener('resize', resizeWindow)
 
