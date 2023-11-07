@@ -24,31 +24,33 @@ let ResponsivenessContext: React.Context<boolean>
 
 const ResponsivenessProvider = ({ children }: Props) => {
 
-  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
-  const [isMobile, setIsMobile] = useState(false)
+  // const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
+  // const [isMobile, setIsMobile] = useState(false)
 
-  const resizeWindow = () => {
-    setScreenWidth(window.innerWidth)
-  }
 
-  useEffect(() => {
-    console.log('test')
-    resizeWindow()
-    window.addEventListener('resize', resizeWindow)
+  // useEffect(() => {
+  //   const resizeWindow = () => {
+  //     setScreenWidth(window.innerWidth)
+  //   }
+  //   resizeWindow()
+  //   window.addEventListener('resize', resizeWindow)
+  //   ResponsivenessContext = createContext(isMobile)
 
-    return window.removeEventListener('resize', resizeWindow)
-  }, [])
+  //   return () => window.removeEventListener('resize', resizeWindow)
+  // }, [])
 
-  useEffect(() => {
-    setIsMobile(screenWidth < 760)
-    ResponsivenessContext = createContext(isMobile)
-  }, [screenWidth, isMobile])
+  // useEffect(() => {
+  //   setIsMobile(screenWidth < 760)
+  //   // ResponsivenessContext = createContext(isMobile)
+  // }, [screenWidth, isMobile])
 
-  return (ResponsivenessContext &&
-    <ResponsivenessContext.Provider value={isMobile}>
-      {children}
-    </ResponsivenessContext.Provider>
-  )
+  return children
+  // TODO: fix the context
+  // return (ResponsivenessContext &&
+  //   <ResponsivenessContext.Provider value={isMobile}>
+  //     {children}
+  //   </ResponsivenessContext.Provider>
+  // )
 }
 
 let UserContext: React.Context<FirebaseUser | null>
