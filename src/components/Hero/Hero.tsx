@@ -1,5 +1,5 @@
-import { useEffect, useState, useContext } from 'react'
-import { ResponsivenessContext } from '../Layout/Layout'
+import { useEffect, useState } from 'react'
+// import { ResponsivenessContext } from '../Layout/Layout'
 import Button, { ButtonTypes, ButtonSizes } from '../Button/Button'
 import Tooltip, { ToolTipPosition } from '../Tooltip/Tooltip'
 import axios from 'axios'
@@ -46,9 +46,17 @@ const mobileHeroRow = (data: Array<Object>, idx: number) => {
 
 const Hero = () => {
   const [popularData, setPopularData] = useState<any>([])
-  const isMobileContext: boolean = useContext(ResponsivenessContext)
+  const [isMobile, setIsMobile] = useState(false)
+  // const isMobileContext: boolean = useContext(ResponsivenessContext)
+  // const isMobileContext: boolean = true
 
   useEffect(() => {
+    const resizeWindow = () => {
+      setIsMobile(window.innerWidth < 760)
+    }
+    window.addEventListener('resize', resizeWindow)
+    resizeWindow()
+
     const api_key = process.env.REACT_APP_TMDB_API_KEY;
 
     for (let i = 1; i < 5; i++) {
@@ -57,6 +65,8 @@ const Hero = () => {
         setPopularData((oldArray: any) => [...oldArray, res.data.results])
       })
     }
+
+    return () => window.removeEventListener('resize', resizeWindow)
   }, [])
 
   const MobileHero = () => (
@@ -74,7 +84,7 @@ const Hero = () => {
     </div>
   )
   return (
-    isMobileContext ? <MobileHero /> : <DesktopHero />
+    isMobile ? <MobileHero /> : <DesktopHero />
   )
 }
 
