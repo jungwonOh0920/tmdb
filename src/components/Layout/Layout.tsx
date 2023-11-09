@@ -35,7 +35,6 @@ const ResponsivenessProvider = ({ children }: LayoutProps) => {
     return () => window.removeEventListener('resize', resizeWindow)
   }, [])
 
-
   return (
     <ResponsivenessContext.Provider value={isMobile}>
       {children}
