@@ -3,8 +3,7 @@ import { NavLink } from 'react-router-dom'
 import Logo from '../../assets/images/tmdb-logo.svg'
 import MobileLogo from '../../assets/images/tmdb-mobile-logo.svg'
 import Button, { ButtonTypes } from "../Button/Button"
-// TODO use ResponsivenessContext from Layout
-import { UserContext } from '../Layout/Layout'
+import { UserContext, ResponsivenessContext } from '../Layout/Layout'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
 import eventBus from "../../assets/utilities/EventBus"
@@ -23,8 +22,7 @@ function Header() {
   const contextUser: FirebaseUser | null = useContext(UserContext)
   const [isMobile, setIsMobile] = useState(false)
   // TODO: fix the context
-  // const contextIsMobile: boolean = useContext(ResponsivenessContext)
-
+  const contextIsMobile: boolean = useContext(ResponsivenessContext)
 
   useEffect(() => {
     const resizeWindow = () => {
@@ -36,10 +34,6 @@ function Header() {
 
     return () => window.removeEventListener('resize', resizeWindow)
   }, [])
-
-  useEffect(() => {
-    console.log('isMobile: ', isMobile);
-  }, [isMobile])
 
   useEffect(() => {
     // handle Avatar

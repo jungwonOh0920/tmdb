@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import './layout.scss'
 import 'react-toastify/dist/ReactToastify.css'
 
-type Props = {
+type LayoutProps = {
   children: JSX.Element
 }
 export interface UserInfoType {
@@ -19,43 +19,33 @@ export interface UserInfoType {
   avatar: string | null | undefined
 }
 
+const ResponsivenessContext = createContext(false)
 
-let ResponsivenessContext: React.Context<boolean>
+const ResponsivenessProvider = ({ children }: LayoutProps) => {
 
-const ResponsivenessProvider = ({ children }: Props) => {
+  const [isMobile, setIsMobile] = useState(false)
 
-  // const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
-  // const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const resizeWindow = () => {
+      setIsMobile(window.innerWidth < 760)
+    }
+    resizeWindow()
+    window.addEventListener('resize', resizeWindow)
+
+    return () => window.removeEventListener('resize', resizeWindow)
+  }, [])
 
 
-  // useEffect(() => {
-  //   const resizeWindow = () => {
-  //     setScreenWidth(window.innerWidth)
-  //   }
-  //   resizeWindow()
-  //   window.addEventListener('resize', resizeWindow)
-  //   ResponsivenessContext = createContext(isMobile)
-
-  //   return () => window.removeEventListener('resize', resizeWindow)
-  // }, [])
-
-  // useEffect(() => {
-  //   setIsMobile(screenWidth < 760)
-  //   // ResponsivenessContext = createContext(isMobile)
-  // }, [screenWidth, isMobile])
-
-  return children
-  // TODO: fix the context
-  // return (ResponsivenessContext &&
-  //   <ResponsivenessContext.Provider value={isMobile}>
-  //     {children}
-  //   </ResponsivenessContext.Provider>
-  // )
+  return (
+    <ResponsivenessContext.Provider value={isMobile}>
+      {children}
+    </ResponsivenessContext.Provider>
+  )
 }
 
 let UserContext: React.Context<FirebaseUser | null>
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children }: LayoutProps) => {
   const [user, setUser] = useState<FirebaseUser | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
