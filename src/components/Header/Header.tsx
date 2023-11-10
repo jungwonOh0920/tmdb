@@ -3,8 +3,7 @@ import { NavLink } from 'react-router-dom'
 import Logo from '../../assets/images/tmdb-logo.svg'
 import MobileLogo from '../../assets/images/tmdb-mobile-logo.svg'
 import Button, { ButtonTypes } from "../Button/Button"
-// TODO use ResponsivenessContext from Layout
-import { UserContext } from '../Layout/Layout'
+import { UserContext, ResponsivenessContext } from '../Layout/Layout'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from '../../firebase.config'
 import eventBus from "../../assets/utilities/EventBus"
@@ -20,26 +19,9 @@ import "./header.scss"
 function Header() {
   const [avatar, setAvatar] = useState('')
   const [initial, setInitial] = useState('')
+
   const contextUser: FirebaseUser | null = useContext(UserContext)
-  const [isMobile, setIsMobile] = useState(false)
-  // TODO: fix the context
-  // const contextIsMobile: boolean = useContext(ResponsivenessContext)
-
-
-  useEffect(() => {
-    const resizeWindow = () => {
-      setIsMobile(window.innerWidth < 760)
-    }
-
-    window.addEventListener('resize', resizeWindow)
-    resizeWindow()
-
-    return () => window.removeEventListener('resize', resizeWindow)
-  }, [])
-
-  useEffect(() => {
-    console.log('isMobile: ', isMobile);
-  }, [isMobile])
+  const contextIsMobile: boolean = useContext(ResponsivenessContext)
 
   useEffect(() => {
     // handle Avatar
@@ -81,22 +63,17 @@ function Header() {
   const innerContainerClasses = classNames(
     'header-inner-container',
     'max-x-7xl',
-    { 'mobile': isMobile }
-    // TODO: fix the context
-    // { 'mobile': contextIsMobile }
+    { 'mobile': contextIsMobile }
   )
 
   return (
     <div className="header-container">
       <div className={innerContainerClasses}>
-        <div className={`${isMobile ? '' : 'ml-4'} logo-container`}>
-          <NavLink to='/' className='w-full'><img src={isMobile ? MobileLogo : Logo} alt="logo" className={isMobile ? 'mobile-logo-img' : ''} /></NavLink>
+        <div className={`${contextIsMobile ? '' : 'ml-4'} logo-container`}>
+          <NavLink to='/' className='w-full'><img src={contextIsMobile ? MobileLogo : Logo} alt="logo" className={contextIsMobile ? 'mobile-logo-img' : ''} /></NavLink>
         </div>
 
-        {/* <div className={`'ml-4' logo-container`}>
-          <NavLink to='/' className='w-full'><img src={MobileLogo} alt="logo" /></NavLink>
-        </div> */}
-        {isMobile ?
+        {contextIsMobile ?
           <div className='absolute left-4 top-0 bottom-0 flex'>
             <SliderMenu />
           </div>
