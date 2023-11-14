@@ -31,6 +31,7 @@ export interface TVObjectType {
     vote_count: number,
     genres: { id: number, name: string }[],
     tagline: string,
+    credits: { cast: Array<any>, crew: [] }
 }
 
 export interface TVWithRateType {
@@ -48,7 +49,8 @@ export interface MovieObjectType {
     vote_average: number,
     overview: string,
     tagline: string,
-    id: number
+    id: number,
+    credits: { cast: Array<any>, crew: [] }
 }
 
 export interface MovieWithRateType {

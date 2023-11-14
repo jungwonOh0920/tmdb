@@ -58,6 +58,8 @@ const ContentIntro = () => {
         if (movieInfo) {
             fetchRecommendation()
         }
+        console.log('TVInfo: ', TVInfo);
+        console.log('moveiInfo: ', movieInfo);
     }, [movieInfo, TVInfo, rating, key])
 
     useEffect(() => {
@@ -69,7 +71,7 @@ const ContentIntro = () => {
     useEffect(() => {
         const fetchTV = async () => {
             const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
-            const TV_END_POINT = `https://api.themoviedb.org/3/tv/${id}`
+            const TV_END_POINT = `https://api.themoviedb.org/3/tv/${id}?&append_to_response=credits`
             const TV_RATE_END_POINT = `https://api.themoviedb.org/3/tv/${id}/content_ratings`
 
             const OPTIONS = {
@@ -91,7 +93,7 @@ const ContentIntro = () => {
         const fetchMovie = async () => {
             try {
                 let [movieData, releaseDates] = await Promise.all([
-                    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => res.json()),
+                    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US&append_to_response=credits`).then(res => res.json()),
                     fetch(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${key}`).then(res => res.json())
                 ])
                 setMovieInfo(movieData)
@@ -123,11 +125,26 @@ const ContentIntro = () => {
             }
         }
     }
+
     return (
         <div className='space-y-4'>
             {
                 platform === PlatformTypes.movie ? (movieDataWithRate && <ContentHero type={PlatformTypes.movie} content={movieDataWithRate} />) :
                     (TVDataWithRate && <ContentHero type={PlatformTypes.tv} content={TVDataWithRate} />)
+            }
+            {
+                <Tabs tabTitles={['Top Billed Cast']}>
+                    <CardSlider>
+                        {
+                            platform === PlatformTypes.movie ? (
+                                movieInfo &&
+                                movieInfo.credits.cast.map((c) => <p>{c.name}</p>)
+                            ) : (
+                                TVInfo && TVInfo.credits.cast.map((c) => <p>{c.name}</p>)
+                            )
+                        }
+                    </CardSlider>
+                </Tabs>
             }
             {
                 recommendationsData.length ?
