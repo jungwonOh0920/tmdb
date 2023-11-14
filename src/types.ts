@@ -74,3 +74,11 @@ export interface GenreType {
     id: number,
     name: string
 }
+
+export interface CastType {
+    adult: boolean;
+    cast_id: number;
+    id: number;
+    name: string;
+    profile_path: string;
+}

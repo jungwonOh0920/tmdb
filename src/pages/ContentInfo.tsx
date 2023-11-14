@@ -4,12 +4,16 @@ import ContentHero from '../components/ContentHero/ContentHero'
 import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
-import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, PlatformTypes } from '../types'
-import "../styles/contentIntro.scss"
+import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, PlatformTypes, CastType } from '../types'
+import '../styles/contentInfo.scss'
 
 interface ReleaseDatesType {
     iso_3166_1: string,
     release_dates: [{ certification: string }]
+}
+
+interface CastCardProp {
+    cast: CastType
 }
 
 const ContentIntro = () => {
@@ -58,8 +62,6 @@ const ContentIntro = () => {
         if (movieInfo) {
             fetchRecommendation()
         }
-        console.log('TVInfo: ', TVInfo);
-        console.log('moveiInfo: ', movieInfo);
     }, [movieInfo, TVInfo, rating, key])
 
     useEffect(() => {
@@ -126,6 +128,14 @@ const ContentIntro = () => {
         }
     }
 
+    const CastCard = ({ cast }: CastCardProp) => {
+        return <>
+            <div className='image-container'>
+                <img src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} alt='cast-profile' />
+            </div>
+        </>
+    }
+
     return (
         <div className='space-y-4'>
             {
@@ -138,7 +148,9 @@ const ContentIntro = () => {
                         {
                             platform === PlatformTypes.movie ? (
                                 movieInfo &&
-                                movieInfo.credits.cast.map((c) => <p>{c.name}</p>)
+                                movieInfo.credits.cast.map((c: CastType, idx) => {
+                                    return <CastCard cast={c} key={idx} />
+                                })
                             ) : (
                                 TVInfo && TVInfo.credits.cast.map((c) => <p>{c.name}</p>)
                             )
