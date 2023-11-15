@@ -1,4 +1,18 @@
-.image-container {
+.cast-card {
+    list-style-type: none;
+    border: 1px solid lightgray;
+    border-radius: var(--border-radius);
     width: 160px;
     min-width: 160px;
+    height: 314px;
+    overflow: hidden;
+
+    .cast-name {
+        padding: 10px 10px 0;
+    }
+
+    .character {
+        padding: 0 10px 0;
+        color: var(--tmdb-gray);
+    }
 }

@@ -129,10 +129,15 @@ const ContentIntro = () => {
     }
 
     const CastCard = ({ cast }: CastCardProp) => {
+        console.log('cast: ', cast);
         return <>
-            <div className='image-container'>
+            <li className='cast-card'>
+
                 <img src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} alt='cast-profile' />
-            </div>
+
+                <p className='cast-name'>{cast.name}</p>
+                <p className='character'>{cast.character}</p>
+            </li>
         </>
     }
 
