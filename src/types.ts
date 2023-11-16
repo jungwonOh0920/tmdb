@@ -58,6 +58,12 @@ export interface MovieWithRateType {
     rating: string
 }
 
+// TODO: remove MovieWithRateType and TVWithRateType when ContentDetailInfoType is available. It's redundant.
+export interface ContentDetailInfoType {
+    contentData: MovieObjectType | TVObjectType,
+    rating: string
+}
+
 export enum PlatformTypes {
     tv,
     movie

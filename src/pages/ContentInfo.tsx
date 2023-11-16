@@ -5,7 +5,7 @@ import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
 import Button, { ButtonTypes } from '../components/Button/Button'
-import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, PlatformTypes, CastType } from '../types'
+import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, ContentDetailInfoType, PlatformTypes, CastType } from '../types'
 import '../styles/contentInfo.scss'
 
 interface ReleaseDatesType {
@@ -17,13 +17,18 @@ interface CastCardProp {
     cast: CastType
 }
 
+// TODO: We're fetching TV or movie again but we already have data from Home.tsx. 
+// The only thing we need to fetch is rate with ID.
+
 const ContentIntro = () => {
     let location = useLocation()
     const [id, setId] = useState(0)
     const [platform, setPlatform] = useState<PlatformTypes>()
-    const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
+    // TODO: combine movieInfo and TVInfo together
+    const [contentDetailInfo, setContentDetailInfo] = useState<ContentDetailInfoType>()
     const [movieInfo, setMovieInfo] = useState<MovieObjectType>()
     const [TVInfo, setTVInfo] = useState<TVObjectType>()
+    const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
     const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
     const [rating, setRating] = useState('')
     const [recommendationsData, setRecommendationsData] = useState<MovieObjectType[]>([])
