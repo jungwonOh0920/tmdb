@@ -4,6 +4,7 @@ import ContentHero from '../components/ContentHero/ContentHero'
 import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
+import Button, { ButtonTypes } from '../components/Button/Button'
 import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, PlatformTypes, CastType } from '../types'
 import '../styles/contentInfo.scss'
 
@@ -129,16 +130,11 @@ const ContentIntro = () => {
     }
 
     const CastCard = ({ cast }: CastCardProp) => {
-        console.log('cast: ', cast);
-        return <>
-            <li className='cast-card'>
-
-                <img src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} alt='cast-profile' />
-
-                <p className='cast-name'>{cast.name}</p>
-                <p className='character'>{cast.character}</p>
-            </li>
-        </>
+        return <li className='cast-card'>
+            <img src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} alt='cast-profile' />
+            <p className='cast-name'>{cast.name}</p>
+            <p className='character'>{cast.character}</p>
+        </li>
     }
 
     return (
@@ -151,14 +147,33 @@ const ContentIntro = () => {
                 <Tabs tabTitles={['Top Billed Cast']}>
                     <CardSlider>
                         {
-                            platform === PlatformTypes.movie ? (
-                                movieInfo &&
-                                movieInfo.credits.cast.map((c: CastType, idx) => {
-                                    return <CastCard cast={c} key={idx} />
-                                })
-                            ) : (
-                                TVInfo && TVInfo.credits.cast.map((c) => <p>{c.name}</p>)
-                            )
+                            platform === PlatformTypes.movie ?
+                                (
+                                    movieInfo && movieInfo.credits.cast.length >= 10 ? <>
+                                        {
+                                            movieInfo.credits.cast.slice(0, 10).map((c, idx) => <CastCard cast={c} key={idx} />)
+                                        }
+                                        <div className='mb-auto mt-auto w-40'>
+                                            <Button type={ButtonTypes.noBorder}>View More </Button>
+                                        </div>
+                                    </>
+                                        : (
+                                            movieInfo?.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />)
+                                        )
+                                )
+                                : (
+                                    TVInfo && TVInfo.credits.cast.length >= 10 ?
+                                        <>
+                                            {
+                                                TVInfo.credits.cast.slice(0, 10).map((c, idx) => <CastCard cast={c} key={idx} />)
+                                            }
+                                            <div className='mb-auto mt-auto w-40'>
+                                                <Button type={ButtonTypes.noBorder}>View More </Button>
+                                            </div>
+                                        </>
+                                        :
+                                        (TVInfo?.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />))
+                                )
                         }
                     </CardSlider>
                 </Tabs>
