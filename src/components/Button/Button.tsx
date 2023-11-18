@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import classNames from "classnames";
 import "./button.scss";
 
@@ -14,8 +14,13 @@ export enum ButtonSizes {
   medium = 'medium',
 }
 
+interface linkToType {
+  pathname: string
+  state?: any
+}
+
 interface ButtonProps {
-  linkTo?: string;
+  linkTo?: linkToType;
   children?: JSX.Element | string | null;
   type?: ButtonTypes
   size?: ButtonSizes
@@ -41,9 +46,9 @@ const Button = (props: ButtonProps) => {
       onMouseEnter={props.onMouseEnter}
       onMouseLeave={props.onMouseLeave}
     >
-      <NavLink className={buttonClasses} to={props.linkTo}>
+      <Link className={buttonClasses} to={props.linkTo.pathname} state={props.linkTo.state}>
         {props.children}
-      </NavLink>
+      </Link>
     </div>
   ) : (
     <button className={buttonClasses} onClick={props.onClick}>

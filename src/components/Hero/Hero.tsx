@@ -20,7 +20,7 @@ const DesktopHero = () => (
         </h1>
         <p className='mb-2'>Stream it all for only $4.99/month. Cancel anytime.</p>
         <Tooltip content={resumeTip()} position={ToolTipPosition.bottomLeft}>
-          <Button size={ButtonSizes.small} type={ButtonTypes.gradientFill} linkTo='/aboutme'>
+          <Button size={ButtonSizes.small} type={ButtonTypes.gradientFill} linkTo={{ pathname: 'aboutme' }}>
             See Resume &#128514;
           </Button>
         </Tooltip>
@@ -62,7 +62,7 @@ const Hero = () => {
   const MobileHero = () => (
     <div className="mobile-hero-container">
       <div className='mobile-resume-button-container'>
-        <Button type={ButtonTypes.gradientFill} linkTo='/aboutme'>
+        <Button type={ButtonTypes.gradientFill} linkTo={{ pathname: 'aboutme' }}>
           See Resume &#128514;
         </Button>
       </div>

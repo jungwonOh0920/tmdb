@@ -31,7 +31,8 @@ export interface TVObjectType {
     vote_count: number,
     genres: { id: number, name: string }[],
     tagline: string,
-    credits: { cast: Array<any>, crew: [] }
+    media_type: string,
+    credits: { cast: Array<any>, crew: [] },
 }
 
 export interface TVWithRateType {
@@ -61,7 +62,7 @@ export interface MovieWithRateType {
 // TODO: remove MovieWithRateType and TVWithRateType when ContentDetailInfoType is available. It's redundant.
 export interface ContentDetailInfoType {
     contentData: MovieObjectType | TVObjectType,
-    rating: string
+    rating?: string
 }
 
 export enum PlatformTypes {

@@ -71,7 +71,7 @@ function SignIn() {
         />
         <div className="form-buttons-container">
           <Button>Sign in</Button>
-          <Button linkTo="/signup">Register Instead</Button>
+          <Button linkTo={{ pathname: 'signup' }}>Register Instead</Button>
         </div>
       </form>
       <ToastContainer />

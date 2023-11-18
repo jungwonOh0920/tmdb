@@ -90,7 +90,7 @@ function Header() {
             contextUser ? (
               <Tooltip content={tooltipContent()} position={ToolTipPosition.bottomRight}>
                 <Button
-                  linkTo="profile"
+                  linkTo={{ pathname: 'profile' }}
                   type={ButtonTypes.avatar}>
                   {
                     avatar ? <img src={avatar} alt='avatar' className='avatar-img' /> :
@@ -100,7 +100,7 @@ function Header() {
               </Tooltip>
             )
               :
-              <Button linkTo="profile">Sign in</Button>
+              <Button linkTo={{ pathname: 'profile' }}>Sign in</Button>
           }
         </div>
       </div>

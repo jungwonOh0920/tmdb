@@ -83,7 +83,6 @@ function Home() {
   }, [dispatch, contextUser]);
 
   useEffect(() => {
-    console.log('pop: ', popularData)
     if (onTVData && popularData && upcomingData && forRentData) {
       setIsLoading(false)
     }

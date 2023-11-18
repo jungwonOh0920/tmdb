@@ -30,8 +30,13 @@ interface CardPropType {
 const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
+  const [isDataMovie, setIsDataMovie] = useState(false)
   const contextUser: FirebaseUser | null = useContext(UserContext)
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (data.release_date) setIsDataMovie(true)
+  }, [data])
 
   useEffect(() => {
     if (alreadyFav) {
@@ -107,7 +112,10 @@ const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: C
               {landscape ? <Button type={ButtonTypes.noBorder} onClick={() => alert('working on trailer modal...')}>
                 <FontAwesomeIcon icon={faPlay} size='2xl' />
               </Button> : <>
-                <Button linkTo={`/contents/${data.title && data.release_date ? 'movie' : 'tv'}/${data.id}`}>See details</Button>
+                <Button linkTo={{
+                  pathname: `/contents/${isDataMovie ? 'movie' : 'tv'}/${data.id}`,
+                  state: data
+                }}>See details</Button>
                 {
                   contextUser ?
                     <div className='favorite-container'>
