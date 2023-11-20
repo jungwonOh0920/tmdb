@@ -6,6 +6,7 @@ import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
 import Button, { ButtonTypes } from '../components/Button/Button'
 import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, ContentDetailInfoType, PlatformTypes, CastType } from '../types'
+import OPTIONS from '../api/apiConfig'
 import '../styles/contentInfo.scss'
 
 interface ReleaseDatesType {
@@ -17,122 +18,91 @@ interface CastCardProp {
     cast: CastType
 }
 
-// TODO: We're fetching TV or movie again but we already have data from Home.tsx. 
-// The only thing we need to fetch is rate with ID.
-
 const ContentIntro = () => {
     let location = useLocation()
     const [id, setId] = useState(0)
-    const [platform, setPlatform] = useState<PlatformTypes>()
-    // TODO: combine movieInfo and TVInfo together
-    const [contentDetailInfo, setContentDetailInfo] = useState<ContentDetailInfoType>()
-    const [movieInfo, setMovieInfo] = useState<MovieObjectType>()
-    const [TVInfo, setTVInfo] = useState<TVObjectType>()
+    const [isMovie, setIsMovie] = useState(true)
+    const [contentData, setContentData] = useState<MovieObjectType | TVObjectType>()
     const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
     const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
     const [rating, setRating] = useState('')
-    const [recommendationsData, setRecommendationsData] = useState<MovieObjectType[]>([])
     const [isLoading, setIsLoading] = useState<any>(false)
-    const key = process.env.REACT_APP_TMDB_API_KEY
 
     useEffect(() => {
         const locationArray = location.pathname.split('/')
         setId(Number(locationArray[3]))
-        setPlatform(locationArray[2] === 'tv' ? PlatformTypes.tv : PlatformTypes.movie)
-    }, [location.pathname])
+        if (locationArray[2] === 'tv') setIsMovie(false)
+
+        if (location && id) {
+            fetchContent()
+        }
+    }, [location, id])
+
+    const fetchContent = async () => {
+        try {
+            const END_POINT = `https://api.themoviedb.org/3/${isMovie ? 'movie' : 'tv'}/${id}?append_to_response=credits,recommendations`
+            let res = await fetch(END_POINT, OPTIONS)
+            const data = await res.json()
+            console.log('data: ', data)
+            setContentData(data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
     useEffect(() => {
-        const fetchRecommendation = async () => {
-            await sleep(2000)
-            fetch(`https://api.themoviedb.org/3/movie/${movieInfo?.id}/recommendations?api_key=${key}&language=en-US&page=1`)
-                .then((res) => {
-                    return res.json()
-                })
-                .then(data => setRecommendationsData(data.results))
-        }
+        // setMovieDataWithRate({
+        //     contentData: movieInfo as MovieObjectType,
+        //     rating: rating
+        // })
 
-        setMovieDataWithRate({
-            contentData: movieInfo as MovieObjectType,
-            rating: rating
-        })
-
-        setTVDataWithRate({
-            contentData: TVInfo as TVObjectType,
-            rating: rating
-        })
+        // setTVDataWithRate({
+        //     contentData: TVInfo as TVObjectType,
+        //     rating: rating
+        // })
 
         setIsLoading(true)
-
-        if (movieInfo) {
-            fetchRecommendation()
-        }
-    }, [movieInfo, TVInfo, rating, key])
+    }, [contentData, rating])
 
     useEffect(() => {
-        if (recommendationsData) {
-            setIsLoading(false)
-        }
-    }, [recommendationsData])
+        console.log('contentData: ', contentData);
+    }, [contentData])
 
-    useEffect(() => {
-        const fetchTV = async () => {
-            const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
-            const TV_END_POINT = `https://api.themoviedb.org/3/tv/${id}?&append_to_response=credits`
-            const TV_RATE_END_POINT = `https://api.themoviedb.org/3/tv/${id}/content_ratings`
+    // useEffect(() => {
+    //     const fetchTV = async () => {
+    //         const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
+    //         const TV_END_POINT = `https://api.themoviedb.org/3/tv/${id}?&append_to_response=credits`
+    //         const TV_RATE_END_POINT = `https://api.themoviedb.org/3/tv/${id}/content_ratings`
 
-            const OPTIONS = {
-                method: 'GET',
-                headers: {
-                    accept: 'application/json',
-                    Authorization: `Bearer ${TMDB_AUTHORIZATION}`
-                }
-            }
+    //         const OPTIONS = {
+    //             method: 'GET',
+    //             headers: {
+    //                 accept: 'application/json',
+    //                 Authorization: `Bearer ${TMDB_AUTHORIZATION}`
+    //             }
+    //         }
 
-            let [tvData, contentRatings] = await Promise.all([
-                fetch(TV_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err)),
-                fetch(TV_RATE_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err))
-            ])
-            setTVInfo(tvData)
-            setRating(contentRatings.results[0].rating)
-        }
+    //         let [tvData, contentRatings] = await Promise.all([
+    //             fetch(TV_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err)),
+    //             fetch(TV_RATE_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err))
+    //         ])
+    //         setTVInfo(tvData)
+    //         setRating(contentRatings.results[0].rating)
+    //     }
+    // }, [platform, id])
 
-        const fetchMovie = async () => {
-            try {
-                let [movieData, releaseDates] = await Promise.all([
-                    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US&append_to_response=credits`).then(res => res.json()),
-                    fetch(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${key}`).then(res => res.json())
-                ])
-                setMovieInfo(movieData)
-                getUSRating(releaseDates.results)
-            } catch (err) {
-                console.log('err: ', err);
-            }
-        }
+    // const getUSRating = (releaseDates: ReleaseDatesType[]) => {
+    //     for (let i = 0; i < releaseDates.length; i++) {
+    //         const curr = releaseDates[i]
 
-        const fetchAPI = async () => {
-            if (platform === PlatformTypes.movie) {
-                fetchMovie()
-            } else {
-                fetchTV()
-            }
-        }
-        if (id) {
-            fetchAPI()
-        }
-    }, [platform, id, key])
-
-    const getUSRating = (releaseDates: ReleaseDatesType[]) => {
-        for (let i = 0; i < releaseDates.length; i++) {
-            const curr = releaseDates[i]
-
-            if (curr.iso_3166_1 === 'US') {
-                const rating = curr.release_dates[0].certification
-                setRating(rating)
-            }
-        }
-    }
+    //         if (curr.iso_3166_1 === 'US') {
+    //             const rating = curr.release_dates[0].certification
+    //             setRating(rating)
+    //         }
+    //     }
+    // }
 
     const CastCard = ({ cast }: CastCardProp) => {
         return <li className='cast-card'>
@@ -144,46 +114,28 @@ const ContentIntro = () => {
 
     return (
         <div className='space-y-4'>
-            {
+            <ContentHero platform={isMovie ? PlatformTypes.movie : PlatformTypes.tv} content={contentData} />
+            <Tabs tabTitles={['Top Billed Cast']}>
+                <CardSlider>
+                    {
+                        contentData && (
+                            contentData.credits.cast.length > 10 ?
+                                <>
+                                    {contentData.credits.cast.slice(0, 10).map((c, idx) => <CastCard cast={c} key={idx} />)}
+                                    <div className='mb-auto mt-auto w-40'>
+                                        <Button type={ButtonTypes.noBorder}>View More </Button>
+                                    </div>
+                                </> : contentData.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />)
+                        )
+                    }
+                </CardSlider>
+            </Tabs>
+            {/* {
                 platform === PlatformTypes.movie ? (movieDataWithRate && <ContentHero type={PlatformTypes.movie} content={movieDataWithRate} />) :
                     (TVDataWithRate && <ContentHero type={PlatformTypes.tv} content={TVDataWithRate} />)
-            }
-            {
-                <Tabs tabTitles={['Top Billed Cast']}>
-                    <CardSlider>
-                        {
-                            platform === PlatformTypes.movie ?
-                                (
-                                    movieInfo && movieInfo.credits.cast.length >= 10 ? <>
-                                        {
-                                            movieInfo.credits.cast.slice(0, 10).map((c, idx) => <CastCard cast={c} key={idx} />)
-                                        }
-                                        <div className='mb-auto mt-auto w-40'>
-                                            <Button type={ButtonTypes.noBorder}>View More </Button>
-                                        </div>
-                                    </>
-                                        : (
-                                            movieInfo?.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />)
-                                        )
-                                )
-                                : (
-                                    TVInfo && TVInfo.credits.cast.length >= 10 ?
-                                        <>
-                                            {
-                                                TVInfo.credits.cast.slice(0, 10).map((c, idx) => <CastCard cast={c} key={idx} />)
-                                            }
-                                            <div className='mb-auto mt-auto w-40'>
-                                                <Button type={ButtonTypes.noBorder}>View More </Button>
-                                            </div>
-                                        </>
-                                        :
-                                        (TVInfo?.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />))
-                                )
-                        }
-                    </CardSlider>
-                </Tabs>
-            }
-            {
+            } */}
+
+            {/* {
                 recommendationsData.length ?
                     <Tabs tabTitles={['Recommendations']}>
                         <CardSlider isLoading={isLoading}>
@@ -192,7 +144,7 @@ const ContentIntro = () => {
                             }
                         </CardSlider>
                     </Tabs> : ''
-            }
+            } */}
         </div>
     )
 }

@@ -113,8 +113,7 @@ const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: C
                 <FontAwesomeIcon icon={faPlay} size='2xl' />
               </Button> : <>
                 <Button linkTo={{
-                  pathname: `/contents/${isDataMovie ? 'movie' : 'tv'}/${data.id}`,
-                  state: data
+                  pathname: `/contents/${isDataMovie ? 'movie' : 'tv'}/${data.id}`
                 }}>See details</Button>
                 {
                   contextUser ?
