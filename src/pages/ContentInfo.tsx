@@ -5,14 +5,14 @@ import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
 import Button, { ButtonTypes } from '../components/Button/Button'
-import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, ContentDetailInfoType, PlatformTypes, CastType } from '../types'
+import { TVObjectType, MovieObjectType, PlatformTypes, CastType } from '../types'
 import OPTIONS from '../api/apiConfig'
 import '../styles/contentInfo.scss'
 
-interface ReleaseDatesType {
-    iso_3166_1: string,
-    release_dates: [{ certification: string }]
-}
+// interface ReleaseDatesType {
+//     iso_3166_1: string,
+//     release_dates: [{ certification: string }]
+// }
 
 interface CastCardProp {
     cast: CastType
@@ -23,12 +23,23 @@ const ContentIntro = () => {
     const [id, setId] = useState(0)
     const [isMovie, setIsMovie] = useState(true)
     const [contentData, setContentData] = useState<MovieObjectType | TVObjectType>()
-    const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
-    const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
-    const [rating, setRating] = useState('')
-    const [isLoading, setIsLoading] = useState<any>(false)
+    // const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
+    // const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
+    // const [rating, setRating] = useState('')
+    // const [isLoading, setIsLoading] = useState<any>(false)
 
     useEffect(() => {
+        const fetchContent = async () => {
+            try {
+                const END_POINT = `https://api.themoviedb.org/3/${isMovie ? 'movie' : 'tv'}/${id}?append_to_response=credits,recommendations`
+                let res = await fetch(END_POINT, OPTIONS)
+                const data = await res.json()
+                setContentData(data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
         const locationArray = location.pathname.split('/')
         setId(Number(locationArray[3]))
         if (locationArray[2] === 'tv') setIsMovie(false)
@@ -36,39 +47,23 @@ const ContentIntro = () => {
         if (location && id) {
             fetchContent()
         }
-    }, [location, id])
+    }, [location, id, isMovie])
 
-    const fetchContent = async () => {
-        try {
-            const END_POINT = `https://api.themoviedb.org/3/${isMovie ? 'movie' : 'tv'}/${id}?append_to_response=credits,recommendations`
-            let res = await fetch(END_POINT, OPTIONS)
-            const data = await res.json()
-            console.log('data: ', data)
-            setContentData(data)
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    // const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-    const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+    // useEffect(() => {
+    //     setMovieDataWithRate({
+    //         contentData: movieInfo as MovieObjectType,
+    //         rating: rating
+    //     })
 
-    useEffect(() => {
-        // setMovieDataWithRate({
-        //     contentData: movieInfo as MovieObjectType,
-        //     rating: rating
-        // })
+    //     setTVDataWithRate({
+    //         contentData: TVInfo as TVObjectType,
+    //         rating: rating
+    //     })
 
-        // setTVDataWithRate({
-        //     contentData: TVInfo as TVObjectType,
-        //     rating: rating
-        // })
-
-        setIsLoading(true)
-    }, [contentData, rating])
-
-    useEffect(() => {
-        console.log('contentData: ', contentData);
-    }, [contentData])
+    //     setIsLoading(true)
+    // }, [contentData, rating])
 
     // useEffect(() => {
     //     const fetchTV = async () => {
@@ -114,7 +109,9 @@ const ContentIntro = () => {
 
     return (
         <div className='space-y-4'>
-            <ContentHero platform={isMovie ? PlatformTypes.movie : PlatformTypes.tv} content={contentData} />
+            {
+                contentData && <ContentHero platform={isMovie ? PlatformTypes.movie : PlatformTypes.tv} content={contentData} />
+            }
             <Tabs tabTitles={['Top Billed Cast']}>
                 <CardSlider>
                     {
@@ -130,21 +127,17 @@ const ContentIntro = () => {
                     }
                 </CardSlider>
             </Tabs>
-            {/* {
-                platform === PlatformTypes.movie ? (movieDataWithRate && <ContentHero type={PlatformTypes.movie} content={movieDataWithRate} />) :
-                    (TVDataWithRate && <ContentHero type={PlatformTypes.tv} content={TVDataWithRate} />)
-            } */}
-
-            {/* {
-                recommendationsData.length ?
+            {
+                contentData && contentData.recommendations.results.length ?
                     <Tabs tabTitles={['Recommendations']}>
-                        <CardSlider isLoading={isLoading}>
+                        <CardSlider>
                             {
-                                recommendationsData?.map((data: MovieObjectType, idx: number) => <Card data={data} key={idx} />)
+                                contentData.recommendations.results.map((data, idx) => <Card data={data} key={idx} />)
                             }
                         </CardSlider>
-                    </Tabs> : ''
-            } */}
+                    </Tabs>
+                    : ''
+            }
         </div>
     )
 }

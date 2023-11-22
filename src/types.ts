@@ -1,18 +1,25 @@
 export interface VideoType {
-    adult: boolean;
-    backdrop_path: string;
-    genre_ids: number[];
-    id: number;
-    original_language: string;
-    original_title: string;
-    overview: string;
-    popularity: number;
-    poster_path: string;
-    release_date: string;
-    title: string;
-    video: boolean;
-    vote_average: number;
-    vote_count: number;
+    adult: boolean,
+    backdrop_path: string,
+    genre_ids: number[],
+    id: number,
+    original_language: string,
+    original_title: string,
+    overview: string,
+    popularity: number,
+    poster_path: string,
+    release_date: string,
+    title: string,
+    video: boolean,
+    vote_average: number,
+    vote_count: number
+}
+
+export interface recommendations {
+    page: number,
+    results: Array<TVObjectType | MovieObjectType>,
+    total_page: number,
+    total_results: number
 }
 
 export interface TVObjectType {
@@ -33,6 +40,7 @@ export interface TVObjectType {
     tagline: string,
     media_type: string,
     credits: { cast: Array<any>, crew: [] },
+    recommendations: recommendations
 }
 
 export interface TVWithRateType {
@@ -51,7 +59,8 @@ export interface MovieObjectType {
     overview: string,
     tagline: string,
     id: number,
-    credits: { cast: Array<any>, crew: [] }
+    credits: { cast: Array<any>, crew: [] },
+    recommendations: recommendations
 }
 
 export interface MovieWithRateType {
@@ -71,10 +80,10 @@ export enum PlatformTypes {
 }
 
 export type DataType = {
-    page: number;
-    results: Array<VideoType>;
-    total_pages: number;
-    total_results: number;
+    page: number,
+    results: Array<VideoType>,
+    total_pages: number,
+    total_results: number,
 }
 
 export interface GenreType {
@@ -83,10 +92,10 @@ export interface GenreType {
 }
 
 export interface CastType {
-    adult: boolean;
-    cast_id: number;
-    id: number;
-    name: string;
-    profile_path: string;
-    character: string;
+    adult: boolean,
+    cast_id: number,
+    id: number,
+    name: string,
+    profile_path: string,
+    character: string
 }
