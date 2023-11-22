@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import Rate from '../Rate/Rate'
 import CardOverlay from './CardOverlay'
 import Button, { ButtonTypes } from '../Button/Button'
-import { MovieObjectType, VideoType } from '../../types'
+// import { MovieObjectType, TVObjectType, VideoType } from '../../types'
 import favoriteEmptySvg from '../../assets/images/favorite-empty.svg'
 import favoriteFillSvg from '../../assets/images/favorite-fill.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -20,9 +20,10 @@ import './card.scss'
 import { faPlay } from "@fortawesome/free-solid-svg-icons"
 
 interface CardPropType {
-  data: VideoType | MovieObjectType
-  alreadyFav: boolean
-  landscape?: boolean
+  // data: VideoType | MovieObjectType | TVObjectType,
+  data: any,
+  alreadyFav: boolean,
+  landscape?: boolean,
   index?: number,
   onChangeBackgroundImage?: (newImage: string) => void
 }
@@ -30,8 +31,13 @@ interface CardPropType {
 const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: CardPropType) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
+  const [isDataMovie, setIsDataMovie] = useState(false)
   const contextUser: FirebaseUser | null = useContext(UserContext)
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (data.release_date !== undefined && data.title !== undefined) setIsDataMovie(true)
+  }, [data])
 
   useEffect(() => {
     if (alreadyFav) {
@@ -107,7 +113,9 @@ const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: C
               {landscape ? <Button type={ButtonTypes.noBorder} onClick={() => alert('working on trailer modal...')}>
                 <FontAwesomeIcon icon={faPlay} size='2xl' />
               </Button> : <>
-                <Button linkTo={`/contents/${data.title && data.release_date ? 'movie' : 'tv'}/${data.id}`}>See details</Button>
+                <Button linkTo={{
+                  pathname: `/contents/${isDataMovie ? 'movie' : 'tv'}/${data.id}`
+                }}>See details</Button>
                 {
                   contextUser ?
                     <div className='favorite-container'>
@@ -121,8 +129,8 @@ const Card = ({ data, alreadyFav, landscape, index, onChangeBackgroundImage }: C
           </div>}
       </div>
       <div className='title-container h-14'>
-        <p className='truncate'>{data.title}</p>
-        {landscape ? null : <span className='text-xs'>{data.release_date}</span>}
+        <p className='truncate'>{isDataMovie ? data.title : data.name}</p>
+        {landscape ? null : <span className='text-xs'>{isDataMovie ? data.release_date : ''}</span>}
       </div>
       {
         landscape ? null : <div className='rate-container'>

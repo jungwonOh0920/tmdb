@@ -1,0 +1,18 @@
+.cast-card {
+    list-style-type: none;
+    border-radius: var(--border-radius);
+    width: 160px;
+    min-width: 160px;
+    height: 314px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px var(--tmdb-secondary);
+
+    .cast-name {
+        padding: 10px 10px 0;
+    }
+
+    .character {
+        padding: 0 10px 0;
+        color: var(--tmdb-gray);
+    }
+}

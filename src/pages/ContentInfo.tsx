@@ -4,140 +4,139 @@ import ContentHero from '../components/ContentHero/ContentHero'
 import Tabs from '../components/Tabs/Tabs'
 import CardSlider from '../components/CardSlider/CardSlider'
 import Card from '../components/Card/Card'
-import { TVObjectType, TVWithRateType, MovieObjectType, MovieWithRateType, PlatformTypes } from '../types'
-import "../styles/contentIntro.scss"
+import Button, { ButtonTypes } from '../components/Button/Button'
+import { TVObjectType, MovieObjectType, PlatformTypes, CastType } from '../types'
+import OPTIONS from '../api/apiConfig'
+import '../styles/contentInfo.scss'
 
-interface ReleaseDatesType {
-    iso_3166_1: string,
-    release_dates: [{ certification: string }]
+// interface ReleaseDatesType {
+//     iso_3166_1: string,
+//     release_dates: [{ certification: string }]
+// }
+
+interface CastCardProp {
+    cast: CastType
 }
 
 const ContentIntro = () => {
     let location = useLocation()
     const [id, setId] = useState(0)
-    const [platform, setPlatform] = useState<PlatformTypes>()
-    const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
-    const [movieInfo, setMovieInfo] = useState<MovieObjectType>()
-    const [TVInfo, setTVInfo] = useState<TVObjectType>()
-    const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
-    const [rating, setRating] = useState('')
-    const [recommendationsData, setRecommendationsData] = useState<MovieObjectType[]>([])
-    const [isLoading, setIsLoading] = useState<any>(false)
-    const key = process.env.REACT_APP_TMDB_API_KEY
+    const [isMovie, setIsMovie] = useState(true)
+    const [contentData, setContentData] = useState<MovieObjectType | TVObjectType>()
+    // const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
+    // const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
+    // const [rating, setRating] = useState('')
+    // const [isLoading, setIsLoading] = useState<any>(false)
 
     useEffect(() => {
+        const fetchContent = async () => {
+            try {
+                const END_POINT = `https://api.themoviedb.org/3/${isMovie ? 'movie' : 'tv'}/${id}?append_to_response=credits,recommendations`
+                let res = await fetch(END_POINT, OPTIONS)
+                const data = await res.json()
+                setContentData(data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
         const locationArray = location.pathname.split('/')
         setId(Number(locationArray[3]))
-        setPlatform(locationArray[2] === 'tv' ? PlatformTypes.tv : PlatformTypes.movie)
-    }, [location.pathname])
+        if (locationArray[2] === 'tv') setIsMovie(false)
 
-    const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
-
-    useEffect(() => {
-        const fetchRecommendation = async () => {
-            await sleep(2000)
-            fetch(`https://api.themoviedb.org/3/movie/${movieInfo?.id}/recommendations?api_key=${key}&language=en-US&page=1`)
-                .then((res) => {
-                    return res.json()
-                })
-                .then(data => setRecommendationsData(data.results))
+        if (location && id) {
+            fetchContent()
         }
+    }, [location, id, isMovie])
 
-        setMovieDataWithRate({
-            contentData: movieInfo as MovieObjectType,
-            rating: rating
-        })
+    // const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-        setTVDataWithRate({
-            contentData: TVInfo as TVObjectType,
-            rating: rating
-        })
+    // useEffect(() => {
+    //     setMovieDataWithRate({
+    //         contentData: movieInfo as MovieObjectType,
+    //         rating: rating
+    //     })
 
-        setIsLoading(true)
+    //     setTVDataWithRate({
+    //         contentData: TVInfo as TVObjectType,
+    //         rating: rating
+    //     })
 
-        if (movieInfo) {
-            fetchRecommendation()
-        }
-    }, [movieInfo, TVInfo, rating, key])
+    //     setIsLoading(true)
+    // }, [contentData, rating])
 
-    useEffect(() => {
-        if (recommendationsData) {
-            setIsLoading(false)
-        }
-    }, [recommendationsData])
+    // useEffect(() => {
+    //     const fetchTV = async () => {
+    //         const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
+    //         const TV_END_POINT = `https://api.themoviedb.org/3/tv/${id}?&append_to_response=credits`
+    //         const TV_RATE_END_POINT = `https://api.themoviedb.org/3/tv/${id}/content_ratings`
 
-    useEffect(() => {
-        const fetchTV = async () => {
-            const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
-            const TV_END_POINT = `https://api.themoviedb.org/3/tv/${id}`
-            const TV_RATE_END_POINT = `https://api.themoviedb.org/3/tv/${id}/content_ratings`
+    //         const OPTIONS = {
+    //             method: 'GET',
+    //             headers: {
+    //                 accept: 'application/json',
+    //                 Authorization: `Bearer ${TMDB_AUTHORIZATION}`
+    //             }
+    //         }
 
-            const OPTIONS = {
-                method: 'GET',
-                headers: {
-                    accept: 'application/json',
-                    Authorization: `Bearer ${TMDB_AUTHORIZATION}`
-                }
-            }
+    //         let [tvData, contentRatings] = await Promise.all([
+    //             fetch(TV_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err)),
+    //             fetch(TV_RATE_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err))
+    //         ])
+    //         setTVInfo(tvData)
+    //         setRating(contentRatings.results[0].rating)
+    //     }
+    // }, [platform, id])
 
-            let [tvData, contentRatings] = await Promise.all([
-                fetch(TV_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err)),
-                fetch(TV_RATE_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err))
-            ])
-            setTVInfo(tvData)
-            setRating(contentRatings.results[0].rating)
-        }
+    // const getUSRating = (releaseDates: ReleaseDatesType[]) => {
+    //     for (let i = 0; i < releaseDates.length; i++) {
+    //         const curr = releaseDates[i]
 
-        const fetchMovie = async () => {
-            try {
-                let [movieData, releaseDates] = await Promise.all([
-                    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`).then(res => res.json()),
-                    fetch(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${key}`).then(res => res.json())
-                ])
-                setMovieInfo(movieData)
-                getUSRating(releaseDates.results)
-            } catch (err) {
-                console.log('err: ', err);
-            }
-        }
+    //         if (curr.iso_3166_1 === 'US') {
+    //             const rating = curr.release_dates[0].certification
+    //             setRating(rating)
+    //         }
+    //     }
+    // }
 
-        const fetchAPI = async () => {
-            if (platform === PlatformTypes.movie) {
-                fetchMovie()
-            } else {
-                fetchTV()
-            }
-        }
-        if (id) {
-            fetchAPI()
-        }
-    }, [platform, id, key])
-
-    const getUSRating = (releaseDates: ReleaseDatesType[]) => {
-        for (let i = 0; i < releaseDates.length; i++) {
-            const curr = releaseDates[i]
-
-            if (curr.iso_3166_1 === 'US') {
-                const rating = curr.release_dates[0].certification
-                setRating(rating)
-            }
-        }
+    const CastCard = ({ cast }: CastCardProp) => {
+        return <li className='cast-card'>
+            <img src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} alt='cast-profile' />
+            <p className='cast-name'>{cast.name}</p>
+            <p className='character'>{cast.character}</p>
+        </li>
     }
+
     return (
         <div className='space-y-4'>
             {
-                platform === PlatformTypes.movie ? (movieDataWithRate && <ContentHero type={PlatformTypes.movie} content={movieDataWithRate} />) :
-                    (TVDataWithRate && <ContentHero type={PlatformTypes.tv} content={TVDataWithRate} />)
+                contentData && <ContentHero platform={isMovie ? PlatformTypes.movie : PlatformTypes.tv} content={contentData} />
             }
+            <Tabs tabTitles={['Top Billed Cast']}>
+                <CardSlider>
+                    {
+                        contentData && (
+                            contentData.credits.cast.length > 10 ?
+                                <>
+                                    {contentData.credits.cast.slice(0, 10).map((c, idx) => <CastCard cast={c} key={idx} />)}
+                                    <div className='mb-auto mt-auto w-40'>
+                                        <Button type={ButtonTypes.noBorder}>View More </Button>
+                                    </div>
+                                </> : contentData.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />)
+                        )
+                    }
+                </CardSlider>
+            </Tabs>
             {
-                recommendationsData.length ?
+                contentData && contentData.recommendations.results.length ?
                     <Tabs tabTitles={['Recommendations']}>
-                        <CardSlider isLoading={isLoading}>
+                        <CardSlider>
                             {
-                                recommendationsData?.map((data: MovieObjectType, idx: number) => <Card data={data} key={idx} />)
+                                contentData.recommendations.results.map((data, idx) => <Card data={data} key={idx} />)
                             }
                         </CardSlider>
-                    </Tabs> : ''
+                    </Tabs>
+                    : ''
             }
         </div>
     )
