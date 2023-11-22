@@ -60,7 +60,8 @@ export interface MovieObjectType {
     tagline: string,
     id: number,
     credits: { cast: Array<any>, crew: [] },
-    recommendations: recommendations
+    recommendations: recommendations,
+    videos: { results: { key: string }[] }
 }
 
 export interface MovieWithRateType {

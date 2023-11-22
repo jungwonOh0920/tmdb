@@ -22,28 +22,37 @@ const ContentIntro = () => {
     let location = useLocation()
     const [id, setId] = useState(0)
     const [isMovie, setIsMovie] = useState(true)
-    const [contentData, setContentData] = useState<MovieObjectType | TVObjectType>()
+    // const [contentData, setContentData] = useState<MovieObjectType | TVObjectType>()
+    const [movieData, setMovieData] = useState()
+    const [tvData, setTvData] = useState()
+
     // const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
     // const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
     // const [rating, setRating] = useState('')
     // const [isLoading, setIsLoading] = useState<any>(false)
 
     useEffect(() => {
-        const fetchContent = async () => {
-            try {
-                const END_POINT = `https://api.themoviedb.org/3/${isMovie ? 'movie' : 'tv'}/${id}?append_to_response=credits,recommendations`
-                let res = await fetch(END_POINT, OPTIONS)
-                const data = await res.json()
-                setContentData(data)
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
         const locationArray = location.pathname.split('/')
         setId(Number(locationArray[3]))
         if (locationArray[2] === 'tv') setIsMovie(false)
 
+        const fetchContent = async () => {
+            try {
+                let END_POINT = null
+                if (isMovie) {
+                    END_POINT = `https://api.themoviedb.org/3/movie/${id}?append_to_response=credits,recommendations,videos`
+                } else {
+                    END_POINT = `https://api.themoviedb.org/3/tv/${id}?append_to_response=credits,recommendations`
+                }
+                let res = await fetch(END_POINT, OPTIONS)
+                const data = await res.json()
+                console.log('data: ', data);
+                isMovie ? setMovieData(data) : setTvData(data)
+                // setContentData(data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
         if (location && id) {
             fetchContent()
         }
@@ -110,9 +119,10 @@ const ContentIntro = () => {
     return (
         <div className='space-y-4'>
             {
-                contentData && <ContentHero platform={isMovie ? PlatformTypes.movie : PlatformTypes.tv} content={contentData} />
+                isMovie ?
+                    (movieData && <ContentHero isMovie={isMovie} movie={movieData} />) : (tvData && <ContentHero isMovie={isMovie} tv={tvData} />)
             }
-            <Tabs tabTitles={['Top Billed Cast']}>
+            {/* <Tabs tabTitles={['Top Billed Cast']}>
                 <CardSlider>
                     {
                         contentData && (
@@ -126,17 +136,17 @@ const ContentIntro = () => {
                         )
                     }
                 </CardSlider>
-            </Tabs>
+            </Tabs> */}
             {
-                contentData && contentData.recommendations.results.length ?
-                    <Tabs tabTitles={['Recommendations']}>
-                        <CardSlider>
-                            {
-                                contentData.recommendations.results.map((data, idx) => <Card data={data} key={idx} />)
-                            }
-                        </CardSlider>
-                    </Tabs>
-                    : ''
+                // contentData && contentData.recommendations.results.length ?
+                //     <Tabs tabTitles={['Recommendations']}>
+                //         <CardSlider>
+                //             {
+                //                 contentData.recommendations.results.map((data, idx) => <Card data={data} key={idx} />)
+                //             }
+                //         </CardSlider>
+                //     </Tabs>
+                //     : ''
             }
         </div>
     )
