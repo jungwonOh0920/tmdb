@@ -23,8 +23,8 @@ const ContentIntro = () => {
     const [id, setId] = useState(0)
     const [isMovie, setIsMovie] = useState(true)
     // const [contentData, setContentData] = useState<MovieObjectType | TVObjectType>()
-    const [movieData, setMovieData] = useState()
-    const [tvData, setTvData] = useState()
+    const [movieData, setMovieData] = useState<MovieObjectType>()
+    const [tvData, setTvData] = useState<TVObjectType>()
 
     // const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
     // const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
@@ -46,7 +46,6 @@ const ContentIntro = () => {
                 }
                 let res = await fetch(END_POINT, OPTIONS)
                 const data = await res.json()
-                console.log('data: ', data);
                 isMovie ? setMovieData(data) : setTvData(data)
                 // setContentData(data)
             } catch (error) {
@@ -56,6 +55,7 @@ const ContentIntro = () => {
         if (location && id) {
             fetchContent()
         }
+        console.log('isMovie: ', isMovie);
     }, [location, id, isMovie])
 
     // const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
@@ -122,9 +122,14 @@ const ContentIntro = () => {
                 isMovie ?
                     (movieData && <ContentHero isMovie={isMovie} movie={movieData} />) : (tvData && <ContentHero isMovie={isMovie} tv={tvData} />)
             }
-            {/* <Tabs tabTitles={['Top Billed Cast']}>
+            <Tabs tabTitles={['Top Billed Cast']}>
                 <CardSlider>
                     {
+                        isMovie ? (movieData && movieData.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />))
+                            :
+                            (tvData && tvData.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />))
+                    }
+                    {/* {
                         contentData && (
                             contentData.credits.cast.length > 10 ?
                                 <>
@@ -134,9 +139,9 @@ const ContentIntro = () => {
                                     </div>
                                 </> : contentData.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />)
                         )
-                    }
+                    } */}
                 </CardSlider>
-            </Tabs> */}
+            </Tabs>
             {
                 // contentData && contentData.recommendations.results.length ?
                 //     <Tabs tabTitles={['Recommendations']}>
