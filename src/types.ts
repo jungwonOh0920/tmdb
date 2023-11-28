@@ -40,7 +40,8 @@ export interface TVObjectType {
     tagline: string,
     media_type: string,
     credits: { cast: Array<any>, crew: [] },
-    recommendations: recommendations
+    recommendations: recommendations,
+    videos: { results: { key: string }[] }
 }
 
 export interface TVWithRateType {
@@ -60,7 +61,8 @@ export interface MovieObjectType {
     tagline: string,
     id: number,
     credits: { cast: Array<any>, crew: [] },
-    recommendations: recommendations
+    recommendations: recommendations,
+    videos: { results: { key: string }[] }
 }
 
 export interface MovieWithRateType {
