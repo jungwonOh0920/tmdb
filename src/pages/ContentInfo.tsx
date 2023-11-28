@@ -42,12 +42,11 @@ const ContentIntro = () => {
                 if (isMovie) {
                     END_POINT = `https://api.themoviedb.org/3/movie/${id}?append_to_response=credits,recommendations,videos`
                 } else {
-                    END_POINT = `https://api.themoviedb.org/3/tv/${id}?append_to_response=credits,recommendations`
+                    END_POINT = `https://api.themoviedb.org/3/tv/${id}?append_to_response=credits,recommendations,videos`
                 }
                 let res = await fetch(END_POINT, OPTIONS)
                 const data = await res.json()
                 isMovie ? setMovieData(data) : setTvData(data)
-                // setContentData(data)
             } catch (error) {
                 console.error(error)
             }
@@ -57,56 +56,6 @@ const ContentIntro = () => {
         }
         console.log('isMovie: ', isMovie);
     }, [location, id, isMovie])
-
-    // const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
-
-    // useEffect(() => {
-    //     setMovieDataWithRate({
-    //         contentData: movieInfo as MovieObjectType,
-    //         rating: rating
-    //     })
-
-    //     setTVDataWithRate({
-    //         contentData: TVInfo as TVObjectType,
-    //         rating: rating
-    //     })
-
-    //     setIsLoading(true)
-    // }, [contentData, rating])
-
-    // useEffect(() => {
-    //     const fetchTV = async () => {
-    //         const TMDB_AUTHORIZATION = process.env.REACT_APP_TMDB_AUTHORIZATION
-    //         const TV_END_POINT = `https://api.themoviedb.org/3/tv/${id}?&append_to_response=credits`
-    //         const TV_RATE_END_POINT = `https://api.themoviedb.org/3/tv/${id}/content_ratings`
-
-    //         const OPTIONS = {
-    //             method: 'GET',
-    //             headers: {
-    //                 accept: 'application/json',
-    //                 Authorization: `Bearer ${TMDB_AUTHORIZATION}`
-    //             }
-    //         }
-
-    //         let [tvData, contentRatings] = await Promise.all([
-    //             fetch(TV_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err)),
-    //             fetch(TV_RATE_END_POINT, OPTIONS).then(res => res.json()).catch(err => console.error(err))
-    //         ])
-    //         setTVInfo(tvData)
-    //         setRating(contentRatings.results[0].rating)
-    //     }
-    // }, [platform, id])
-
-    // const getUSRating = (releaseDates: ReleaseDatesType[]) => {
-    //     for (let i = 0; i < releaseDates.length; i++) {
-    //         const curr = releaseDates[i]
-
-    //         if (curr.iso_3166_1 === 'US') {
-    //             const rating = curr.release_dates[0].certification
-    //             setRating(rating)
-    //         }
-    //     }
-    // }
 
     const CastCard = ({ cast }: CastCardProp) => {
         return <li className='cast-card'>
