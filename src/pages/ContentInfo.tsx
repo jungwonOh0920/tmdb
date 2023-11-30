@@ -26,6 +26,7 @@ const ContentIntro = () => {
     // const [contentData, setContentData] = useState<MovieObjectType | TVObjectType>()
     const [movieData, setMovieData] = useState<MovieObjectType>()
     const [tvData, setTvData] = useState<TVObjectType>()
+    const [isCastLoading, setIsCastLoading] = useState(false)
 
     // const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
     // const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
@@ -45,11 +46,13 @@ const ContentIntro = () => {
                 } else {
                     END_POINT = `https://api.themoviedb.org/3/tv/${id}?append_to_response=credits,recommendations,videos`
                 }
+                setIsCastLoading(true)
                 let res = await fetch(END_POINT, OPTIONS)
                 const data = await res.json()
                 isMovie ? setMovieData(data) : setTvData(data)
             } catch (error) {
                 console.error(error)
+                setIsCastLoading(false)
             }
         }
         if (location && id) {
@@ -58,8 +61,8 @@ const ContentIntro = () => {
     }, [location, id, isMovie])
 
     useEffect(() => {
-        console.log('movie Data: ', movieData);
-    }, [movieData])
+        if (movieData || tvData) setIsCastLoading(false)
+    }, [movieData, tvData])
 
     const CastCard = ({ cast }: CastCardProp) => {
         return <li className='cast-card'>
@@ -81,7 +84,7 @@ const ContentIntro = () => {
                     (movieData && <ContentHero isMovie={isMovie} movie={movieData} />) : (tvData && <ContentHero isMovie={isMovie} tv={tvData} />)
             }
             <Tabs tabTitles={['Top Billed Cast']}>
-                <CardSlider>
+                <CardSlider isLoading={isCastLoading}>
                     {
                         isMovie ? (movieData && movieData.credits.cast.map((c, idx) => <CastCard cast={c} key={idx} />))
                             :
