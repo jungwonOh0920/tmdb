@@ -29,14 +29,11 @@ interface ContentHeroPropType {
 const ContentHero = ({ isMovie, movie, tv }: ContentHeroPropType) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
-    // const getReleaseDate = () => {
-    //     if (platform === PlatformTypes.movie && content) {
-    //         const movieContent = content as MovieObjectType
-    //         let date = movieContent.release_date.split('-').join('/')
-    //         return date
-    //     }
-    // }
-    useEffect(() => { console.log('tv check: ', tv); }, [tv])
+    const getReleaseDate = (release_date: string) => {
+        return release_date.split('-').join('/')
+
+    }
+    useEffect(() => { console.log('movie check: ', movie); }, [movie])
     const convertToHour = (mins: number = 0) => {
         const hourNum = Math.floor(mins / 60)
         const minNum = mins % 60
@@ -57,7 +54,7 @@ const ContentHero = ({ isMovie, movie, tv }: ContentHeroPropType) => {
                     style={{ backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${movie.backdrop_path})` }} />
                 <section className='content-container'>
                     <div className='poster-container'>
-                        <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                        <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                             onError={({ currentTarget }) => {
                                 currentTarget.onerror = null
                                 currentTarget.src = `${noPoster}`
@@ -69,8 +66,8 @@ const ContentHero = ({ isMovie, movie, tv }: ContentHeroPropType) => {
                         <div className='facts'>
                             {/* {
                                 props.content.rating ? <span className='rating'>{props.content?.rating}</span> : ''
-                            }
-                            <span className={props.content.rating && 'pl-2'}>{getReleaseDate()}</span> */}
+                            } */}
+                            <span>{getReleaseDate(movie.release_date)}</span>
                             <span className='genres'>
                                 {
                                     movie.genres.map(genre => genre.name).join(', ')
@@ -120,8 +117,7 @@ const ContentHero = ({ isMovie, movie, tv }: ContentHeroPropType) => {
                         <div className='facts'>
                             {/* {
                                 props.content.rating ? <span className='rating'>{props.content?.rating}</span> : ''
-                            }
-                            <span className={props.content.rating && 'pl-2'}>{getReleaseDate()}</span> */}
+                            } */}
                             <span className='genres'>
                                 {
                                     tv.genres && tv.genres.map(genre => genre.name).join(', ')

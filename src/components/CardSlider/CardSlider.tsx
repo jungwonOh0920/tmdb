@@ -21,11 +21,12 @@ const CardSlider = ({ children, isLoading }: CardSliderProps) => {
   const [offset, setOffset] = useState(0);
   const [scrollX, setScrollX] = useState(0);
   const [isScrollEnd, setIsScrollEnd] = useState(false);
-  const contentsRef = useRef<HTMLDivElement>(null);
+  const contentsContainerRef = useRef<HTMLDivElement>(null)
+  const innerContainerRef = useRef<HTMLDivElement>(null)
 
   // called initially
   useEffect(() => {
-    setScrollX(contentsRef.current?.scrollLeft ?? -1);
+    setScrollX(contentsContainerRef.current?.scrollLeft ?? -1);
     // Update the state with new window width
     const handleResize = () => {
       setWindowSize(getWindowSize);
@@ -40,16 +41,30 @@ const CardSlider = ({ children, isLoading }: CardSliderProps) => {
     };
   }, []);
 
+
+
   useEffect(() => {
-    const refObject = contentsRef.current;
-    refObject!.scrollLeft = scrollX;
-    setIsScrollEnd(refObject!.scrollWidth <= scrollX + offset + 66);
+    if (!isLoading) {
+      const contentsContainerObj = contentsContainerRef.current;
+      if (contentsContainerObj) {
+        if (contentsContainerObj.children[0].clientWidth < contentsContainerObj.clientWidth) {
+          setIsScrollEnd(true)
+        }
+      }
+    }
+  }, [isLoading])
+
+  useEffect(() => {
+    const contentsContainerObj = contentsContainerRef.current;
+    contentsContainerObj!.scrollLeft = scrollX;
+
+    setIsScrollEnd((contentsContainerObj!.scrollWidth <= scrollX + offset + 66))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollX]);
 
   const scroll = (scrollOffset: number) => {
     setOffset(scrollOffset);
-    const refObject = contentsRef.current;
+    const refObject = contentsContainerRef.current;
 
     if (refObject!.scrollWidth > scrollX + 66) {
       setScrollX(scrollX + scrollOffset ?? -1);
@@ -71,8 +86,8 @@ const CardSlider = ({ children, isLoading }: CardSliderProps) => {
         ) : null
       }
 
-      <div className="contents space-x-4" ref={contentsRef}>
-        {isLoading ? <Loader /> : children}
+      <div className="contents" ref={contentsContainerRef}>
+        {isLoading ? <Loader /> : <div className="flex space-x-4" ref={innerContainerRef}>{children}</div>}
       </div>
 
       {!isScrollEnd && (
