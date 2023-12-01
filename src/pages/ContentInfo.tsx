@@ -31,7 +31,6 @@ const ContentIntro = () => {
     // const [movieDataWithRate, setMovieDataWithRate] = useState<MovieWithRateType>()
     // const [TVDataWithRate, setTVDataWithRate] = useState<TVWithRateType>()
     // const [rating, setRating] = useState('')
-    // const [isLoading, setIsLoading] = useState<any>(false)
 
     useEffect(() => {
         const locationArray = location.pathname.split('/')
